@@ -1,0 +1,24 @@
+int c;
+class student { public : int matricol; }
+int s ( int ok )
+{
+ int k;
+ k = 4;
+}
+
+int Eval ( int alabala, int aaa)
+{
+ int ksk;
+ ksk = 4;
+}
+
+begin_progr
+  int a;
+  int b;
+  a = 3;
+  b = 4;
+  a = 3 + 1;
+  a = b + a + b + a + a + 6 + 7;
+end_progr
+
+
