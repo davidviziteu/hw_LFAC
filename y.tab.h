@@ -57,15 +57,14 @@ extern int yydebug;
     ASSIGN = 263,
     VIS = 264,
     CLASS = 265,
-    OP = 266,
-    IF = 267,
-    WHILE = 268,
-    FOR = 269,
-    OP_BIN = 270,
-    OP_STR = 271,
-    BOOL = 272,
-    FLOAT = 273,
-    NR = 274
+    IF = 266,
+    WHILE = 267,
+    FOR = 268,
+    OP_BIN = 269,
+    OP_STR = 270,
+    BOOL = 271,
+    FLOAT = 272,
+    NR = 273
   };
 #endif
 /* Tokens.  */
@@ -77,30 +76,29 @@ extern int yydebug;
 #define ASSIGN 263
 #define VIS 264
 #define CLASS 265
-#define OP 266
-#define IF 267
-#define WHILE 268
-#define FOR 269
-#define OP_BIN 270
-#define OP_STR 271
-#define BOOL 272
-#define FLOAT 273
-#define NR 274
+#define IF 266
+#define WHILE 267
+#define FOR 268
+#define OP_BIN 269
+#define OP_STR 270
+#define BOOL 271
+#define FLOAT 272
+#define NR 273
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 58 "limbaj.y"
+#line 65 "limbaj.y"
 
      char *strval;
      char _char; 
      char  id[100], type[100], value[100], scope[100], where[100];
-     int _int; 
+     int _int, intval; 
      int _float; 
      char * _string;
 
-#line 104 "y.tab.h"
+#line 102 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

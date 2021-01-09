@@ -37,6 +37,7 @@ struct signature tabel_fnc[100];
 struct signature new_function_buff;
 int total_vars=0, errors=0, total_fnc=1, param=0, var_in_class, ok=0, var_in_fun, ok_fun;
 int err_count = 0;
+char scope[100], scope2[100];
 int stack_idx = 0;
 int exists_in_var_table(char x[100]);
 int exists_in_var_table_s(struct var *x);
@@ -52,23 +53,30 @@ int same_type_number(char x[100], char y[100]);
 int exists_signature(struct signature *new_f);
 int add_signature(struct signature *new_f);
 void stack_push(struct var new_elem);
+void update_var_int(char x[100], int valoare);
+char * get_var_table(char id[100]) ;
+char* get_var_scope(char id[100]) ;
+int get_var_value(char id[100]);
+int same_scope(char x[100], char y[100]) ;
 int stack_pop(); //ASTA DA POP LA INDEX 
+int val_expr;
 %}
  
 %union {
      char *strval;
      char _char; 
      char  id[100], type[100], value[100], scope[100], where[100];
-     int _int; 
+     int _int, intval; 
      int _float; 
      char * _string;
 }
 
 
-%token <strval>ID <strval>TIP BGIN END CONST ASSIGN VIS CLASS <_char>OP IF WHILE FOR OP_BIN OP_STR BOOL
-%token <strval>FLOAT <strval>NR  
- 
-
+%token <strval>ID <strval>TIP BGIN END CONST ASSIGN VIS CLASS IF WHILE FOR OP_BIN OP_STR BOOL
+%token <strval>FLOAT <intval>NR  
+%type <intval>operatii
+%left '+' '-'
+%left '*' '/'
 %start progr
 %%
 progr
@@ -211,80 +219,22 @@ list
                               }
      ;
  
-bool 
-     :      BOOL    {
-                         ;//cod
-                    }
-     | operatii_binare    {
-                         ;//cod
-                    }
-     ;
  
-operatii_binare 
-     : ID OP_BIN ID    {
-                         ;//cod
-                    }
-     ; 
- 
-operatii 
-     : ID OP ID     {    
-                         printf("id op id\n");
-                         struct var * dol1; //era pera lung "dollar"
-                         struct var * dol3;
-                         dol1 = get_var_from_table($1);
-                         dol3 = get_var_from_table($3);
-                         if (dol1 == NULL)
-                             {yyerror(), printf("undeclared var: %s", $1); return;}
-                         if (dol1 == NULL)
-                             {yyerror(), printf("undeclared var: %s", $3); return;}
-                         if (dol1 != NULL && dol3!= NULL){
-                              if(same_type_s(dol1, dol3)){
-                                  printf("");
-                                //    if(strcmp(dol1->type, "int") == 0)
-                                //         switch $2:
-                                //         case '*': $$._int = dol1->_int * dol3->_int; break;
-                                //         case '/': $$._int = dol1->_int / dol3->_int; break;
-                                //         case '+': $$._int = dol1->_int + dol3->_int; break;
-                                //         case '-': $$._int = dol1->_int - dol3->_int; break;
-                                //    if(strcmp(dol3->type, "float") == 0)
-                                //         switch $2:
-                                //         case '*': $$._float = dol1->_float * dol3->_float; break;
-                                //         case '/': $$._float = dol1->_float / dol3->_float; break;
-                                //         case '+': $$._float = dol1->_float + dol3->_float; break;
-                                //         case '-': $$._float = dol1->_float - dol3->_float; break;
-                                //    if(strcmp(dol1->type, "string") == 0)
-                                //         switch $2:
-                                //         case '*': yyerror(); ++err_count; printf("illegal operation on strings\n"); break;
-                                //         case '/': yyerror(); ++err_count; printf("illegal operation on strings\n"); break;
-                                //         case '+': $$._float = $1 + $3; break;
-                                //         case '-': yyerror(); ++err_count; printf("illegal operation on strings\n"); break;
-                              }
-                              else{
-                                   yyerror(); ++err_count;
-                                   printf("trying to do operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3->type);
-                                   break;
-                              }
-                         }
-                         
-                    }
-     | ID OP NR     { 
-                         printf("ID OP NR\n");
-                    }
-     | NR OP ID     { 
-                         printf("NR OP ID\n");
-                    }
-     | NR OP NR          {
-                              printf("NR OP NR\n");
-                         }
- 
-     | ID OP operatii    {
-                              printf("ID OP operatii\n");
-                         }
- 
-     | NR OP operatii    {
-                              printf("NR OP operatii\n");
-                         }
-     ;
+operatii : operatii '+' operatii {     
+                                             {$$ = $1 + $3;  val_expr=$$; }
+                                   }
+         | operatii '-' operatii {
+                                             {$$ = $1 - $3;  val_expr=$$;}
+                                  }
+         | operatii '*' operatii { 
+                                        {$$ = $1 * $3;  val_expr=$$;}
+
+                                   }
+         | operatii '/' operatii { 
+                                        {$$ = $1 / $3;  val_expr=$$;}
+                                   }
+         | NR { $$= $1; val_expr=$$; }
+         ;
 /* instructiune */
 decl_gl 
      :  declaratie ';'   {
@@ -320,73 +270,43 @@ declaratie
      ;
  
 statement
-     : ID ASSIGN ID { 
-                         printf("ID ASSIGN ID\n");
+     :   ID ASSIGN operatii   {
+                                 printf("id assign operatii\n");
+                                 if (exists_in_var_table($1)==0 )
+                                      yyerror();
+                                 
+                                 printf("%s := %d\n", $1, val_expr);
+                                 update_var_int($1, val_expr);
+                            }
+     | ID ASSIGN ID {
+
+                    printf("id op id\n");
                          struct var * dol1; //era pera lung "dollar"
                          struct var * dol3;
                          dol1 = get_var_from_table($1);
                          dol3 = get_var_from_table($3);
-                         if (dol1 == NULL){
-                                 yyerror(),  printf("undeclared var: %s", $1);
-                                 return;
-                             }
-                         if (dol3 == NULL){
-                                 yyerror(),  printf("undeclared var: %s", $3);
-                                 return;
-                             }
-                         var_assign(dol1, dol3);
+                         if (dol1 == NULL)
+                             {yyerror(), printf("undeclared var: %s", $1); return;}
+                         if (dol1 == NULL)
+                             {yyerror(), printf("undeclared var: %s", $3); return;}
+                         if (dol1 != NULL && dol3!= NULL){
+                              if(same_type_s(dol1, dol3) && (same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) 
+                              {
+                                   ////!!!!!!!!
+                                   ///MAI TREBUIE VERIFICAT DACA A DOUA VARIABILA ESTE INITIALIZATA
+                                   //////////////////////
+                                  printf("%s :=%s   %d \n",$1, $3, get_var_value($3));
+                              
+                                  update_var_int($1, get_var_value($3));
+                                  }
+                              else{
+                                   yyerror(); ++err_count;
+                                   printf("trying to do operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3->type);
+                                   break;
+                              }
+                         }
+                         
                     }
-     | ID ASSIGN NR { 
-                        struct var * dol1; //era pera lung "dollar"
-                        dol1 = get_var_from_table($1);
-                        if (dol1 == NULL){
-                                yyerror(),  printf("undeclared var: %s", $1);
-                                return;
-                            }
-                        struct var dol3;
-                        strcpy(dol3.type, "int");
-                        strcpy(dol3.value, $3);
-                        var_assign(dol1, &dol3);
-                    }
-     | ID ASSIGN FLOAT { 
-                        struct var * dol1; //era pera lung "dollar"
-                        dol1 = get_var_from_table($1);
-                        if (dol1 == NULL){
-                                yyerror(),  printf("undeclared var: %s", $1);
-                                return;
-                            }
-                        struct var dol3;
-                        strcpy(dol3.type, "float");
-                        strcpy(dol3.value, $3);
-                        var_assign(dol1, &dol3);
-                    }
-     | ID ASSIGN BOOL { 
-                        struct var * dol1; //era pera lung "dollar"
-                        dol1 = get_var_from_table($1);
-                        if (dol1 == NULL){
-                                yyerror(),  printf("undeclared var: %s", $1);
-                                return;
-                            }
-                        struct var dol3;
-                        strcpy(dol3.type, "bool");
-                        strcpy(dol3.value, $3);
-                        var_assign(dol1, &dol3);
-                      }     
-     | ID ASSIGN operatii   {
-                                 printf("id assign operatii\n");
-                                 if (exists_in_var_table($1)==0 )
-                                      yyerror();
-                            }
-     | ID '(' lista_apel ')'
-     | IF '(' bool ')' '{' list '}'     {
-                                             ;//cod
-                                        }
-     | WHILE '(' bool ')' '{' list '}'  {
-                                             ;//cod
-                                        }
-     | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {
-                                                                                ;//cod
-                                                                           }
      | TIP ID  { 
                     if(ok_fun==0)
                     {
@@ -431,7 +351,21 @@ lista_apel
                               ;//cod
                          }
      ;
+
+ bool 
+     :      BOOL    {
+                         ;//cod
+                    }
+     | operatii_binare    {
+                         ;//cod
+                    }
+     ;
  
+operatii_binare 
+     : ID OP_BIN ID    {
+                         ;//cod
+                    }
+     ;
 %%
  
 void yyerror(char * s){
@@ -480,7 +414,31 @@ int exists_in_var_table(char id[100])  //cauta o variabila in tabel_vara, daca e
     }
     return 0;
 }
+char* get_var_table(char id[100])  //cauta o variabila in tabel_vara, daca exista
+{
+    for (int i = 0; i < total_vars; i++) {
+        if (strcmp(tabel_var[i].id, id) == 0)
+            return tabel_var[i].value;
+    }
+    return "eroare";
+}
+int get_var_value(char id[100])  //cauta o variabila in tabel_vara, daca exista
+{
+    for (int i = 0; i < total_vars; i++) {
+        if (strcmp(tabel_var[i].id, id) == 0)
+            return atoi(tabel_var[i].value);
+    }
+    return 0;
+}
 
+char* get_var_scope(char id[100])  //cauta o variabila in tabel_vara, daca exista
+{
+    for (int i = 0; i < total_vars; i++) {
+        if (strcmp(tabel_var[i].id, id) == 0)
+            return tabel_var[i].scope;
+    }
+    return "eroare";
+}
 int exists_in_var_table_s(struct var *x) 
 {
     for (int i = 0; i < total_vars; i++) {
@@ -500,7 +458,16 @@ int is_default(char x[100])  //verifica daca o variabila are vreo valoare atribu
     }
     return 0;
 }
-
+void update_var_int(char x[100], int valoare)  
+{
+    char valuex[100];
+    int j;
+    for (int i = 0; i < total_vars; i++) {
+        if (strcmp(tabel_var[i].id, x) == 0)
+            j = i;
+    }
+    sprintf(tabel_var[j].value,"%d", valoare);
+}
 void update_var(char x[100], char y[100])  //face update in tabel_vara pt atribuiri de genul x:=5 , nu merge si pentru x:=y
 {
     char valuex[100];
@@ -537,6 +504,19 @@ int same_type(char x[100], char y[100])  // verifica daca 2 var au acelasi tip (
             strcpy(typex, tabel_var[i].type);
         if (strcmp(tabel_var[i].id, y) == 0)
             strcpy(typey, tabel_var[i].type);
+    }
+    if (strcmp(typex, typey) == 0)
+        return 1;
+    return 0;
+}
+int same_scope(char x[100], char y[100])  
+{
+    char typex[100], typey[100];
+    for (int i = 0; i < total_vars; i++) {
+        if (strcmp(tabel_var[i].id, x) == 0)
+            strcpy(typex, tabel_var[i].scope);
+        if (strcmp(tabel_var[i].id, y) == 0)
+            strcpy(typey, tabel_var[i].scope);
     }
     if (strcmp(typex, typey) == 0)
         return 1;

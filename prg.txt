@@ -2,8 +2,12 @@ int c;
 class student { public : int matricol; }
 int s ( int ok )
 {
+ int m;
  int k;
- k = 4;
+ k = 4 + 4 ;
+ m = 9 + 5 + 4 - 10;
+ m = 10 - 4 + 6 ; 
+ 
 }
 
 int Eval ( int alabala, int aaa)
@@ -15,10 +19,8 @@ int Eval ( int alabala, int aaa)
 begin_progr
   int a;
   int b;
-  a = 3;
-  b = 4;
   a = 3 + 1;
-  a = b + a + b + a + a + 6 + 7;
+  b = a; 
 end_progr
 
 

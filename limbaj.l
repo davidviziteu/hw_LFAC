@@ -30,10 +30,12 @@ struct var{
 "="                                 { return ASSIGN;}
 
  
-("+"|"-")?([0-9]+)                  { yylval._int=atoi(yytext); yylval.strval=strdup(yytext); return NR;} 
+("+"|"-")?([0-9]+)                  { yylval.intval=atoi(yytext); return NR;} 
 ("+"|"-")?([0-9]+)?"."([0-9]+)?     { yylval._float=atof(yytext); yylval.strval=strdup(yytext); return FLOAT;}
-
-"+"|"-"|"*"|"/"                     { yylval._char = yytext[0]; return OP;}
+"+" {return ('+');}
+"-" {return ('-');}
+"*" {return ('*');}
+"/" {return ('/');}
 
 [ \t]                               ;
 \n                                  { yylineno++;}
