@@ -311,12 +311,12 @@ statement
                               {
                                   if(strcmp(get_var_table($3),"default")==0)
                                     yyerror();
-                                   ////!!!!!!!!
-                                   ///MAI TREBUIE VERIFICAT DACA A DOUA VARIABILA ESTE INITIALIZATA
-                                   //////////////////////
+                                  else
+                                {
                                   printf("%s :=%s   %d \n",$1, $3, get_var_value($3));
                               
                                   update_var_int($1, get_var_value($3));
+                                }
                                   }
                               else{
                                    yyerror(); ++err_count;
@@ -362,7 +362,7 @@ statement
                     }
                }
         | ID '(' ')' {                          //apel functie fara param
-                            if(exists_function($2)==0)
+                            if(exists_function($1)==0)
                                 yyerror();
                             else
                             {
@@ -371,7 +371,7 @@ statement
                             }
         | ID '(' lista_apel ')' 
                                 {
-                                    if(exists_function($2)==0)
+                                    if(exists_function($1)==0)
                                         yyerror();
                                     ///
                                     ///////////////////////////////////////////////////////////////////

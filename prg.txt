@@ -20,7 +20,7 @@ begin_progr
   int a;
   int b; 
   float ms;
-  ms=a;
+  s (12);  
   a = 3 + 1;
   b = a; 
 end_progr
