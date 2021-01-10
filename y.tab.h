@@ -63,8 +63,12 @@ extern int yydebug;
     OP_BIN = 269,
     OP_STR = 270,
     BOOL = 271,
-    FLOAT = 272,
-    NR = 273
+    STRING = 272,
+    AND = 273,
+    OR = 274,
+    NOT = 275,
+    FLOAT = 276,
+    NR = 277
   };
 #endif
 /* Tokens.  */
@@ -82,23 +86,25 @@ extern int yydebug;
 #define OP_BIN 269
 #define OP_STR 270
 #define BOOL 271
-#define FLOAT 272
-#define NR 273
+#define STRING 272
+#define AND 273
+#define OR 274
+#define NOT 275
+#define FLOAT 276
+#define NR 277
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 66 "limbaj.y"
+#line 61 "limbaj.y"
 
-     char *strval;
-     char _char; 
-     char  id[100], type[100], value[100], scope[100], where[100];
-     int _int, intval; 
-     int _float; 
-     char * _string;
+    char *strval;
+    int intval;
+    float flval;
+    int blval;
 
-#line 102 "y.tab.h"
+#line 108 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

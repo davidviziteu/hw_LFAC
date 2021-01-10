@@ -222,3 +222,663 @@ int ksk default
 int a default 
 int b default 
 float ms default 
+salutareint c
+int matricol
+int m default 
+int k default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int m default 
+int k default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int m default 
+int k default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int ksk default 
+int a default 
+int b default 
+int m default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int ksk default 
+int a default 
+int b default 
+int m default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int ksk default 
+int a default 
+int b default 
+int m default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int ksk default 
+int a default 
+int b default 
+int m default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int ksk default 
+int a default 
+int b default 
+int m default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int ksk default 
+int a default 
+int b default 
+int m default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int ksk default 
+int a default 
+int b default 
+int m default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+string test3 default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+string test3 default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+string test3 default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+string test3 default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+string test3 default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+string test3 default 
+float ms default 
+bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+string test3 default 
+float ms default 
+bool test default 

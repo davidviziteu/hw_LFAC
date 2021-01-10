@@ -2,8 +2,8 @@ int c;
 class student { public : int matricol; }
 int s ( int ok )
 {
- int m;
  int k;
+ int m;
  k = 4 + 4 ;
  m = 9 + 5 + 4 - 10;
  m = 10 - 4 + 6 ; 
@@ -18,10 +18,19 @@ int Eval ( int alabala, int aaa)
 
 begin_progr
   int a;
-  int b; 
+  int b;
+  int arr[100];
+  string test2;
+  string test3;
+  test2 = "abcde";
+  test3 = "fghij";
+  test2 strcat test3;
   float ms;
+  bool test;
+  test = false;
+  a = 3;
   s (12);  
-  a = 3 + 1;
+  a = 3 + 1 * 2;
   b = a; 
 end_progr
 
