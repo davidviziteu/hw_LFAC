@@ -607,7 +607,7 @@ static const yytype_int16 yyrline[] =
        0,    83,    83,    88,    91,    98,   114,   133,   150,   162,
      165,   177,   186,   198,   213,   216,   223,   230,   233,   239,
      242,   245,   249,   252,   256,   260,   267,   280,   283,   289,
-     297,   326,   329,   332,   336,   382,   385,   391
+     297,   328,   331,   334,   338,   384,   387,   393
 };
 #endif
 
@@ -1797,6 +1797,8 @@ yyreduce:
                          if (dol1 != NULL && dol3!= NULL){
                               if(same_type_s(dol1, dol3) && (same_scope((yyvsp[-2].strval), (yyvsp[0].strval)) || (strcmp(get_var_scope((yyvsp[0].strval)),"globala")==0))) 
                               {
+                                  if(strcmp(get_var_table((yyvsp[0].strval)),"default")==0)
+                                    yyerror();
                                    ////!!!!!!!!
                                    ///MAI TREBUIE VERIFICAT DACA A DOUA VARIABILA ESTE INITIALIZATA
                                    //////////////////////
@@ -1812,35 +1814,35 @@ yyreduce:
                          }
                          
                     }
-#line 1816 "y.tab.c"
+#line 1818 "y.tab.c"
     break;
 
   case 31:
-#line 326 "limbaj.y"
+#line 328 "limbaj.y"
                                         {
                                              ;//cod
                                         }
-#line 1824 "y.tab.c"
+#line 1826 "y.tab.c"
     break;
 
   case 32:
-#line 329 "limbaj.y"
+#line 331 "limbaj.y"
                                         {
                                              ;//cod
                                         }
-#line 1832 "y.tab.c"
+#line 1834 "y.tab.c"
     break;
 
   case 33:
-#line 332 "limbaj.y"
+#line 334 "limbaj.y"
                                                                                  {
                                                                                 ;//cod
                                                                            }
-#line 1840 "y.tab.c"
+#line 1842 "y.tab.c"
     break;
 
   case 34:
-#line 336 "limbaj.y"
+#line 338 "limbaj.y"
                { 
                     if(ok_fun==0)
                     {
@@ -1866,35 +1868,35 @@ yyreduce:
                          strcpy(tabel_var[total_vars].scope, "functie");
                     }
                }
-#line 1870 "y.tab.c"
+#line 1872 "y.tab.c"
     break;
 
   case 35:
-#line 382 "limbaj.y"
+#line 384 "limbaj.y"
                     {
                          ;//cod
                     }
-#line 1878 "y.tab.c"
+#line 1880 "y.tab.c"
     break;
 
   case 36:
-#line 385 "limbaj.y"
+#line 387 "limbaj.y"
                           {
                          ;//cod
                     }
-#line 1886 "y.tab.c"
+#line 1888 "y.tab.c"
     break;
 
   case 37:
-#line 391 "limbaj.y"
+#line 393 "limbaj.y"
                        {
                          ;//cod
                     }
-#line 1894 "y.tab.c"
+#line 1896 "y.tab.c"
     break;
 
 
-#line 1898 "y.tab.c"
+#line 1900 "y.tab.c"
 
       default: break;
     }
@@ -2126,7 +2128,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 395 "limbaj.y"
+#line 397 "limbaj.y"
 
  
 void yyerror(char * s){
@@ -2166,7 +2168,6 @@ int main(int argc, char **argv) {
         printf("Au fost gasite erori de compilare\n");
     }
 }
- 
 int exists_in_var_table(char id[100])  //cauta o variabila in tabel_vara, daca exista
 {
     for (int i = 0; i < total_vars; i++) {

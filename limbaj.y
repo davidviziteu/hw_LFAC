@@ -58,6 +58,7 @@ char * get_var_table(char id[100]) ;
 char* get_var_scope(char id[100]) ;
 int get_var_value(char id[100]);
 int same_scope(char x[100], char y[100]) ;
+int exists_function (char x[100]);
 int stack_pop(); //ASTA DA POP LA INDEX 
 int val_expr;
 %}
@@ -281,7 +282,7 @@ declaratie
                                         //Decl functie cu param
                                    }
      | TIP ID '(' ')'    {
-                              //nush ce e aici *: e apelul unei functii fara parametrii
+                              // e apelul unei functii fara parametrii
                          }
      ;
  
@@ -308,6 +309,8 @@ statement
                          if (dol1 != NULL && dol3!= NULL){
                               if(same_type_s(dol1, dol3) && (same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) 
                               {
+                                  if(strcmp(get_var_table($3),"default")==0)
+                                    yyerror();
                                    ////!!!!!!!!
                                    ///MAI TREBUIE VERIFICAT DACA A DOUA VARIABILA ESTE INITIALIZATA
                                    //////////////////////
@@ -358,6 +361,27 @@ statement
                          strcpy(tabel_var[total_vars].scope, "functie");
                     }
                }
+        | ID '(' ')' {                          //apel functie fara param
+                            if(exists_function($2)==0)
+                                yyerror();
+                            else
+                            {
+                                //se executa codul
+                            }
+                            }
+        | ID '(' lista_apel ')' 
+                                {
+                                    if(exists_function($2)==0)
+                                        yyerror();
+                                    ///
+                                    ///////////////////////////////////////////////////////////////////
+                                    ///////////////////////////////////////////////////////////////////
+                                    //TREBUIE FACUT UN VECTOR DE TIPURI PENTRU APEL SI VERIFICAT DACA ARE ACELASI TIP CU VARIABILELE 
+                                    //DIN FUNCTIA DECLARATA MAI SUS
+                                    /////////////////////////////////////////////
+
+                                    ////////////////////////////////
+                                }
      ;
  
 lista_apel 
@@ -377,7 +401,10 @@ lista_apel
                               ;//cod
                          }
      ;
+////////////////////////////////////////////////////////////////////////////
 
+//////////////TREBUIE ADAUGATE OPERATII PE BOOL SI STRING 
+/////////////////////////////////////////////////////////////
  bool 
      :      BOOL    {
                          ;//cod
@@ -431,7 +458,6 @@ int main(int argc, char **argv) {
         printf("Au fost gasite erori de compilare\n");
     }
 }
- 
 int exists_in_var_table(char id[100])  //cauta o variabila in tabel_vara, daca exista
 {
     for (int i = 0; i < total_vars; i++) {
@@ -472,6 +498,14 @@ int exists_in_var_table_s(struct var *x)
           if(strcmp(tabel_var[i].type, x->type)==0)
             return 1;
     }
+    return 0;
+}
+
+int exists_function (char x[100])
+{
+    for(int i=0; i< total_fnc; i++)
+        if(strcmp(tabel_fnc[i].nume, x)==0)
+            return 1;
     return 0;
 }
  
@@ -675,7 +709,6 @@ todo:
 -avem operatii cu int (NR), trebuie adaugate ca operatii si cele cu float
 -trebuie actualizata valoarea unei variabile atunci cand este de forma x=x+y (cand sunt operatii)
 -adaugarea vectorilor
--actualizarea varlor
 -adaugare in vector (verific daca nu depasesc lungimea)
 -de adaugat operatii cu stringuri (strlen, strcpy, strcat <este deja la laborator>)
 -actualizare var bool (+ operatii cu bool)
