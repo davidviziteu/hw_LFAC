@@ -49,6 +49,8 @@ struct var{
 "-" {return ('-');}
 "*" {return ('*');}
 "/" {return ('/');}
+"."                                 { return ('.');}
+
 
 [ \t]                               ;
 \n                                  { yylineno++;}

@@ -882,3 +882,14 @@ string test2 default
 string test3 default 
 float ms default 
 bool test default 
+salutareint c
+int matricol
+int k default 
+int m default 
+int ksk default 
+int a default 
+int b default 
+string test2 default 
+string test3 default 
+float ms default 
+bool test default 

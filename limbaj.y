@@ -12,12 +12,10 @@ extern int yylineno;
 char buffer[100];
 FILE* fd;
  
-enum data_type {__int, __char, __string, __bool}; 
 
 struct var{
           char  id[100], type[100], value[100], scope[100], where[100];
-          enum data_type _type;
-          char * string_value;
+          int is_arr, arr_len;
           };
  
 struct signature{
@@ -66,7 +64,7 @@ int val_expr;
 }
 
 
-%token <strval>ID <strval>TIP BGIN END CONST ASSIGN VIS CLASS IF WHILE FOR OP_BIN OP_STR BOOL <strval>STRING AND OR NOT     
+%token <strval>ID <strval>TIP BGIN END CONST ASSIGN VIS CLASS IF WHILE FOR OP_BIN OP_STR BOOL <strval>STRING AND OR NOT '.'    
 %token <strval>FLOAT <intval>NR  
 %type <intval> operatii 
 %type <blval>bool <blval>operatii_binare
@@ -413,14 +411,14 @@ statement
             if(strcmp(dol1->type, "string") != 0){
                 yyerror(); 
                 printf("trying to do string operation on non string variables\n");
-                break;
+                return 0;
             }
             strcat(dol1->value, dol3->value);
         }
         else{
             yyerror(); 
             printf("trying to do operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3->type);
-            break;
+            return 0;
         }
     }
     | ID ASSIGN STRING {

@@ -352,8 +352,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 24
-#define YY_END_OF_BUFFER 25
+#define YY_NUM_RULES 25
+#define YY_END_OF_BUFFER 26
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -363,9 +363,9 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[99] =
     {   0,
-        0,    0,   25,   23,   21,   22,   11,   23,   23,   19,
+        0,    0,   26,   24,   22,   23,   11,   24,   24,   19,
        17,   18,   16,   20,   15,   11,   14,   11,   13,   13,
-       13,   13,   13,   13,   13,   13,   13,   13,   23,   11,
+       13,   13,   13,   13,   13,   13,   13,   13,   24,   11,
         0,    2,   16,   15,   16,   13,   13,   13,   13,   13,
        13,   13,   13,   13,    7,   13,   13,   13,   13,   13,
        13,   13,   13,   13,   13,   13,   13,   13,    9,    1,
@@ -910,26 +910,31 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 53 "limbaj.l"
-;
+#line 52 "limbaj.l"
+{ return ('.');}
 	YY_BREAK
 case 22:
-/* rule 22 can match eol */
-YY_RULE_SETUP
-#line 54 "limbaj.l"
-{ yylineno++;}
-	YY_BREAK
-case 23:
 YY_RULE_SETUP
 #line 55 "limbaj.l"
-{ return yytext[0];}
+;
+	YY_BREAK
+case 23:
+/* rule 23 can match eol */
+YY_RULE_SETUP
+#line 56 "limbaj.l"
+{ yylineno++;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 57 "limbaj.l"
+{ return yytext[0];}
+	YY_BREAK
+case 25:
+YY_RULE_SETUP
+#line 59 "limbaj.l"
 ECHO;
 	YY_BREAK
-#line 933 "lex.yy.c"
+#line 938 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1934,4 +1939,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 57 "limbaj.l"
+#line 59 "limbaj.l"
