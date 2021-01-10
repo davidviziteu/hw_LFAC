@@ -96,19 +96,35 @@ fnc
  
 lista_param 
      : TIP ID  {
+                    if(ok_fun==0)
+                    {
+                         var_in_fun=total_vars;
+                         ok_fun=1;
+                    }
                     new_function_buff.param_types[new_function_buff.params_count] = strdup($1);
                     new_function_buff.params_count++;
                     strcpy(tabel_var[total_vars].id, $2);
                     strcpy(tabel_var[total_vars].type, $1);
                     strcpy(tabel_var[total_vars].value, "default");
                     strcpy(tabel_var[total_vars].scope, "functie");
+                    total_vars++;
  
                     // printf("1 param  ------ %s \n", $1);
                }
-     | lista_param ','  TIP ID     {    
+     | lista_param ','  TIP ID     {    if(ok_fun==0)
+                                        {
+                                            var_in_fun=total_vars;
+                                            ok_fun=1;
+                                        }
                                         // printf("\t\tdolar: 3 %s, 4 %s\n", $3, $4);
                                         new_function_buff.param_types[new_function_buff.params_count] = strdup($3);
                                         new_function_buff.params_count++;
+                                        strcpy(tabel_var[total_vars].id, $4);
+                                        strcpy(tabel_var[total_vars].type, $3);
+                                        strcpy(tabel_var[total_vars].value, "default");
+                                        strcpy(tabel_var[total_vars].scope, "functie");
+                                        total_vars++;
+                                        printf("HEI, SUNT AICI \n");
                                    }
      ;
  
@@ -307,6 +323,16 @@ statement
                          }
                          
                     }
+     | IF '(' bool ')' '{' list '}'     {
+                                             ;//cod
+                                        }
+     | WHILE '(' bool ')' '{' list '}'  {
+                                             ;//cod
+                                        }
+     | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {
+                                                                                ;//cod
+                                                                           }
+
      | TIP ID  { 
                     if(ok_fun==0)
                     {

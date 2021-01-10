@@ -18,7 +18,7 @@ int Eval ( int alabala, int aaa)
 
 begin_progr
   int a;
-  int b;
+  int b; 
   a = 3 + 1;
   b = a; 
 end_progr
