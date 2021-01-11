@@ -12,6 +12,7 @@ int Eval ( int alabala, int aaa)
  ksk = 4;
 }
 
+
 begin_progr
   int a;
   int b;

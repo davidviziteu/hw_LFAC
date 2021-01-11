@@ -78,15 +78,9 @@ int val_expr;
 progr
      : decl_gl clasa fnc bloc
      ;
- 
- 
 fnc    
-     : functie {
-                    ;//cod
-               }
-     | fnc functie  {
-                          ;//cod
-                    }
+     : functie {}
+     | fnc functie  {}
      ;
  
  
@@ -120,30 +114,31 @@ lista_param
                                         strcpy(tabel_var[total_vars].value, "default");
                                         strcpy(tabel_var[total_vars].scope, "functie");
                                         total_vars++;
-                                        printf("HEI, SUNT AICI \n");
+                                        // printf("HEI, SUNT AICI \n");
                                    }
      ;
  
  
 functie
-     : TIP ID '(' lista_param ')' '{' list '}'    { 
-                                                       strcpy(new_function_buff.nume, $2);
-                                                       strcpy(new_function_buff.ret_type, $1);
-                                                       if(exists_signature(&new_function_buff) == 1)
-                                                            yyerror(),  printf("function %s redefined", 
-                                                                                               new_function_buff.nume);
-                                                       else
-                                                            add_signature(&new_function_buff), total_fnc++;
+     : TIP ID '(' lista_param ')' '{' list '}'   { 
+        //decl globala functie
+        strcpy(new_function_buff.nume, $2);
+        strcpy(new_function_buff.ret_type, $1);
+        if(exists_signature(&new_function_buff) == 1)
+             yyerror(),  printf("function %s redefined", 
+                                                new_function_buff.nume);
+        else
+             add_signature(&new_function_buff), total_fnc++;
 
-                                                       // printf("variabile in functie: %d, %d \n",var_in_fun,total_vars);
-                                                       for(int i= var_in_fun; i< total_vars; i++)
-                                                       {
-                                                            // printf("I ARE VALOAREA : %d, %s", i, $2);
-                                                            strcpy(tabel_var[i].where, $2);
-                                                            strcpy(tabel_var[i].scope, "functie");
-                                                       }
-                                                       ok_fun=0;
-                                                  }
+        // printf("variabile in functie: %d, %d \n",var_in_fun,total_vars);
+        for(int i= var_in_fun; i< total_vars; i++)
+        {
+             // printf("I ARE VALOAREA : %d, %s", i, $2);
+             strcpy(tabel_var[i].where, $2);
+             strcpy(tabel_var[i].scope, "functie");
+        }
+        ok_fun=0;
+    }
     | TIP ID '(' ')' '{' list '}' { 
         strcpy(new_function_buff.ret_type, $1);
         new_function_buff.params_count = 0;
@@ -155,7 +150,8 @@ functie
              total_fnc++;
     }
                                                                                                
-     ;
+    ;
+    
 clasa         
      : CLASS ID '{' VIS ':' decl_cl fnc '}'  {strcpy(nume_clasa, $2);}
      | CLASS ID '{' VIS ':' decl_cl '}' {
@@ -220,42 +216,10 @@ list
      :  statement ';'    {}
      | list statement ';'     { }
      ;
- 
- 
-operatii 
-    : operatii '+' operatii { $$.value = $1.value + $3.value; $$.is_float = $1.is_float + $3.is_float; }
-    | operatii '-' operatii { $$.value = $1.value - $3.value; $$.is_float = $1.is_float + $3.is_float; }
-    | operatii '*' operatii { $$.value = $1.value * $3.value; $$.is_float = $1.is_float + $3.is_float; }
-    | operatii '/' operatii { $$.value = $1.value / $3.value; $$.is_float = $1.is_float + $3.is_float; }
-    | NR { $$.value = $1.value; $$.is_float = $1.is_float; }
-    ;
-/* instructiune */
-decl_gl 
-     :  declaratie ';'   {strcpy(tabel_var[total_vars].scope, "global");}
-     | decl_gl declaratie ';' {strcpy(tabel_var[total_vars].scope, "global");}
-     ;
- 
-declaratie 
-     : TIP ID  { 
-                    if(exists_in_var_table($2)==0)
-                    {
-                         strcpy(tabel_var[total_vars].id, $2);
-                         strcpy(tabel_var[total_vars].type, $1);
-                         strcpy(tabel_var[total_vars].value, "default");
-                         strcpy(tabel_var[total_vars].scope, "global");
-                         total_vars++;
-                         snprintf(buffer, 100,"%s %s\n", $1 , $2);
-                         fprintf(fd, "%s", buffer);}
-                    else
-                         yyerror(); 
-               }
-     | TIP ID '(' lista_param ')'  {}
-     | TIP ID '(' ')'    {}
-     ;
- 
+
 statement
     :ID ASSIGN operatii {
-        printf("id assign operatii result: %f\n", $3.value);
+        // printf("id assign operatii result: %f\n", $3.value);
         struct var * dol1; //era pera lung "dollar"
         dol1 = get_var_from_table($1);
         if (dol1 == NULL)
@@ -269,21 +233,21 @@ statement
         else 
         if(strcmp(dol1->type, "int") == 0){
             if($3.is_float > 0)
-                {printf("WARNING assigning floating number to int variable: %s\n", $1);}
+                {printf("WARNING casting floating number to int variable: %s\n", $1);}
             char temp[100];
-            sprintf(temp, "%d", (int)$3.value);
-            printf("%s assign %d\n", $1, (int)$3.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
+            sprintf(temp, "%d", (int)$3.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
+            // printf("%s assign %d\n", $1, (int)$3.value); 
             strcpy(dol1->value, temp);
         }
     }
     | ID ASSIGN ID {
-                        printf("id op id\n");
+                        // printf("id op id\n");
                          struct var * dol1; //era pera lung "dollar"
-                         struct var * dol3;
                          dol1 = get_var_from_table($1);
-                         dol3 = get_var_from_table($3);
                          if (dol1 == NULL)
                              {yyerror(), printf("undeclared var: %s", $1); return 0;}
+                         struct var * dol3;
+                         dol3 = get_var_from_table($3);
                          if (dol1 == NULL)
                              {yyerror(), printf("undeclared var: %s", $3); return 0;}
                          if (dol1 != NULL && dol3!= NULL){
@@ -301,7 +265,17 @@ statement
     | WHILE '(' bool ')' '{' list '}'  {}
     | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {}
     | TIP ID ARR_ACCESS {
-
+        //decl locala arrays
+        struct var * dol2;
+        dol2 = get_var_from_table($2);
+        if (dol2 != NULL && (same_scope(dol1->id, $2)))
+            {yyerror(), printf("already declared variable: %s", $2); return 0;}
+        struct var new_var;
+        strcpy(new_var->id, $2);
+        strcpy(new_var->scope, "main");
+        new_var->arr_len = $3;
+        new_var->is_ar = 1;
+        
     }
     | TIP ID  { 
                     if(ok_fun==0)
@@ -315,7 +289,7 @@ statement
                          strcpy(tabel_var[total_vars].id, $2);
                          strcpy(tabel_var[total_vars].type, $1);
                          strcpy(tabel_var[total_vars].value, "default");
-                         strcpy(tabel_var[total_vars].scope, "local");
+                         strcpy(tabel_var[total_vars].scope, "main");
                          total_vars++;
                          snprintf(buffer, 100,"%s %s %s \n", $1 , $2, "default");
                          fprintf(fd, "%s", buffer);
@@ -328,7 +302,7 @@ statement
                          strcpy(tabel_var[total_vars].scope, "functie");
                     }
                }
-    | ID '(' ')' {      printf("apel functie\n");
+    | ID '(' ')' {      printf("apel functie din main\n");
                             if(exists_function($1)==0)
                                 yyerror();
                             else
@@ -338,6 +312,7 @@ statement
                             }
     | ID '(' lista_apel ')' 
                                 {
+                                    printf("apel funectie din main + lista apel\n");
                                     if(exists_function($1)==0)
                                         yyerror();
                                     ///
@@ -351,8 +326,40 @@ statement
                                 }
      ;
  
+ 
+operatii 
+    : operatii '+' operatii { $$.value = $1.value + $3.value; $$.is_float = $1.is_float + $3.is_float; }
+    | operatii '-' operatii { $$.value = $1.value - $3.value; $$.is_float = $1.is_float + $3.is_float; }
+    | operatii '*' operatii { $$.value = $1.value * $3.value; $$.is_float = $1.is_float + $3.is_float; }
+    | operatii '/' operatii { $$.value = $1.value / $3.value; $$.is_float = $1.is_float + $3.is_float; }
+    | NR { $$.value = $1.value; $$.is_float = $1.is_float; }
+    ;
+/* instructiune */
+decl_gl 
+     : declaratie ';'   {strcpy(tabel_var[total_vars].scope, "global");}
+     | decl_gl declaratie ';' {strcpy(tabel_var[total_vars].scope, "global");}
+     ;
+ 
+declaratie 
+     : TIP ID  {
+                    if(exists_in_var_table($2)==0)
+                    {
+                         strcpy(tabel_var[total_vars].id, $2);
+                         strcpy(tabel_var[total_vars].type, $1);
+                         strcpy(tabel_var[total_vars].value, "default");
+                         strcpy(tabel_var[total_vars].scope, "global");
+                         total_vars++;
+                         snprintf(buffer, 100,"%s %s\n", $1 , $2);
+                         fprintf(fd, "%s", buffer);}
+                    else
+                         yyerror(); 
+               }
+     | TIP ID '(' lista_param ')'  {printf("var: %s\n", $2);}
+     | TIP ID '(' ')'    {}
+     ;
+
 lista_apel 
-    : NR {printf("small rule");}
+    : NR {printf("small rule\n");}
     | ID {}
     | lista_apel ',' NR {printf("small rule apel functie\n");}
     | lista_apel ',' ID {}
@@ -399,8 +406,7 @@ int main(int argc, char **argv) {
     yyin = fopen(argv[1], "r");
     yyparse();
     if (errors == 0) {
-        printf("Program corect sintactic!\n");
-        printf("Afisez varle din tabel_varul cu variabile:  \n");
+        printf("\n\nProgram corect sintactic!\n");
         printf("\n\t%-15s %-15s %-10s %-10s %-10s \n", "id", "value", "type","scope", "additional");
         printf("\t%-15s %-15s %-10s %-10s %-10s \n", "---------", "------", "----","-----", "----------");
 

@@ -43,7 +43,6 @@ struct var{
 [_a-zA-Z][_a-zA-Z0-9]*              { yylval.strval=strdup(yytext); return ID;}
 "="                                 { return ASSIGN;}
 
-
 [+-]?([0-9]*[.])?[0-9]+ { 
     yylval.number.value=atof(yytext);
     if(strchr(yytext,'.') != NULL)
