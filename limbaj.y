@@ -20,7 +20,7 @@ struct var{
           };
  
 struct signature{
-          char nume[100], parent_class[100];
+          char nume[100], parent_class[100], ret_type[100];
           int is_method, params_count;
           char * param_types[100];
 };
@@ -47,13 +47,13 @@ int same_type_s(struct var *x, struct var *y);
 int same_type_number(char x[100], char y[100]);
 int exists_signature(struct signature *new_f);
 int add_signature(struct signature *new_f);
-void stack_push(struct var new_elem);
 void update_var_int(char x[100], int valoare);
 char * get_var_table(char id[100]) ;
 char* get_var_scope(char id[100]) ;
 int get_var_value(char id[100]);
 int same_scope(char x[100], char y[100]) ;
 int exists_function (char x[100]);
+void stack_push(struct var new_elem);
 int stack_pop(); //ASTA DA POP LA INDEX 
 int val_expr;
 %}
@@ -125,9 +125,10 @@ lista_param
      ;
  
  
-functie   
+functie
      : TIP ID '(' lista_param ')' '{' list '}'    { 
                                                        strcpy(new_function_buff.nume, $2);
+                                                       strcpy(new_function_buff.ret_type, $1);
                                                        if(exists_signature(&new_function_buff) == 1)
                                                             yyerror(),  printf("function %s redefined", 
                                                                                                new_function_buff.nume);
@@ -143,21 +144,20 @@ functie
                                                        }
                                                        ok_fun=0;
                                                   }
-     | TIP ID '(' ')' '{' list '}' { 
-                                        new_function_buff.params_count = 0;
-                                        strcpy(new_function_buff.nume, $2);
-                                        if(exists_signature(&new_function_buff) == 1)
-                                             yyerror(), printf("function %s redefined", new_function_buff.nume);
-                                        else
-                                             add_signature(&new_function_buff);
-                                             total_fnc++;
-                                   }
+    | TIP ID '(' ')' '{' list '}' { 
+        strcpy(new_function_buff.ret_type, $1);
+        new_function_buff.params_count = 0;
+        strcpy(new_function_buff.nume, $2);
+        if(exists_signature(&new_function_buff) == 1)
+             yyerror(), printf("function %s redefined", new_function_buff.nume);
+        else
+             add_signature(&new_function_buff);
+             total_fnc++;
+    }
                                                                                                
      ;
 clasa         
-     : CLASS ID '{' VIS ':' decl_cl fnc '}'  {
-                                                  strcpy(nume_clasa, $2);     
-                                             }
+     : CLASS ID '{' VIS ':' decl_cl fnc '}'  {strcpy(nume_clasa, $2);}
      | CLASS ID '{' VIS ':' decl_cl '}' {
                                              strcpy(nume_clasa, $2); //cod
                                             //  printf("%d, %d\n", var_in_class, total_vars);
@@ -206,29 +206,19 @@ declaratiecl
                     else
                          yyerror(); 
                }
-     | TIP ID '(' lista_param ')'  {
-                                        //Decl functie cu param
-                                   }
-     | TIP ID '(' ')'    {
-                              //nush ce e aici *: e apelul unei functii fara parametrii
-                         }
+     | TIP ID '(' lista_param ')'  {}
+     | TIP ID '(' ')'    {}
      ;
       
 /* bloc */
 bloc 
-     : BGIN list END     {
-                              ;//cod
-                         }   
+     : BGIN list END     {}   
      ;
      
 /* lista instructiuni */
 list 
-     :  statement ';'    {
-                              ;//cod
-                         }
-     | list statement ';'     {
-                                   ;//cod
-                              }
+     :  statement ';'    {}
+     | list statement ';'     { }
      ;
  
  
@@ -241,14 +231,8 @@ operatii
     ;
 /* instructiune */
 decl_gl 
-     :  declaratie ';'   {
-                              strcpy(tabel_var[total_vars].scope, "global");
-                              ;//cod
-                         }
-     | decl_gl declaratie ';' {
-                                    strcpy(tabel_var[total_vars].scope, "global");
-                                   ;//cod
-                              }
+     :  declaratie ';'   {strcpy(tabel_var[total_vars].scope, "global");}
+     | decl_gl declaratie ';' {strcpy(tabel_var[total_vars].scope, "global");}
      ;
  
 declaratie 
@@ -275,7 +259,7 @@ statement
         struct var * dol1; //era pera lung "dollar"
         dol1 = get_var_from_table($1);
         if (dol1 == NULL)
-            {yyerror(); printf("undeclared var: %s", $1); return;}
+            {yyerror(); printf("undeclared var: %s", $1); return 0;}
         else 
         if(strcmp(dol1->type, "float") == 0){
             char temp[100];
@@ -285,7 +269,7 @@ statement
         else 
         if(strcmp(dol1->type, "int") == 0){
             if($3.is_float > 0)
-                {yyerror(); printf("assigning floating number to int variable: %s\n", $1); return;}
+                {printf("WARNING assigning floating number to int variable: %s\n", $1);}
             char temp[100];
             sprintf(temp, "%d", (int)$3.value);
             printf("%s assign %d\n", $1, (int)$3.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
@@ -293,15 +277,15 @@ statement
         }
     }
     | ID ASSIGN ID {
-                    printf("id op id\n");
+                        printf("id op id\n");
                          struct var * dol1; //era pera lung "dollar"
                          struct var * dol3;
                          dol1 = get_var_from_table($1);
                          dol3 = get_var_from_table($3);
                          if (dol1 == NULL)
-                             {yyerror(), printf("undeclared var: %s", $1); return;}
+                             {yyerror(), printf("undeclared var: %s", $1); return 0;}
                          if (dol1 == NULL)
-                             {yyerror(), printf("undeclared var: %s", $3); return;}
+                             {yyerror(), printf("undeclared var: %s", $3); return 0;}
                          if (dol1 != NULL && dol3!= NULL){
                               if((same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) 
                                   update_var_s(dol1, dol3);
@@ -313,17 +297,13 @@ statement
                          }
                          
                     }
-     | IF '(' bool ')' '{' list '}'     {
-                                             ;//cod
-                                        }
-     | WHILE '(' bool ')' '{' list '}'  {
-                                             ;//cod
-                                        }
-     | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {
-                                                                                ;//cod
-                                                                           }
+    | IF '(' bool ')' '{' list '}'     {}
+    | WHILE '(' bool ')' '{' list '}'  {}
+    | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {}
+    | TIP ID ARR_ACCESS {
 
-     | TIP ID  { 
+    }
+    | TIP ID  { 
                     if(ok_fun==0)
                     {
                          var_in_fun=total_vars;
@@ -348,7 +328,7 @@ statement
                          strcpy(tabel_var[total_vars].scope, "functie");
                     }
                }
-        | ID '(' ')' {                          //apel functie fara param
+    | ID '(' ')' {      printf("apel functie\n");
                             if(exists_function($1)==0)
                                 yyerror();
                             else
@@ -356,7 +336,7 @@ statement
                                 //se executa codul
                             }
                             }
-        | ID '(' lista_apel ')' 
+    | ID '(' lista_apel ')' 
                                 {
                                     if(exists_function($1)==0)
                                         yyerror();
@@ -373,10 +353,8 @@ statement
  
 lista_apel 
     : NR {printf("small rule");}
-    | FLOAT {}
     | ID {}
-    | lista_apel ',' NR {printf("small rule");}
-    | lista_apel ',' FLOAT {}
+    | lista_apel ',' NR {printf("small rule apel functie\n");}
     | lista_apel ',' ID {}
     ;
 ////////////////////////////////////////////////////////////////////////////
@@ -423,14 +401,19 @@ int main(int argc, char **argv) {
     if (errors == 0) {
         printf("Program corect sintactic!\n");
         printf("Afisez varle din tabel_varul cu variabile:  \n");
+        printf("\n\t%-15s %-15s %-10s %-10s %-10s \n", "id", "value", "type","scope", "additional");
+        printf("\t%-15s %-15s %-10s %-10s %-10s \n", "---------", "------", "----","-----", "----------");
+
         for (int i = 0; i < total_vars; i++)
-            printf("\t%-10s %-10s %-5s %-10s %-10s \n", tabel_var[i].id, tabel_var[i].value, tabel_var[i].type,tabel_var[i].scope, tabel_var[i].where);
+            printf("\t%-15s %-15s %-10s %-10s %-10s \n", tabel_var[i].id, tabel_var[i].value, tabel_var[i].type,tabel_var[i].scope, tabel_var[i].where);
         printf("fun decl %d:\n", total_fnc);
+            printf("\t%-7s %-10s\n", "retType", "fnc");
         for (int i = 0; i < total_fnc; i++){
-            printf("\t%-10s ", tabel_fnc[i].nume);
+            printf("\t%-7s %-7s ", tabel_fnc[i].ret_type, tabel_fnc[i].nume);
+            printf("\t(");
             for(int ii = 0; ii < tabel_fnc[i].params_count; ++ii)
-               printf("%-10s ", tabel_fnc[i].param_types[ii]);
-            printf("\n");
+               printf("%-4s", tabel_fnc[i].param_types[ii]);
+            printf(")\n");
         }
     } else {
         printf("Au fost gasite erori de compilare\n");

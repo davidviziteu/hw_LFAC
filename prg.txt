@@ -15,6 +15,7 @@ int Eval ( int alabala, int aaa)
 begin_progr
   int a;
   int b;
+  int c[100];
   float ccc;
   ccc = 1/2;
   string test2;
@@ -22,8 +23,9 @@ begin_progr
   float ms;
   bool test;
   test2 = test3;
+  s();
   s (12);  
-  a = 3 + 1 * 2 * 4;
+  a = 3 + 1 * 2 * 4 + 1.2;
   b = a;
 end_progr
 
