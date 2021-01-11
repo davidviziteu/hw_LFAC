@@ -16,7 +16,7 @@ enum data_type {__int, __char, __string, __bool};
 
 struct var{
           char  id[100], type[100], value[100], scope[100], where[100];
-          char *string_arr_value[100];
+          char *string_arr_value[100]; float floats[100]; int ints[100];
           int is_arr, arr_len;
           };
  
@@ -221,11 +221,11 @@ list
 
 statement
     :ID ASSIGN operatii {
-        printf("%s assign operatii result: %f\n", $1,$3.value);
+        // printf("%s assign operatii result: %f\n", $1,$3.value);
         struct var * dol1; //era pera lung "dollar"
         dol1 = get_var_from_table($1);
         if (dol1 == NULL)
-            {yyerror(); printf("undeclared var: %s", $1); return 0;}
+            {yyerror(); printf("undeclared var: %s\n", $1); return 0;}
         else 
         if(strcmp(dol1->type, "float") == 0){
             char temp[100];
@@ -241,9 +241,17 @@ statement
             // printf("%s assign %d\n", $1, (int)$3.value); 
             strcpy(dol1->value, temp);
         }
+        else 
+        if(strcmp(dol1->type, "bool") == 0){
+            printf("da BOOL\n");
+            char temp[100];
+            sprintf(temp, "%d", (bool)$4.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
+            // printf("%s assign %d\n", $1, (int)$3.value); 
+            strcpy(dol1->value, temp);
+        }
     }
     | ID ARR_ACCESS ASSIGN operatii {
-        printf("id[arr] assign operatii result: %f\n", $4.value);
+        // printf("id[arr] assign operatii result: %f\n", $4.value);
         struct var * dol1; //era pera lung "dollar"
         dol1 = get_var_from_table($1);
         if (dol1 == NULL)
@@ -266,16 +274,23 @@ statement
             // printf("%s assign %d\n", $1, (int)$3.value); 
             strcpy(dol1->value, temp);
         }
+        else 
+        if(strcmp(dol1->type, "bool") == 0){
+            char temp[100];
+            sprintf(temp, "%d", (bool)$4.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
+            // printf("%s assign %d\n", $1, (int)$3.value); 
+            strcpy(dol1->value, temp);
+        }
     }
     | ID ASSIGN ID {
         struct var * dol1; //era pera lung "dollar"
         dol1 = get_var_from_table($1);
         if (dol1 == NULL)
-            {yyerror(), printf("undeclared var: %s", $1); return 0;}
+            {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
         struct var * dol3;
         dol3 = get_var_from_table($3);
         if (dol1 == NULL)
-            {yyerror(), printf("undeclared var: %s", $3); return 0;}
+            {yyerror(), printf("undeclared var: %s\n", $3); return 0;}
         if (dol1 != NULL && dol3!= NULL){
              if((same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) 
                  update_var_s(dol1, dol3);
@@ -287,7 +302,7 @@ statement
         }
     }
     | TIP ID ARR_ACCESS {
-        printf("declared array %d\n", $3);
+        // printf("declared array %d\n", $3);
         if($3 > 100) {yyerror(""), printf("\tmax arr size is 100 and you declared %d\n", $3); return 0;}
         struct var * dol2;
         dol2 = get_var_from_table($2);
@@ -302,7 +317,7 @@ statement
         total_vars++;
     }
     | TIP ID  { 
-        printf("declarare tip id\n");
+        // printf("declarare tip id\n");
         if(ok_fun==0)
         {
              var_in_fun=total_vars;
@@ -323,6 +338,52 @@ statement
         if(ok_fun==1)
         {
              strcpy(tabel_var[total_vars].scope, "functie");
+        }
+    }
+    | ID ASSIGN STRING {
+        struct var * dol1;
+        struct var dol3;
+        dol1 = get_var_from_table($1);
+        strcpy(dol3.type, "string");
+        strcpy(dol3.value, $3);
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
+        if(same_type_s(dol1, &dol3)){
+            if(strcmp(dol1->type, "string") != 0){
+                yyerror(); 
+                printf("trying to do string operation on non string variables\n");
+                break;
+            }
+            var_assign(dol1, &dol3);
+        }
+        else{
+            yyerror(); 
+            printf("trying to do operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3.type);
+            break;
+        }
+    }
+    | ID OP_STR ID {
+        struct var * dol1;
+        struct var * dol3;
+        dol1 = get_var_from_table($1);
+        dol3 = get_var_from_table($3);
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
+        if (dol3 == NULL)
+            {yyerror(), printf("undeclared var: %s\n", $3); return 0;}
+        if(strcmp(dol3->value, "default") == 0)
+            {yyerror(), printf("uninitialised string: %s\n", $3); return 0;}
+        if(same_type_s(dol1, dol3)){
+            if(strcmp(dol1->type, "string") != 0){
+                yyerror(); 
+                printf("trying to do string operation on non string variables\n");
+                return 0;
+            }
+            strcat(dol1->value, dol3->value);
+        }
+        else{
+            yyerror(); 
+            printf("trying to do operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3->type);
         }
     }
     | ID '(' ')' {      
@@ -355,7 +416,7 @@ operatii
     | operatii '/' operatii { $$.value = $1.value / $3.value; $$.is_float = $1.is_float + $3.is_float; }
     | NR { $$.value = $1.value; $$.is_float = $1.is_float; }
     | ID ARR_ACCESS {
-        
+
     }
     ;
 /* instructiune */

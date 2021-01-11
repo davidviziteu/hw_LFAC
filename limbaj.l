@@ -43,9 +43,16 @@ struct var{
 "if"                                { return IF;}
 "while"                             { return WHILE;}
 "for"                               { return FOR;}
-"true"|"false"                      { yylval.strval = strdup(yytext); return BOOL;}
+"true"|"false"                      { 
+    yylval.number.is_float=0;
+    if(strcmp(yytext,"true") == 0)
+        yylval.number.value=1;
+    else 
+        yylval.number.value=0;
+    return NR;
+}
 "||"|"&&"|">"|"<"|"!"|"<="|">="|"!=" { yylval.strval = strdup(yytext); return OP_BIN;}
-"strcat"|"upper"|"lower"            { yylval.strval = strdup(yytext); return OP_STR;}
+"strcat"                            { yylval.strval = strdup(yytext); return OP_STR;}
 [_a-zA-Z][_a-zA-Z0-9]*              { yylval.strval=strdup(yytext); return ID;}
 "="                                 { return ASSIGN;}
 

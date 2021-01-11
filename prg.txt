@@ -21,17 +21,22 @@ int Eval ( int alabala, int aaa)
 begin_progr
   int a;
   int b;
-  int kk [110];
+  int kk [10];
+  bool b_example;
   float ccc;
   ccc = 1/2;
   string test2;
-  string test3;
+  string test1;
+  test2 = "1haha";
+  test1 = "abra";
+  test2 strcat test1;
+  test1 = test2;
   float ms;
   bool test;
-  test2 = test3;
   s();
   s (12);  
   a = 3 + 1 * 2 * 4 + 1.2;
+  b_example = 3;
   b = a;
 end_progr
 
