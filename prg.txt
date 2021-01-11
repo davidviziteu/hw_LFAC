@@ -4,10 +4,6 @@ int s ( int ok )
 {
  int k;
  int m;
- k = 4 + 4 ;
- m = 9 + 5 + 4 - 10;
- m = 10 - 4 + 6 ; 
- 
 }
 
 int Eval ( int alabala, int aaa)
@@ -19,19 +15,16 @@ int Eval ( int alabala, int aaa)
 begin_progr
   int a;
   int b;
-  int arr[100];
+  float ccc;
+  ccc = 1/2;
   string test2;
   string test3;
-  test2 = "abcde";
-  test3 = "fghij";
-  test2 strcat test3;
   float ms;
   bool test;
-  test = false;
-  a = 3;
+  test2 = test3;
   s (12);  
-  a = 3 + 1 * 2;
-  b = a; 
+  a = 3 + 1 * 2 * 4;
+  b = a;
 end_progr
 
 

@@ -12,6 +12,7 @@ extern int yylineno;
 char buffer[100];
 FILE* fd;
  
+enum data_type {__int, __char, __string, __bool}; 
 
 struct var{
           char  id[100], type[100], value[100], scope[100], where[100];
@@ -30,6 +31,7 @@ char nume_clasa[100], nume_functie[100];
 struct signature tabel_fnc[100];
 struct signature new_function_buff;
 int total_vars=0, errors=0, total_fnc=1, param=0, var_in_class, ok=0, var_in_fun, ok_fun;
+int err_count = 0;
 char scope[100], scope2[100];
 int stack_idx = 0;
 int exists_in_var_table(char x[100]);
@@ -50,7 +52,7 @@ void update_var_int(char x[100], int valoare);
 char * get_var_table(char id[100]) ;
 char* get_var_scope(char id[100]) ;
 int get_var_value(char id[100]);
-int same_scope(char x[100], char y[100]);
+int same_scope(char x[100], char y[100]) ;
 int exists_function (char x[100]);
 int stack_pop(); //ASTA DA POP LA INDEX 
 int val_expr;
@@ -59,16 +61,16 @@ int val_expr;
 %union {
     char *strval;
     int intval;
-    float flval;
     int blval;
+    struct nmbr{
+        float value;
+        int is_float;
+    } number;
 }
 
-
 %token <strval>ID <strval>TIP BGIN END CONST ASSIGN VIS CLASS IF WHILE FOR OP_BIN OP_STR BOOL <strval>STRING AND OR NOT '.'    
-%token <strval>FLOAT <intval>NR  
-%type <intval> operatii 
-%type <blval>bool <blval>operatii_binare
-/* %left GE LE EQ NE '>' '<' */
+%token <strval>FLOAT <number>NR <intval>ARR_ACCESS
+%type <number> operatii <blval>bool <blval>operatii_binare
 %left '+' '-'
 %left '*' '/'
 %start progr
@@ -118,29 +120,30 @@ lista_param
                                         strcpy(tabel_var[total_vars].value, "default");
                                         strcpy(tabel_var[total_vars].scope, "functie");
                                         total_vars++;
-                                        // printf("HEI, SUNT AICI \n");
+                                        printf("HEI, SUNT AICI \n");
                                    }
      ;
  
  
 functie   
-    : TIP ID '(' lista_param ')' '{' list '}' { 
-            strcpy(new_function_buff.nume, $2);
-            if(exists_signature(&new_function_buff) == 1)
-             yyerror(),  printf("function %s redefined", 
-                                                new_function_buff.nume);
-        else
-             add_signature(&new_function_buff), total_fnc++;
-        // printf("variabile in functie: %d, %d \n",var_in_fun,total_vars);
-        for(int i= var_in_fun; i< total_vars; i++)
-        {
-             // printf("I ARE VALOAREA : %d, %s", i, $2);
-             strcpy(tabel_var[i].where, $2);
-             strcpy(tabel_var[i].scope, "functie");
-        }
-        ok_fun=0;
-    }
-    | TIP ID '(' ')' '{' list '}' { 
+     : TIP ID '(' lista_param ')' '{' list '}'    { 
+                                                       strcpy(new_function_buff.nume, $2);
+                                                       if(exists_signature(&new_function_buff) == 1)
+                                                            yyerror(),  printf("function %s redefined", 
+                                                                                               new_function_buff.nume);
+                                                       else
+                                                            add_signature(&new_function_buff), total_fnc++;
+
+                                                       // printf("variabile in functie: %d, %d \n",var_in_fun,total_vars);
+                                                       for(int i= var_in_fun; i< total_vars; i++)
+                                                       {
+                                                            // printf("I ARE VALOAREA : %d, %s", i, $2);
+                                                            strcpy(tabel_var[i].where, $2);
+                                                            strcpy(tabel_var[i].scope, "functie");
+                                                       }
+                                                       ok_fun=0;
+                                                  }
+     | TIP ID '(' ')' '{' list '}' { 
                                         new_function_buff.params_count = 0;
                                         strcpy(new_function_buff.nume, $2);
                                         if(exists_signature(&new_function_buff) == 1)
@@ -213,35 +216,42 @@ declaratiecl
       
 /* bloc */
 bloc 
-     : BGIN list END  {}  
+     : BGIN list END     {
+                              ;//cod
+                         }   
      ;
      
 /* lista instructiuni */
 list 
-     : statement ';'{}
-     | list statement ';' {}
+     :  statement ';'    {
+                              ;//cod
+                         }
+     | list statement ';'     {
+                                   ;//cod
+                              }
      ;
  
  
-operatii : operatii '+' operatii {$$ = $1 + $3;  val_expr=$$; }
-         | operatii '-' operatii {$$ = $1 - $3;  val_expr=$$;}
-         | operatii '*' operatii  {$$ = $1 * $3;  val_expr=$$;}
-         | operatii '/' operatii {$$ = $1 / $3;  val_expr=$$;}
-         | NR { $$ = $1; val_expr = $$; }
-         ;
+operatii 
+    : operatii '+' operatii { $$.value = $1.value + $3.value; $$.is_float = $1.is_float + $3.is_float; }
+    | operatii '-' operatii { $$.value = $1.value - $3.value; $$.is_float = $1.is_float + $3.is_float; }
+    | operatii '*' operatii { $$.value = $1.value * $3.value; $$.is_float = $1.is_float + $3.is_float; }
+    | operatii '/' operatii { $$.value = $1.value / $3.value; $$.is_float = $1.is_float + $3.is_float; }
+    | NR { $$.value = $1.value; $$.is_float = $1.is_float; }
+    ;
 /* instructiune */
 decl_gl 
-     :  declaratie_globala ';'   {
+     :  declaratie ';'   {
                               strcpy(tabel_var[total_vars].scope, "global");
                               ;//cod
                          }
-     | decl_gl declaratie_globala ';' {
+     | decl_gl declaratie ';' {
                                     strcpy(tabel_var[total_vars].scope, "global");
                                    ;//cod
                               }
      ;
  
-declaratie_globala 
+declaratie 
      : TIP ID  { 
                     if(exists_in_var_table($2)==0)
                     {
@@ -255,115 +265,64 @@ declaratie_globala
                     else
                          yyerror(); 
                }
-     | TIP ID '(' lista_param ')'  {
-                                        //Decl functie cu param
-                                   }
-     | TIP ID '(' ')'    {
-                              // e apelul unei functii fara parametrii
-                         }
+     | TIP ID '(' lista_param ')'  {}
+     | TIP ID '(' ')'    {}
      ;
  
-
-bool 
-    : BOOL {
-        if(strcmp($1, "true") == 0) {$$ = 1; return 0;}
-        if(strcmp($1, "false") == 0) {$$ = 0; return 0;}
-    }
-    | operatii_binare { $$ = $1; }
-    ;
- 
-operatii_binare
-    : ID OP_BIN ID {
-        printf("op binare\n");
-        struct var * dol1;
-        struct var * dol3;
-        dol1 = get_var_from_table($1);
-        dol3 = get_var_from_table($3);
-        if (dol1 == NULL)
-            {yyerror(), printf("undeclared var: %s", $1); return 0;}
-        if (dol1 == NULL)
-            {yyerror(), printf("undeclared var: %s", $3); return 0;}
-        if(same_type_s(dol1, dol3) && (same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) {
-            if(strcmp($2, "||")==0){
-                if(strcmp(dol1->type, "string")==0)
-                return 0;
-            }
-            if(strcmp($2, "&&")==0){
-                return 0;
-            }
-            if(strcmp($2, ">")==0){
-                return 0;
-            }
-            if(strcmp($2, "<")==0){
-                return 0;
-            }
-            if(strcmp($2, "!")==0){
-                return 0;
-            }
-            if(strcmp($2, "<=")==0){
-                return 0;
-            }
-            if(strcmp($2, ">=")==0){
-                return 0;
-            }
-            if(strcmp($2, "!=")==0){
-                return 0;
-            }
-        }
-        else{
-            yyerror(); 
-            printf("trying to do binary operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3->type);
-            return 0;
-        }
-    }
-    ;
-
-
 statement
-    :  ID ASSIGN operatii {
-        //  printf("id assign operatii\n");
-         if (exists_in_var_table($1)==0 )
-              yyerror();
-         
-         printf("%s := %d\n", $1, val_expr);
-         update_var_int($1, val_expr);
+    :ID ASSIGN operatii {
+        printf("id assign operatii result: %f\n", $3.value);
+        struct var * dol1; //era pera lung "dollar"
+        dol1 = get_var_from_table($1);
+        if (dol1 == NULL)
+            {yyerror(); printf("undeclared var: %s", $1); return;}
+        else 
+        if(strcmp(dol1->type, "float") == 0){
+            char temp[100];
+            sprintf(temp, "%f", $3.value);
+            strcpy(dol1->value, temp);
+        }
+        else 
+        if(strcmp(dol1->type, "int") == 0){
+            if($3.is_float > 0)
+                {yyerror(); printf("assigning floating number to int variable: %s\n", $1); return;}
+            char temp[100];
+            sprintf(temp, "%d", (int)$3.value);
+            printf("%s assign %d\n", $1, (int)$3.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
+            strcpy(dol1->value, temp);
+        }
     }
     | ID ASSIGN ID {
-        struct var * dol1; //era pera lung "dollar"
-        struct var * dol3;
-        dol1 = get_var_from_table($1);
-        dol3 = get_var_from_table($3);
-        if (dol1 == NULL)
-            {yyerror(), printf("undeclared var: %s", $1); return 0;}
-        if (dol3 == NULL)
-            {yyerror(), printf("undeclared var: %s", $3); return 0;}
-        if (dol1 != NULL && dol3!= NULL){
-             if(same_type_s(dol1, dol3) && (same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) 
-             {
-                 if(strcmp(get_var_table($3),"default")==0)
-                   yyerror();
-                 else
-               {
-                 printf("%s :=%s   %d \n",$1, $3, get_var_value($3));
-             
-                 update_var_int($1, get_var_value($3));
-               }
-                 }
-             else{
-                  yyerror(); 
-                  printf("trying to do operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3->type);
-                  break;
-             }
-        }
-    }
-    | ID ASSIGN bool {
-        printf("bool\n");
-    }
-    | IF '(' bool ')' '{' list '}'     {}
-    | WHILE '(' bool ')' '{' list '}'  {}
-    | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {}
-    | TIP ID '[' NR ']' {}
-    | TIP ID  { 
+                    printf("id op id\n");
+                         struct var * dol1; //era pera lung "dollar"
+                         struct var * dol3;
+                         dol1 = get_var_from_table($1);
+                         dol3 = get_var_from_table($3);
+                         if (dol1 == NULL)
+                             {yyerror(), printf("undeclared var: %s", $1); return;}
+                         if (dol1 == NULL)
+                             {yyerror(), printf("undeclared var: %s", $3); return;}
+                         if (dol1 != NULL && dol3!= NULL){
+                              if((same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) 
+                                  update_var_s(dol1, dol3);
+                              else{
+                                   yyerror(); ++err_count;
+                                   printf("trying to do operation on variables of different scopes: %s , %s\n", dol1->id, dol3->id);
+                                   break;
+                              }
+                         }
+                    }
+     | IF '(' bool ')' '{' list '}'     {
+                                             ;//cod
+                                        }
+     | WHILE '(' bool ')' '{' list '}'  {
+                                             ;//cod
+                                        }
+     | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {
+                                                                                ;//cod
+                                                                           }
+
+     | TIP ID  { 
                     if(ok_fun==0)
                     {
                          var_in_fun=total_vars;
@@ -388,62 +347,28 @@ statement
                          strcpy(tabel_var[total_vars].scope, "functie");
                     }
                }
-    | ID '(' ')' {                          //apel functie fara param       
-        printf("apel functie fara param\n");
-        if(exists_function($1)==0)
-            yyerror();
-    }
-    | ID '(' lista_apel ')'{
-        printf("big rule");
-        if(exists_function($1)==0)
-            yyerror();
-    }
-    | ID OP_STR ID {
-        struct var * dol1;
-        struct var * dol3;
-        dol1 = get_var_from_table($1);
-        dol3 = get_var_from_table($3);
-        if (dol1 == NULL)
-            {yyerror(), printf("undeclared var: %s", $1); return 0;}
-        if (dol3 == NULL)
-            {yyerror(), printf("undeclared var: %s", $3); return 0;}
-        if(same_type_s(dol1, dol3)){
-            if(strcmp(dol1->type, "string") != 0){
-                yyerror(); 
-                printf("trying to do string operation on non string variables\n");
-                return 0;
-            }
-            strcat(dol1->value, dol3->value);
-        }
-        else{
-            yyerror(); 
-            printf("trying to do operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3->type);
-            return 0;
-        }
-    }
-    | ID ASSIGN STRING {
-        struct var * dol1;
-        struct var dol3;
-        dol1 = get_var_from_table($1);
-        strcpy(dol3.type, "string");
-        strcpy(dol3.value, $3);
-        if (dol1 == NULL)
-            {yyerror(), printf("undeclared var: %s", $1); return 0;}
-        if(same_type_s(dol1, &dol3)){
-            if(strcmp(dol1->type, "string") != 0){
-                yyerror(); 
-                printf("trying to do string operation on non string variables\n");
-                break;
-            }
-            var_assign(dol1, &dol3);
-        }
-        else{
-            yyerror(); 
-            printf("trying to do operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3.type);
-            break;
-        }
-    }
-    ;
+        | ID '(' ')' {                          //apel functie fara param
+                            if(exists_function($1)==0)
+                                yyerror();
+                            else
+                            {
+                                //se executa codul
+                            }
+                            }
+        | ID '(' lista_apel ')' 
+                                {
+                                    if(exists_function($1)==0)
+                                        yyerror();
+                                    ///
+                                    ///////////////////////////////////////////////////////////////////
+                                    ///////////////////////////////////////////////////////////////////
+                                    //TREBUIE FACUT UN VECTOR DE TIPURI PENTRU APEL SI VERIFICAT DACA ARE ACELASI TIP CU VARIABILELE 
+                                    //DIN FUNCTIA DECLARATA MAI SUS
+                                    /////////////////////////////////////////////
+
+                                    ////////////////////////////////
+                                }
+     ;
  
 lista_apel 
     : NR {printf("small rule");}
@@ -456,12 +381,23 @@ lista_apel
 ////////////////////////////////////////////////////////////////////////////
 
 //////////////TREBUIE ADAUGATE OPERATII PE BOOL SI STRING 
-///////////////////////////////////////////////////////////////////////////
-
-
-
+/////////////////////////////////////////////////////////////
+ bool 
+     :      BOOL    {
+                         ;//cod
+                    }
+     | operatii_binare    {
+                         ;//cod
+                    }
+     ;
+ 
+operatii_binare 
+     : ID OP_BIN ID    {
+                         ;//cod
+                    }
+     ;
 %%
-
+ 
 void yyerror(char * s){
 printf("eroare: %s la linia:%d\n",s,yylineno);
 errors++;
@@ -709,13 +645,13 @@ int stack_pop(){
 void var_assign(struct var *to, struct var * from){
     if(!same_type_s(to, from)){
         yyerror("");
-        
+        ++err_count;
         printf("assigning incompatible types: %s <- %s (%s = %s)\n", 
             to->type, from->type, to->id, from->id);
     }
     if(strcmp(from->value, "default") == 0){
         yyerror("");
-        
+        ++err_count;
         printf("assigning with uninitialised variable: %s = %s (<- this is uninitialised)\n", 
             to->id, from->id);
     }
@@ -736,7 +672,6 @@ void var_assign(struct var *to, struct var * from){
         return;
     }
     if(strcmp(to->type, "string") == 0){
-        /* to->string_value = strdup(from->string_value); */
         strcpy(to->value, from->value);
         return;
     }

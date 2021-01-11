@@ -27,12 +27,13 @@ struct var{
 %}
 %option noyywrap
 %%
+"begin_progr"                       { return BGIN;}
+"end_progr"                         { return END;}                                              
 "int"|"float"|"string"|"bool"|"char" { yylval.strval=strdup(yytext); return TIP;}
 \"[_a-zA-Z0-9 ]*\"                  { yylval.strval=strdup(yytext); strcpy(yylval.strval, yylval.strval + 1); yylval.strval[strlen(yylval.strval)-1] = '\0'; return STRING; }
-"begin_progr"                       { return BGIN;}
+\[[0-9]+\]                          { yylval.strval=strdup(yytext); strcpy(yylval.strval, yylval.strval + 1); yylval.strval[strlen(yylval.strval)-1] = '\0'; yylval.intval=atoi(yylval.strval); return ARR_ACCESS; }
 "class"                             { return CLASS;}
 "public"|"private"                  { return VIS; }                                                                                         
-"end_progr"                         { return END;}                                              
 "if"                                { return IF;}
 "while"                             { return WHILE;}
 "for"                               { return FOR;}
@@ -42,14 +43,19 @@ struct var{
 [_a-zA-Z][_a-zA-Z0-9]*              { yylval.strval=strdup(yytext); return ID;}
 "="                                 { return ASSIGN;}
 
- 
-("+"|"-")?([0-9]+)                  { yylval.intval=atoi(yytext); return NR;} 
-("+"|"-")?([0-9]+)?"."([0-9]+)?     { yylval.flval=atof(yytext); return FLOAT;}
+
+[+-]?([0-9]*[.])?[0-9]+ { 
+    yylval.number.value=atof(yytext);
+    if(strchr(yytext,'.') != NULL)
+        yylval.number.is_float=1; 
+    else 
+        yylval.number.is_float=0;
+    return NR;
+}
 "+" {return ('+');}
 "-" {return ('-');}
 "*" {return ('*');}
 "/" {return ('/');}
-"."                                 { return ('.');}
 
 
 [ \t]                               ;

@@ -68,7 +68,8 @@ extern int yydebug;
     OR = 274,
     NOT = 275,
     FLOAT = 276,
-    NR = 277
+    NR = 277,
+    ARR_ACCESS = 278
   };
 #endif
 /* Tokens.  */
@@ -92,19 +93,23 @@ extern int yydebug;
 #define NOT 275
 #define FLOAT 276
 #define NR 277
+#define ARR_ACCESS 278
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 59 "limbaj.y"
+#line 61 "limbaj.y"
 
     char *strval;
     int intval;
-    float flval;
     int blval;
+    struct nmbr{
+        float value;
+        int is_float;
+    } number;
 
-#line 108 "y.tab.h"
+#line 113 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
