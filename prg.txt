@@ -16,7 +16,6 @@ int Eval ( int alabala, int aaa)
 begin_progr
   int a;
   int b;
-  int c[100];
   float ccc;
   ccc = 1/2;
   string test2;

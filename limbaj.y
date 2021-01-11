@@ -85,7 +85,7 @@ fnc
  
  
 lista_param 
-     : TIP ID  {
+    : TIP ID  {
                     if(ok_fun==0)
                     {
                          var_in_fun=total_vars;
@@ -101,29 +101,30 @@ lista_param
  
                     // printf("1 param  ------ %s \n", $1);
                }
-     | lista_param ','  TIP ID     {    if(ok_fun==0)
-                                        {
-                                            var_in_fun=total_vars;
-                                            ok_fun=1;
-                                        }
-                                        // printf("\t\tdolar: 3 %s, 4 %s\n", $3, $4);
-                                        new_function_buff.param_types[new_function_buff.params_count] = strdup($3);
-                                        new_function_buff.params_count++;
-                                        strcpy(tabel_var[total_vars].id, $4);
-                                        strcpy(tabel_var[total_vars].type, $3);
-                                        strcpy(tabel_var[total_vars].value, "default");
-                                        strcpy(tabel_var[total_vars].scope, "functie");
-                                        total_vars++;
-                                        // printf("HEI, SUNT AICI \n");
-                                   }
-     ;
+    | lista_param ','  TIP ID {    
+        if(ok_fun==0)
+         {
+             var_in_fun=total_vars;
+             ok_fun=1;
+         }
+         // printf("\t\tdolar: 3 %s, 4 %s\n", $3, $4);
+         new_function_buff.param_types[new_function_buff.params_count] = strdup($3);
+         new_function_buff.params_count++;
+         strcpy(tabel_var[total_vars].id, $4);
+         strcpy(tabel_var[total_vars].type, $3);
+         strcpy(tabel_var[total_vars].value, "default");
+         strcpy(tabel_var[total_vars].scope, "functie");
+         total_vars++;
+         // printf("HEI, SUNT AICI \n");
+    }
+    ;
  
  
 functie
      : TIP ID '(' lista_param ')' '{' list '}'   { 
         //decl globala functie
-        strcpy(new_function_buff.nume, $2);
         strcpy(new_function_buff.ret_type, $1);
+        strcpy(new_function_buff.nume, $2);
         if(exists_signature(&new_function_buff) == 1)
              yyerror(),  printf("function %s redefined", 
                                                 new_function_buff.nume);
@@ -195,7 +196,7 @@ declaratiecl
                          strcpy(tabel_var[total_vars].value, "default");
                          strcpy(tabel_var[total_vars].scope, "clasa");
                          strcpy(tabel_var[total_vars].where, nume_clasa);
-                         printf("NUME: CLASA : %s\n", nume_clasa);
+                        //  printf("NUME: CLASA : %s\n", nume_clasa);
                          total_vars++;
                          snprintf(buffer, 100,"%s %s\n", $1 , $2);
                          fprintf(fd, "%s", buffer);}
@@ -241,41 +242,37 @@ statement
         }
     }
     | ID ASSIGN ID {
-                        // printf("id op id\n");
-                         struct var * dol1; //era pera lung "dollar"
-                         dol1 = get_var_from_table($1);
-                         if (dol1 == NULL)
-                             {yyerror(), printf("undeclared var: %s", $1); return 0;}
-                         struct var * dol3;
-                         dol3 = get_var_from_table($3);
-                         if (dol1 == NULL)
-                             {yyerror(), printf("undeclared var: %s", $3); return 0;}
-                         if (dol1 != NULL && dol3!= NULL){
-                              if((same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) 
-                                  update_var_s(dol1, dol3);
-                              else{
-                                   yyerror(); ++err_count;
-                                   printf("trying to do operation on variables of different scopes: %s , %s\n", dol1->id, dol3->id);
-                                   break;
-                              }
-                         }
-                         
-                    }
-    | IF '(' bool ')' '{' list '}'     {}
-    | WHILE '(' bool ')' '{' list '}'  {}
-    | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {}
+        struct var * dol1; //era pera lung "dollar"
+        dol1 = get_var_from_table($1);
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared var: %s", $1); return 0;}
+        struct var * dol3;
+        dol3 = get_var_from_table($3);
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared var: %s", $3); return 0;}
+        if (dol1 != NULL && dol3!= NULL){
+             if((same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) 
+                 update_var_s(dol1, dol3);
+             else{
+                  yyerror(); ++err_count;
+                  printf("trying to do operation on variables of different scopes: %s , %s\n", dol1->id, dol3->id);
+                  break;
+             }
+        }
+    }
     | TIP ID ARR_ACCESS {
-        //decl locala arrays
+        //decl main arrays
         struct var * dol2;
         dol2 = get_var_from_table($2);
-        if (dol2 != NULL && (same_scope(dol1->id, $2)))
-            {yyerror(), printf("already declared variable: %s", $2); return 0;}
-        struct var new_var;
-        strcpy(new_var->id, $2);
-        strcpy(new_var->scope, "main");
-        new_var->arr_len = $3;
-        new_var->is_ar = 1;
-        
+        if (dol2 != NULL && (same_scope(dol2->id, $2)))
+            {yyerror(), printf("already declared variable: %s\n", $2); return 0;}
+        strcpy(tabel_var[total_vars].id, $2);
+        strcpy(tabel_var[total_vars].type, $1);
+        strcpy(tabel_var[total_vars].value, "default");
+        strcpy(tabel_var[total_vars].scope, "main");
+        tabel_var[total_vars].arr_len = $3;
+        tabel_var[total_vars].is_arr = 1;
+        total_vars++;
     }
     | TIP ID  { 
                     if(ok_fun==0)
@@ -291,25 +288,21 @@ statement
                          strcpy(tabel_var[total_vars].value, "default");
                          strcpy(tabel_var[total_vars].scope, "main");
                          total_vars++;
-                         snprintf(buffer, 100,"%s %s %s \n", $1 , $2, "default");
-                         fprintf(fd, "%s", buffer);
+                        //am pus in main sa scrie in tabel la sfarsit
                     }
                     else
-                         yyerror(); 
+                         {yyerror(), printf("already declared variable: %s\n", $2); return 0;} 
                     // printf("%d\n", ok_fun);
                     if(ok_fun==1)
                     {
                          strcpy(tabel_var[total_vars].scope, "functie");
                     }
                }
-    | ID '(' ')' {      printf("apel functie din main\n");
-                            if(exists_function($1)==0)
-                                yyerror();
-                            else
-                            {
-                                //se executa codul
-                            }
-                            }
+    | ID '(' ')' {      
+        printf("apel functie din main\n");
+        if(exists_function($1)==0)
+            {yyerror(), printf("call to undeclared function: %s\n", $1); return 0;}
+    }
     | ID '(' lista_apel ')' 
                                 {
                                     printf("apel funectie din main + lista apel\n");
@@ -324,7 +317,10 @@ statement
 
                                     ////////////////////////////////
                                 }
-     ;
+    | IF '(' bool ')' '{' list '}'     {}
+    | WHILE '(' bool ')' '{' list '}'  {}
+    | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {}
+    ;
  
  
 operatii 
@@ -360,9 +356,20 @@ declaratie
 
 lista_apel 
     : NR {printf("small rule\n");}
-    | ID {}
+    | ID {
+        struct var * dol1;
+        dol1 = get_var_from_table($1);
+        if (dol1 == NULL)
+            {yyerror(), printf("function call with undeclared variable: %s\n", $2); return 0;} 
+
+    }
+    | ID ARR_ACCESS{
+
+    }
     | lista_apel ',' NR {printf("small rule apel functie\n");}
     | lista_apel ',' ID {}
+    | lista_apel ',' ID '(' lista_apel ')' {/*idk man*/}
+    | lista_apel ',' ID '(' ')' {}
     ;
 ////////////////////////////////////////////////////////////////////////////
 
@@ -407,11 +414,11 @@ int main(int argc, char **argv) {
     yyparse();
     if (errors == 0) {
         printf("\n\nProgram corect sintactic!\n");
-        printf("\n\t%-15s %-15s %-10s %-10s %-10s \n", "id", "value", "type","scope", "additional");
-        printf("\t%-15s %-15s %-10s %-10s %-10s \n", "---------", "------", "----","-----", "----------");
+        printf("\n\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "id", "value", "type", "arr?","scope", "additional");
+        printf("\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "---------", "------", "----","----","-----", "----------");
 
         for (int i = 0; i < total_vars; i++)
-            printf("\t%-15s %-15s %-10s %-10s %-10s \n", tabel_var[i].id, tabel_var[i].value, tabel_var[i].type,tabel_var[i].scope, tabel_var[i].where);
+            printf("\t%-15s %-15s %-10s %-4s %-10s %-10s \n", tabel_var[i].id, tabel_var[i].value, tabel_var[i].type, (tabel_var[i].is_arr == 1 ? "yes" : "   ") ,tabel_var[i].scope, tabel_var[i].where);
         printf("fun decl %d:\n", total_fnc);
             printf("\t%-7s %-10s\n", "retType", "fnc");
         for (int i = 0; i < total_fnc; i++){
@@ -424,6 +431,25 @@ int main(int argc, char **argv) {
     } else {
         printf("Au fost gasite erori de compilare\n");
     }
+    //SCRIE IN FISIER ACELASI TABEL
+    if (errors == 0) {
+        fprintf(fd, "\n\nProgram corect sintactic!\n");
+        } else  fprintf(fd, "Au fost gasite erori de compilare\n"); 
+        fprintf(fd, "\n\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "id", "value", "type", "arr?","scope", "additional");
+        fprintf(fd, "\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "---------", "------", "----","----","-----", "----------");
+
+        for (int i = 0; i < total_vars; i++)
+            fprintf(fd, "\t%-15s %-15s %-10s %-4s %-10s %-10s \n", tabel_var[i].id, tabel_var[i].value, tabel_var[i].type, (tabel_var[i].is_arr == 1 ? "yes" : "   ") ,tabel_var[i].scope, tabel_var[i].where);
+        fprintf(fd, "fun decl %d:\n", total_fnc);
+            fprintf(fd, "\t%-7s %-10s\n", "retType", "fnc");
+        for (int i = 0; i < total_fnc; i++){
+            fprintf(fd, "\t%-7s %-7s ", tabel_fnc[i].ret_type, tabel_fnc[i].nume);
+            fprintf(fd, "\t(");
+            for(int ii = 0; ii < tabel_fnc[i].params_count; ++ii)
+               fprintf(fd, "%-4s", tabel_fnc[i].param_types[ii]);
+            fprintf(fd, ")\n");
+        }
+    
 }
 int exists_in_var_table(char id[100])  //cauta o variabila in tabel_vara, daca exista
 {
@@ -591,6 +617,7 @@ int exists_signature(struct signature *new_f) {
  
 int add_signature(struct signature *new_f) {
      strcpy(tabel_fnc[total_fnc].nume, new_f->nume);
+     strcpy(tabel_fnc[total_fnc].ret_type, new_f->ret_type);
      strcpy(tabel_fnc[total_fnc].parent_class, new_f->nume);
      tabel_fnc[total_fnc].is_method = new_f->is_method;
      tabel_fnc[total_fnc].params_count = new_f->params_count;
