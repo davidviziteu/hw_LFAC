@@ -1,5 +1,10 @@
 int c;
-class student { public : int matricol; }
+class student { public : 
+int matricol; 
+int ss (int okk){
+  int asdadaadsads;
+}
+}
 int s ( int ok )
 {
  int k;
@@ -16,6 +21,7 @@ int Eval ( int alabala, int aaa)
 begin_progr
   int a;
   int b;
+  int kk [110];
   float ccc;
   ccc = 1/2;
   string test2;

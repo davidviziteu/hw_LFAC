@@ -16,6 +16,7 @@ enum data_type {__int, __char, __string, __bool};
 
 struct var{
           char  id[100], type[100], value[100], scope[100], where[100];
+          char *string_arr_value[100];
           int is_arr, arr_len;
           };
  
@@ -69,7 +70,7 @@ int val_expr;
 }
 
 %token <strval>ID <strval>TIP BGIN END CONST ASSIGN VIS CLASS IF WHILE FOR OP_BIN OP_STR BOOL <strval>STRING AND OR NOT '.'    
-%token <strval>FLOAT <number>NR <intval>ARR_ACCESS
+%token <strval>FLOAT <number>NR <intval>ARR_ACCESS <strval>CHR
 %type <number> operatii <blval>bool <blval>operatii_binare
 %left '+' '-'
 %left '*' '/'
@@ -203,8 +204,8 @@ declaratiecl
                     else
                          yyerror(); 
                }
-     | TIP ID '(' lista_param ')'  {}
-     | TIP ID '(' ')'    {}
+     | TIP ID '(' lista_param ')' {}
+     | TIP ID '(' ')' {}
      ;
       
 /* bloc */
@@ -220,7 +221,7 @@ list
 
 statement
     :ID ASSIGN operatii {
-        // printf("id assign operatii result: %f\n", $3.value);
+        printf("%s assign operatii result: %f\n", $1,$3.value);
         struct var * dol1; //era pera lung "dollar"
         dol1 = get_var_from_table($1);
         if (dol1 == NULL)
@@ -241,6 +242,31 @@ statement
             strcpy(dol1->value, temp);
         }
     }
+    | ID ARR_ACCESS ASSIGN operatii {
+        printf("id[arr] assign operatii result: %f\n", $4.value);
+        struct var * dol1; //era pera lung "dollar"
+        dol1 = get_var_from_table($1);
+        if (dol1 == NULL)
+            {yyerror(); printf("undeclared arr: %s\n", $1); return 0;}
+        else 
+        if(dol1->is_arr == 0) {yyerror(); printf("%s is not an array\n", $1); return 0;}
+        else
+        if(dol1->arr_len >= $2) {yyerror(); printf("accessing index out of bound of array %s\n", $1); return 0;}
+        if(strcmp(dol1->type, "float") == 0){
+            char temp[100];
+            sprintf(temp, "%f", $4.value);
+            strcpy(dol1->value, temp);
+        }
+        else 
+        if(strcmp(dol1->type, "int") == 0){
+            if($4.is_float > 0)
+                {printf("WARNING casting floating number to int variable: %s\n", $1);}
+            char temp[100];
+            sprintf(temp, "%d", (int)$4.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
+            // printf("%s assign %d\n", $1, (int)$3.value); 
+            strcpy(dol1->value, temp);
+        }
+    }
     | ID ASSIGN ID {
         struct var * dol1; //era pera lung "dollar"
         dol1 = get_var_from_table($1);
@@ -254,18 +280,19 @@ statement
              if((same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) 
                  update_var_s(dol1, dol3);
              else{
-                  yyerror(); ++err_count;
+                  yyerror(); 
                   printf("trying to do operation on variables of different scopes: %s , %s\n", dol1->id, dol3->id);
                   break;
              }
         }
     }
     | TIP ID ARR_ACCESS {
-        //decl main arrays
+        printf("declared array %d\n", $3);
+        if($3 > 100) {yyerror(""),printf("\tmax arr size is 100 and you declared %d\n", $3); return 0;}
         struct var * dol2;
         dol2 = get_var_from_table($2);
         if (dol2 != NULL && (same_scope(dol2->id, $2)))
-            {yyerror(), printf("already declared variable: %s\n", $2); return 0;}
+            {yyerror(), printf("already declared array: %s\n", $2); return 0;}
         strcpy(tabel_var[total_vars].id, $2);
         strcpy(tabel_var[total_vars].type, $1);
         strcpy(tabel_var[total_vars].value, "default");
@@ -275,48 +302,46 @@ statement
         total_vars++;
     }
     | TIP ID  { 
-                    if(ok_fun==0)
-                    {
-                         var_in_fun=total_vars;
-                         ok_fun=1;
-                    }
+        printf("declarare tip id\n");
+        if(ok_fun==0)
+        {
+             var_in_fun=total_vars;
+             ok_fun=1;
+        }
  
-                    if(exists_in_var_table($2)==0)
-                    {
-                         strcpy(tabel_var[total_vars].id, $2);
-                         strcpy(tabel_var[total_vars].type, $1);
-                         strcpy(tabel_var[total_vars].value, "default");
-                         strcpy(tabel_var[total_vars].scope, "main");
-                         total_vars++;
-                        //am pus in main sa scrie in tabel la sfarsit
-                    }
-                    else
-                         {yyerror(), printf("already declared variable: %s\n", $2); return 0;} 
-                    // printf("%d\n", ok_fun);
-                    if(ok_fun==1)
-                    {
-                         strcpy(tabel_var[total_vars].scope, "functie");
-                    }
-               }
+        if(exists_in_var_table($2)==0)
+        {
+             strcpy(tabel_var[total_vars].id, $2);
+             strcpy(tabel_var[total_vars].type, $1);
+             strcpy(tabel_var[total_vars].value, "default");
+             strcpy(tabel_var[total_vars].scope, "main");
+             total_vars++;
+        }
+        else
+             {yyerror(), printf("already declared variable1: %s\n", $2); return 0;} 
+        // printf("%d\n", ok_fun);
+        if(ok_fun==1)
+        {
+             strcpy(tabel_var[total_vars].scope, "functie");
+        }
+    }
     | ID '(' ')' {      
         printf("apel functie din main\n");
         if(exists_function($1)==0)
             {yyerror(), printf("call to undeclared function: %s\n", $1); return 0;}
     }
-    | ID '(' lista_apel ')' 
-                                {
-                                    printf("apel funectie din main + lista apel\n");
-                                    if(exists_function($1)==0)
-                                        yyerror();
-                                    ///
-                                    ///////////////////////////////////////////////////////////////////
-                                    ///////////////////////////////////////////////////////////////////
-                                    //TREBUIE FACUT UN VECTOR DE TIPURI PENTRU APEL SI VERIFICAT DACA ARE ACELASI TIP CU VARIABILELE 
-                                    //DIN FUNCTIA DECLARATA MAI SUS
-                                    /////////////////////////////////////////////
-
-                                    ////////////////////////////////
-                                }
+    | ID '(' lista_apel ')' {
+        printf("apel funectie din main + lista apel\n");
+        if(exists_function($1)==0)
+            yyerror();
+        ///
+        ///////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////
+        //TREBUIE FACUT UN VECTOR DE TIPURI PENTRU APEL SI VERIFICAT DACA ARE ACELASI TIP CU VARIABILELE 
+        //DIN FUNCTIA DECLARATA MAI SUS
+        /////////////////////////////////////////////
+        ////////////////////////////////
+    }
     | IF '(' bool ')' '{' list '}'     {}
     | WHILE '(' bool ')' '{' list '}'  {}
     | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {}
@@ -332,27 +357,26 @@ operatii
     ;
 /* instructiune */
 decl_gl 
-     : declaratie ';'   {strcpy(tabel_var[total_vars].scope, "global");}
-     | decl_gl declaratie ';' {strcpy(tabel_var[total_vars].scope, "global");}
-     ;
+    : declaratie ';'   {strcpy(tabel_var[total_vars].scope, "global");}
+    | decl_gl declaratie ';' {strcpy(tabel_var[total_vars].scope, "global");}
+    ;
  
 declaratie 
-     : TIP ID  {
-                    if(exists_in_var_table($2)==0)
-                    {
-                         strcpy(tabel_var[total_vars].id, $2);
-                         strcpy(tabel_var[total_vars].type, $1);
-                         strcpy(tabel_var[total_vars].value, "default");
-                         strcpy(tabel_var[total_vars].scope, "global");
-                         total_vars++;
-                         snprintf(buffer, 100,"%s %s\n", $1 , $2);
-                         fprintf(fd, "%s", buffer);}
-                    else
-                         yyerror(); 
-               }
-     | TIP ID '(' lista_param ')'  {printf("var: %s\n", $2);}
-     | TIP ID '(' ')'    {}
-     ;
+    : TIP ID  {
+        if(exists_in_var_table($2)==0)
+        {
+             strcpy(tabel_var[total_vars].id, $2);
+             strcpy(tabel_var[total_vars].type, $1);
+             strcpy(tabel_var[total_vars].value, "default");
+             strcpy(tabel_var[total_vars].scope, "global");
+             total_vars++;
+        }
+        else
+             yyerror(); 
+    }
+    | TIP ID '(' lista_param ')'  {printf("var: %s\n", $2);}
+    | TIP ID '(' ')' {}
+    ;
 
 lista_apel 
     : NR {printf("small rule\n");}
@@ -360,7 +384,7 @@ lista_apel
         struct var * dol1;
         dol1 = get_var_from_table($1);
         if (dol1 == NULL)
-            {yyerror(), printf("function call with undeclared variable: %s\n", $2); return 0;} 
+            {yyerror(), printf("function call with undeclared variable: %s\n", $1); return 0;} 
 
     }
     | ID ARR_ACCESS{
@@ -370,6 +394,8 @@ lista_apel
     | lista_apel ',' ID {}
     | lista_apel ',' ID '(' lista_apel ')' {/*idk man*/}
     | lista_apel ',' ID '(' ')' {}
+    | lista_apel ',' STRING {}
+    | lista_apel ',' 
     ;
 ////////////////////////////////////////////////////////////////////////////
 
@@ -392,7 +418,7 @@ operatii_binare
 %%
  
 void yyerror(char * s){
-printf("eroare: %s la linia:%d\n",s,yylineno);
+printf("eroare: %s la linia: %d\n",s,yylineno);
 errors++;
 }
  
@@ -662,13 +688,13 @@ int stack_pop(){
 void var_assign(struct var *to, struct var * from){
     if(!same_type_s(to, from)){
         yyerror("");
-        ++err_count;
+        
         printf("assigning incompatible types: %s <- %s (%s = %s)\n", 
             to->type, from->type, to->id, from->id);
     }
     if(strcmp(from->value, "default") == 0){
         yyerror("");
-        ++err_count;
+        
         printf("assigning with uninitialised variable: %s = %s (<- this is uninitialised)\n", 
             to->id, from->id);
     }
@@ -700,8 +726,6 @@ void var_assign(struct var *to, struct var * from){
 gcc lex.yy.c y.tab.c
  
 todo:
--avem operatii cu int (NR), trebuie adaugate ca operatii si cele cu float
--trebuie actualizata valoarea unei variabile atunci cand este de forma x=x+y (cand sunt operatii)
 -adaugarea vectorilor
 -adaugare in vector (verific daca nu depasesc lungimea)
 -de adaugat operatii cu stringuri (strlen, strcpy, strcat <este deja la laborator>)

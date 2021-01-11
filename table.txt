@@ -182,3 +182,1581 @@ fun decl 3:
 	        Eval    	(int )
 	int     s       	(int )
 	int     Eval    	(int int )
+salutareint c
+int matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa      student    
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 3:
+	retType fnc       
+	        Eval    	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint c
+int matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa      student    
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 3:
+	retType fnc       
+	        Eval    	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+Au fost gasite erori de compilare
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie               
+fun decl 1:
+	retType fnc       
+	        Eval    	(int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              3               int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              3               int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              3               int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              3               int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              3               int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              3               int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              3               int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              3               int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              3               int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              3               int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              3               int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+Au fost gasite erori de compilare
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               default         int             main                  
+	b               default         int             main                  
+	kk              default         int        yes  main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+Au fost gasite erori de compilare
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               default         int             main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+Au fost gasite erori de compilare
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               default         int             main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+Au fost gasite erori de compilare
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               default         int             main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+Au fost gasite erori de compilare
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               default         int             main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+Au fost gasite erori de compilare
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               default         int             main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+Au fost gasite erori de compilare
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               default         int             main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+Au fost gasite erori de compilare
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               default         int             main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+Au fost gasite erori de compilare
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               default         int             main                  
+	b               default         int             main                  
+	kk              default         int             main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+
+
+Program corect sintactic!
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               12              int             main                  
+	b               12              int             main                  
+	kk              default         int        yes  main                  
+	ccc             0.500000        float           main                  
+	test2           default         string          main                  
+	test3           default         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+Au fost gasite erori de compilare
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               default         int             main                  
+	b               default         int             main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+Au fost gasite erori de compilare
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               default         int             main                  
+	b               default         int             main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
+salutareint matricol
+Au fost gasite erori de compilare
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	k               default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Eval       
+	aaa             default         int             functie    Eval       
+	ksk             4               int             functie    Eval       
+	a               default         int             main                  
+	b               default         int             main                  
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Eval    	(int int )
