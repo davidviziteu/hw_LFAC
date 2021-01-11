@@ -288,7 +288,7 @@ statement
     }
     | TIP ID ARR_ACCESS {
         printf("declared array %d\n", $3);
-        if($3 > 100) {yyerror(""),printf("\tmax arr size is 100 and you declared %d\n", $3); return 0;}
+        if($3 > 100) {yyerror(""), printf("\tmax arr size is 100 and you declared %d\n", $3); return 0;}
         struct var * dol2;
         dol2 = get_var_from_table($2);
         if (dol2 != NULL && (same_scope(dol2->id, $2)))
@@ -354,6 +354,9 @@ operatii
     | operatii '*' operatii { $$.value = $1.value * $3.value; $$.is_float = $1.is_float + $3.is_float; }
     | operatii '/' operatii { $$.value = $1.value / $3.value; $$.is_float = $1.is_float + $3.is_float; }
     | NR { $$.value = $1.value; $$.is_float = $1.is_float; }
+    | ID ARR_ACCESS {
+        
+    }
     ;
 /* instructiune */
 decl_gl 
