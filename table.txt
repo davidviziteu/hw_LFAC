@@ -1,3 +1,4 @@
+Var table:
 
 
 Program corect sintactic!
@@ -23,9 +24,15 @@ Program corect sintactic!
 	ms              default         float           main                  
 	test            default         bool            main                  
 	char_Example    default         char            main                  
+
 fun decl 4:
 	retType fnc       
 	        Eval    	(int )
 	int     ss      	(int )
 	int     s       	(int )
 	int     Eval    	(int int )
+
+arrays:
+	type    id              content   
+	int     kk              
+

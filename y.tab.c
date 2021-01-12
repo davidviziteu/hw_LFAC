@@ -89,8 +89,8 @@ char buffer[100];
 
 struct var{
           char  id[100], type[100], value[100], scope[100], where[100];
-          char *string_arr_value[100]; float floats[100]; int ints[100];
-          int is_arr, arr_len;
+          char *arr_data[100];
+          int is_arr, arr_len, idx_init[100];
           };
  
 struct signature{
@@ -1668,7 +1668,7 @@ yyreduce:
                          strcpy(tabel_var[total_vars].where, nume_clasa);
                         //  printf("NUME: CLASA : %s\n", nume_clasa);
                          total_vars++;
-                         snprintf(buffer, 100,"%s %s\n", (yyvsp[-1].strval) , (yyvsp[0].strval));
+                         
                          }
                     else
                          yyerror(); 
@@ -1987,7 +1987,7 @@ yyreduce:
 
   case 34:
 #line 438 "limbaj.y"
-                            { (yyval.number).value = (yyvsp[-2].number).value / (yyvsp[0].number).value; (yyval.number).type_err = ((yyvsp[-2].number).type != (yyvsp[0].number).type); (yyval.number).type = (yyvsp[-2].number).type;}
+                            { if((yyvsp[0].number).value == 0) printf("aoleu, imparti la 0\n");(yyval.number).value = (yyvsp[-2].number).value / (yyvsp[0].number).value; (yyval.number).type_err = ((yyvsp[-2].number).type != (yyvsp[0].number).type); (yyval.number).type = (yyvsp[-2].number).type;}
 #line 1992 "y.tab.c"
     break;
 
@@ -2425,26 +2425,57 @@ void yyerror(char * s){
 void print_table(FILE* fd, int errs){
     if (fd == NULL) 
         fd = stdout;
+    fprintf(fd, "Var table:\n");
     if (errs == 0) {
         fprintf(fd, "\n\nProgram corect sintactic!\n");
-        } else  fprintf(fd, "Au fost gasite erori de compilare\n"); 
-        fprintf(fd, "\n\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "id", "value", "type", "arr?","scope", "additional");
-        fprintf(fd, "\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "---------", "------", "----","----","-----", "----------");
+    } else  fprintf(fd, "Au fost gasite erori de compilare\n"); 
 
-        for (int i = 0; i < total_vars; i++)
-            fprintf(fd, "\t%-15s %-15s %-10s %-4s %-10s %-10s \n", tabel_var[i].id, tabel_var[i].value, tabel_var[i].type, (tabel_var[i].is_arr == 1 ? "yes" : "   ") ,tabel_var[i].scope, tabel_var[i].where);
-        fprintf(fd, "fun decl %d:\n", total_fnc);
-            fprintf(fd, "\t%-7s %-10s\n", "retType", "fnc");
-        for (int i = 0; i < total_fnc; i++){
-            fprintf(fd, "\t%-7s %-7s ", tabel_fnc[i].ret_type, tabel_fnc[i].nume);
-            fprintf(fd, "\t(");
-            for(int ii = 0; ii < tabel_fnc[i].params_count; ++ii)
-               fprintf(fd, "%-4s", tabel_fnc[i].param_types[ii]);
-            fprintf(fd, ")\n");
+    fprintf(fd, "\n\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "id", "value", "type", "arr?","scope", "additional");
+    fprintf(fd, "\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "---------", "------", "----","----","-----", "----------");
+
+    for (int i = 0; i < total_vars; i++)
+        fprintf(fd, "\t%-15s %-15s %-10s %-4s %-10s %-10s \n", tabel_var[i].id, tabel_var[i].value, tabel_var[i].type, (tabel_var[i].is_arr == 1 ? "yes" : "   ") ,tabel_var[i].scope, tabel_var[i].where);
+    fprintf(fd, "\nfun decl %d:\n", total_fnc);
+        fprintf(fd, "\t%-7s %-10s\n", "retType", "fnc");
+    for (int i = 0; i < total_fnc; i++){
+        fprintf(fd, "\t%-7s %-7s ", tabel_fnc[i].ret_type, tabel_fnc[i].nume);
+        fprintf(fd, "\t(");
+        for(int ii = 0; ii < tabel_fnc[i].params_count; ++ii)
+           fprintf(fd, "%-4s", tabel_fnc[i].param_types[ii]);
+        fprintf(fd, ")\n");
+    }
+    fprintf(fd, "\narrays:\n");
+    fprintf(fd, "\t%-7s %-15s %-10s\n", "type", "id", "content");
+    for (int i = 0; i < total_vars; i++){
+        if(tabel_var[i].is_arr == 1){
+            fprintf(fd, "\t%-7s %-15s ", tabel_var[i].type, tabel_var[i].id);
+            for(int ii = 0; ii < tabel_var[i].arr_len; ++ii){
+                if(tabel_var[i].idx_init[ii] == 0)
+                    continue;
+                if(strcmp(tabel_var[i].type, "int") == 0 || strcmp(tabel_var[i].type, "bool") == 0){
+                    int temp = 0;
+                    sscanf(tabel_var[i].arr_data[ii], "%d", &temp);
+                    fprintf(fd, "%d ", temp);
+                } 
+                if(strcmp(tabel_var[i].type, "char") == 0){
+                    int temp;
+                    sscanf(tabel_var[i].arr_data[ii], "%d", &temp);
+                    fprintf(fd, "%c ", (char)(temp));
+                }
+                if(strcmp(tabel_var[i].type, "float") == 0){
+                    float temp;
+                    sscanf(tabel_var[i].arr_data[ii], "%f", &temp);
+                    fprintf(fd, "%f ", temp);
+                }
+                if(strcmp(tabel_var[i].type, "string") == 0){
+                    fprintf(fd, "%s ", tabel_var[i].arr_data[ii]);
+                }
+            }
+            fprintf(fd, "\n");
         }
+    }
+    fprintf(fd, "\n");
 }
-
-// FUNCTIA EVAL
  
 int main(int argc, char **argv) {
     strcpy(tabel_fnc[0].nume, "Eval");
@@ -2461,26 +2492,7 @@ int main(int argc, char **argv) {
     yyparse();
 
     print_table(fd, errors);
-    /* if (errors == 0) {
-        printf("\n\nProgram corect sintactic!\n");
-        printf("\n\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "id", "value", "type", "arr?","scope", "additional");
-        printf("\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "---------", "------", "----","----","-----", "----------");
-
-        for (int i = 0; i < total_vars; i++)
-            printf("\t%-15s %-15s %-10s %-4s %-10s %-10s \n", tabel_var[i].id, tabel_var[i].value, tabel_var[i].type, (tabel_var[i].is_arr == 1 ? "yes" : "   ") ,tabel_var[i].scope, tabel_var[i].where);
-        printf("fun decl %d:\n", total_fnc);
-            printf("\t%-7s %-10s\n", "retType", "fnc");
-        for (int i = 0; i < total_fnc; i++){
-            printf("\t%-7s %-7s ", tabel_fnc[i].ret_type, tabel_fnc[i].nume);
-            printf("\t(");
-            for(int ii = 0; ii < tabel_fnc[i].params_count; ++ii)
-               printf("%-4s", tabel_fnc[i].param_types[ii]);
-            printf(")\n");
-        }
-    } else {
-        printf("Au fost gasite erori de compilare\n");
-    } */
-    //SCRIE IN FISIER ACELASI TABEL
+    
     print_table(stdout, errors);
     
 }
@@ -2747,7 +2759,22 @@ float get_float_cast(struct var *from, const int idx){
         }
     }
     else {
-        //trateaza arrays
+        if(strcmp(from->type, "int") == 0 || strcmp(from->type, "bool") == 0){
+            int temp;
+            sscanf(from->arr_data[idx], "%d", &temp);
+            return (float)(temp);
+        }
+        if(strcmp(from->type, "char") == 0){
+            return (float)(from->arr_data[idx][0]);
+        }
+        if(strcmp(from->type, "float") == 0){
+            float temp;
+            sscanf(from->arr_data[idx], "%f", &temp);
+            return (float)(temp);
+        }
+        if(strcmp(from->type, "string") == 0){
+            return 1;
+        }
     }
 }
 
