@@ -28,7 +28,13 @@
 "begin_progr"                       { return BGIN;}
 "end_progr"                         { return END;}                                              
 "int"|"float"|"string"|"bool"|"char" { yylval.strval=strdup(yytext); return TIP;}
-\"[_a-zA-Z0-9 ]*\"                  { yylval.strval=strdup(yytext); strcpy(yylval.strval, yylval.strval + 1); yylval.strval[strlen(yylval.strval)-1] = '\0'; return STRING; }
+\"[_a-zA-Z0-9 ]*\" { 
+    yylval.strval=strdup(yytext); 
+    strcpy(yylval.strval, yytext + 1); 
+    yylval.strval[strlen(yylval.strval)-1] = '\0'; 
+    return STRING; 
+}
+
 \'[_a-zA-Z0-9 ]\'                   {  yylval.number.type=_char; yylval.number.value=yytext[1]; return NR; }
 \[[0-9]+\]                          { 
     yylval.strval=strdup(yytext); 

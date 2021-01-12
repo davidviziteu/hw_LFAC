@@ -234,6 +234,10 @@ statement
         dol1 = get_var_from_table($1);
         if (dol1 == NULL)
             {yyerror(); printf("undeclared var: %s\n", $1); return 0;}
+        int t = get_type(dol1);
+        if(t != $3.type){
+            {yyerror(); printf("the right side of the assignment does not have the same type as left side\n"); return 0;}
+        }
         if($3.type_err > 0)
                 {yyerror(); printf("the right side of the assignment does not have the same type throughout the assignment\n"); return 0;}
         else
@@ -299,7 +303,7 @@ statement
             {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
         if (dol3 == NULL)
             {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
-        if(same_type_s(dol1, &dol3)){
+        if(same_type_s(dol1, dol3)){
             if(strcmp(dol1->type, "string") != 0){
                 yyerror(); 
                 printf("trying to do string operation on non string variables\n");
@@ -309,6 +313,7 @@ statement
                 {yyerror(); printf("accessig var from outer scope: %s\n", $1); return 0;}
             if(strcmp(dol3->scope, "main") != 0 && strcmp(dol3->scope, "global") != 0)
                 {yyerror(); printf("accessig var from outer scope: %s\n", $3); return 0;}
+                
             var_assign(dol1, dol3);
         }
         else{
@@ -389,6 +394,8 @@ statement
             {yyerror(), printf("undeclared var: %s\n", $3); return 0;}
         if(strcmp(dol3->value, "default") == 0)
             {yyerror(), printf("uninitialised string: %s\n", $3); return 0;}
+        if(strcmp(dol1->value, "default") == 0)
+            {yyerror(), printf("uninitialised string: %s\n", $1); return 0;}
         if(same_type_s(dol1, dol3)){
             if(strcmp(dol1->type, "string") != 0){
                 yyerror(); 
@@ -426,10 +433,10 @@ statement
  
  
 operatii 
-    : operatii '+' operatii { $$.value = $1.value + $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type; if($1.type==_string || $3.type == _string) {yyerror(); printf("illegal operation on string var\n"); return 0;}}
-    | operatii '-' operatii { $$.value = $1.value - $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type; if($1.type==_string || $3.type == _string) {yyerror(); printf("illegal operation on string var\n"); return 0;}}
-    | operatii '*' operatii { $$.value = $1.value * $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type; if($1.type==_string || $3.type == _string) {yyerror(); printf("illegal operation on string var\n"); return 0;}}
-    | operatii '/' operatii { $$.value = $1.value / $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type; if($1.type==_string || $3.type == _string) {yyerror(); printf("illegal operation on string var\n"); return 0;}}
+    : operatii '+' operatii { $$.value = $1.value + $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
+    | operatii '-' operatii { $$.value = $1.value - $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
+    | operatii '*' operatii { $$.value = $1.value * $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
+    | operatii '/' operatii { $$.value = $1.value / $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
     | variable {/*NON STRING VARIABLE*/}
     ;
 
@@ -447,8 +454,11 @@ variable
         if(strcmp(dol1->value, "default") == 0){
             {yyerror(); printf("uninitialised var on the right side: %s\n", $1); return 0;}
         }
-        $$.value = get_float_cast(dol1, -1);
         $$.type = get_type(dol1);
+        if($$.type == _string){
+            {yyerror(); printf("illegal opreration on string variable: %s\n", $1); return 0;}
+        }
+        $$.value = get_float_cast(dol1, -1);
         $$.type_err = 0;
     }
     | ID ARR_ACCESS {

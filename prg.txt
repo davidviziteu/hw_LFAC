@@ -17,28 +17,26 @@ int Eval ( int alabala, int aaa)
  ksk = 4;
 }
 
-
 begin_progr
   int a;
   int b;
   int kk [10];
   bool b_example;
   float ccc;
-  ccc = 1/2;
-  string test2;
-  string test1;
-  test2 strcpy "1haha";
-  test1 strcpy "abra";
-  test2 strcat test1;
+  ccc = 1.1 / 1.1;
+  string str_ex1;
+  string str_ex2;
+  str_ex1 strcpy "abra";
+  str_ex2 strcpy "cadabra";
+  str_ex1 strcat str_ex2;
   float ms;
   bool test;
-  s();
   s (12);  
   char char_Example;
   char_Example = 'a';
   a = 5;
   kk[1] = 1 + a;
-  b_example = 1;
+  b_example = true;
   b = 1 + a;
 end_progr
 
