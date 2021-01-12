@@ -22,7 +22,13 @@ begin_progr
   float ms;
   s (12);  
   a = 3 + 1;
-  b = a; 
+  b = 9; 
+  if ( true ); 
+  {
+    a= 5 + 4;
+  };
+  int km; 
+  km = 9123;
 end_progr
 
 

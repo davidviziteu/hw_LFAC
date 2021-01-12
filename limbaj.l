@@ -23,13 +23,12 @@ struct var{
 "if"                                { return IF;}
 "while"                             { return WHILE;}
 "for"                               { return FOR;}
-"true"|"false"                      { return BOOL;}
+"true"|"false"                      { yylval.strval=strdup(yytext); return BOOL;}
 "or"|"and"|">"|"<"|"not"            { return OP_BIN;}
 "strcpy"|"strlen"|"strcat"          { return OP_STR;}
 [_a-zA-Z][_a-zA-Z0-9]*              { yylval.strval=strdup(yytext); return ID;}
 "="                                 { return ASSIGN;}
-
- 
+"endif"                             { yylval.strval=strdup(yytext); return ENDIF;}
 ("+"|"-")?([0-9]+)                  { yylval.intval=atoi(yytext); return NR;} 
 ("+"|"-")?([0-9]+)?"."([0-9]+)?     { yylval._float=atof(yytext); yylval.strval=strdup(yytext); return FLOAT;}
 "+" {return ('+');}

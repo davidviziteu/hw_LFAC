@@ -53,18 +53,19 @@ extern int yydebug;
     TIP = 259,
     BGIN = 260,
     END = 261,
-    CONST = 262,
-    ASSIGN = 263,
-    VIS = 264,
-    CLASS = 265,
-    IF = 266,
-    WHILE = 267,
-    FOR = 268,
-    OP_BIN = 269,
-    OP_STR = 270,
-    BOOL = 271,
-    FLOAT = 272,
-    NR = 273
+    ENDIF = 262,
+    CONST = 263,
+    ASSIGN = 264,
+    VIS = 265,
+    CLASS = 266,
+    IF = 267,
+    WHILE = 268,
+    FOR = 269,
+    OP_BIN = 270,
+    OP_STR = 271,
+    BOOL = 272,
+    FLOAT = 273,
+    NR = 274
   };
 #endif
 /* Tokens.  */
@@ -72,18 +73,19 @@ extern int yydebug;
 #define TIP 259
 #define BGIN 260
 #define END 261
-#define CONST 262
-#define ASSIGN 263
-#define VIS 264
-#define CLASS 265
-#define IF 266
-#define WHILE 267
-#define FOR 268
-#define OP_BIN 269
-#define OP_STR 270
-#define BOOL 271
-#define FLOAT 272
-#define NR 273
+#define ENDIF 262
+#define CONST 263
+#define ASSIGN 264
+#define VIS 265
+#define CLASS 266
+#define IF 267
+#define WHILE 268
+#define FOR 269
+#define OP_BIN 270
+#define OP_STR 271
+#define BOOL 272
+#define FLOAT 273
+#define NR 274
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -98,7 +100,7 @@ union YYSTYPE
      int _float; 
      char * _string;
 
-#line 102 "y.tab.h"
+#line 104 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

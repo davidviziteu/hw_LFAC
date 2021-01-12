@@ -35,7 +35,7 @@ struct var stack[1000];
 char nume_clasa[100], nume_functie[100];
 struct signature tabel_fnc[100];
 struct signature new_function_buff;
-int total_vars=0, errors=0, total_fnc=1, param=0, var_in_class, ok=0, var_in_fun, ok_fun;
+int total_vars=0, errors=0, total_fnc=1, param=0, conditie, var_in_class, ok=0, var_in_fun, ok_fun;
 int err_count = 0;
 char scope[100], scope2[100];
 int stack_idx = 0;
@@ -73,7 +73,7 @@ int val_expr;
 }
 
 
-%token <strval>ID <strval>TIP BGIN END CONST ASSIGN VIS CLASS IF WHILE FOR OP_BIN OP_STR BOOL
+%token <strval>ID <strval>TIP BGIN END ENDIF CONST ASSIGN VIS CLASS IF WHILE FOR OP_BIN OP_STR BOOL
 %token <strval>FLOAT <intval>NR  
 %type <intval>operatii
 %left '+' '-'
@@ -229,7 +229,7 @@ bloc
 /* lista instructiuni */
 list 
      :  statement ';'    {
-                              ;//cod
+                             printf("am intrati cii dupa if\n") ;//cod
                          }
      | list statement ';'     {
                                    ;//cod
@@ -288,16 +288,18 @@ declaratie
  
 statement
      :   ID ASSIGN operatii   {
-                                 printf("id assign operatii\n");
+                                if(conditie==0)
+                                {printf("id assign operatii\n");
                                  if (exists_in_var_table($1)==0 )
                                       yyerror();
                                  
                                  printf("%s := %d\n", $1, val_expr);
                                  update_var_int($1, val_expr);
+                                }
                             }
      | ID ASSIGN ID {
-
-                    printf("id op id\n");
+                    if(conditie==0)
+                    {printf("id op id\n");
                          struct var * dol1; //era pera lung "dollar"
                          struct var * dol3;
                          dol1 = get_var_from_table($1);
@@ -324,11 +326,9 @@ statement
                                    break;
                               }
                          }
-                         
                     }
-     | IF '(' bool ')' '{' list '}'     {
-                                             ;//cod
-                                        }
+                    }
+
      | WHILE '(' bool ')' '{' list '}'  {
                                              ;//cod
                                         }
@@ -337,6 +337,8 @@ statement
                                                                            }
 
      | TIP ID  { 
+                    if(conditie==0)
+                    {
                     if(ok_fun==0)
                     {
                          var_in_fun=total_vars;
@@ -360,6 +362,7 @@ statement
                     {
                          strcpy(tabel_var[total_vars].scope, "functie");
                     }
+                    }
                }
         | ID '(' ')' {                          //apel functie fara param
                             if(exists_function($1)==0)
@@ -382,8 +385,15 @@ statement
 
                                     ////////////////////////////////
                                 }
+        | instructiune_if
      ;
- 
+instructiune_if : IF '(' bool ')'{ 
+                        if(strcmp("true", "true")==0) { conditie=1; goto s3; }
+                        else {goto s4; conditie=0;}
+                         } 
+                | '{'' ''}' { s3: printf("nu mi place aici \n"); conditie=0;}
+                | '{' list { printf("HEI AM SARIT PESTE ASTA\n"); } '}'  {s4: printf("am iesit"); conditie=0;}  
+                ;
 lista_apel 
      : NR {
                ;//cod
