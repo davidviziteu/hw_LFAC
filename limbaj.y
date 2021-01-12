@@ -537,14 +537,60 @@ lista_apel
 
 //////////////TREBUIE ADAUGATE OPERATII PE BOOL SI STRING 
 /////////////////////////////////////////////////////////////
- bool 
-     :      BOOL    {}
-     | operatii_binare    {}
-     ;
+bool 
+    : BOOL {
+        if(strcmp($1, "true") == 0) {$$ = 1; return 0;}
+        if(strcmp($1, "false") == 0) {$$ = 0; return 0;}
+    }
+    | operatii_binare { $$ = $1; }
+    ;
  
-operatii_binare 
-     : ID OP_BIN ID    {}
-     ;
+operatii_binare
+    : ID OP_BIN ID {
+        printf("op binare\n");
+        struct var * dol1;
+        struct var * dol3;
+        dol1 = get_var_from_table($1);
+        dol3 = get_var_from_table($3);
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared var: %s", $1); return 0;}
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared var: %s", $3); return 0;}
+        if(same_type_s(dol1, dol3) && (same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) {
+            if(strcmp($2, "||")==0) {
+                if(strcmp(dol1->type, "string")==0)
+                return 0;
+            }
+            if(strcmp($2, "&&")==0){
+                return 0;
+            }
+            if(strcmp($2, ">")==0){
+                return 0;
+            }
+            if(strcmp($2, "<")==0){
+                return 0;
+            }
+            if(strcmp($2, "!")==0){
+                return 0;
+            }
+            if(strcmp($2, "<=")==0){
+                return 0;
+            }
+            if(strcmp($2, ">=")==0){
+                return 0;
+            }
+            if(strcmp($2, "!=")==0){
+                return 0;
+            }
+        }
+        else{
+            yyerror(); 
+            printf("trying to do binary operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3->type);
+            return 0;
+        }
+    }
+    ;
+
 %%
  
 void yyerror(char * s){ 

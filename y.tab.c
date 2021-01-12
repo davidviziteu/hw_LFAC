@@ -629,7 +629,7 @@ static const yytype_int16 yyrline[] =
      264,   296,   324,   339,   363,   385,   411,   416,   428,   429,
      430,   435,   436,   437,   438,   439,   443,   444,   463,   483,
      484,   488,   500,   513,   514,   518,   519,   526,   529,   530,
-     531,   532,   533,   534,   541,   542,   546
+     531,   532,   533,   534,   541,   545,   549
 };
 #endif
 
@@ -2165,24 +2165,69 @@ yyreduce:
 
   case 54:
 #line 541 "limbaj.y"
-                    {}
-#line 2170 "y.tab.c"
+           {
+        if(strcmp((yyvsp[0].strval), "true") == 0) {(yyval.blval) = 1; return 0;}
+        if(strcmp((yyvsp[0].strval), "false") == 0) {(yyval.blval) = 0; return 0;}
+    }
+#line 2173 "y.tab.c"
     break;
 
   case 55:
-#line 542 "limbaj.y"
-                          {}
-#line 2176 "y.tab.c"
+#line 545 "limbaj.y"
+                      { (yyval.blval) = (yyvsp[0].blval); }
+#line 2179 "y.tab.c"
     break;
 
   case 56:
-#line 546 "limbaj.y"
-                       {}
-#line 2182 "y.tab.c"
+#line 549 "limbaj.y"
+                   {
+        printf("op binare\n");
+        struct var * dol1;
+        struct var * dol3;
+        dol1 = get_var_from_table((yyvsp[-2].strval));
+        dol3 = get_var_from_table((yyvsp[0].strval));
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared var: %s", (yyvsp[-2].strval)); return 0;}
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared var: %s", (yyvsp[0].strval)); return 0;}
+        if(same_type_s(dol1, dol3) && (same_scope((yyvsp[-2].strval), (yyvsp[0].strval)) || (strcmp(get_var_scope((yyvsp[0].strval)),"globala")==0))) {
+            if(strcmp((yyvsp[-1].strval), "||")==0){
+                if(strcmp(dol1->type, "string")==0)
+                return 0;
+            }
+            if(strcmp((yyvsp[-1].strval), "&&")==0){
+                return 0;
+            }
+            if(strcmp((yyvsp[-1].strval), ">")==0){
+                return 0;
+            }
+            if(strcmp((yyvsp[-1].strval), "<")==0){
+                return 0;
+            }
+            if(strcmp((yyvsp[-1].strval), "!")==0){
+                return 0;
+            }
+            if(strcmp((yyvsp[-1].strval), "<=")==0){
+                return 0;
+            }
+            if(strcmp((yyvsp[-1].strval), ">=")==0){
+                return 0;
+            }
+            if(strcmp((yyvsp[-1].strval), "!=")==0){
+                return 0;
+            }
+        }
+        else{
+            yyerror(); 
+            printf("trying to do binary operation on variables of different types: %s %s %s\n", dol1->type, (yyvsp[-1].strval), dol3->type);
+            return 0;
+        }
+    }
+#line 2227 "y.tab.c"
     break;
 
 
-#line 2186 "y.tab.c"
+#line 2231 "y.tab.c"
 
       default: break;
     }
@@ -2414,7 +2459,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 548 "limbaj.y"
+#line 594 "limbaj.y"
 
  
 void yyerror(char * s){ 

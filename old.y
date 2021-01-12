@@ -273,7 +273,7 @@ bool
     }
     | operatii_binare { $$ = $1; }
     ;
- 
+
 operatii_binare
     : ID OP_BIN ID {
         printf("op binare\n");
