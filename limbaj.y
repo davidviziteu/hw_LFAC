@@ -10,7 +10,6 @@ extern FILE* yyin;
 extern char* yytext;
 extern int yylineno;
 char buffer[100];
-FILE* fd;
  
 
 #define _int 1
@@ -21,7 +20,7 @@ FILE* fd;
 
 struct var{
           char  id[100], type[100], value[100], scope[100], where[100];
-          char *string_arr_value[100]; float floats[100]; int ints[100];
+          char *string_arr_value[100]; float arr_val[100];
           int is_arr, arr_len;
           };
  
@@ -207,8 +206,8 @@ declaratiecl
                          strcpy(tabel_var[total_vars].where, nume_clasa);
                         //  printf("NUME: CLASA : %s\n", nume_clasa);
                          total_vars++;
-                         snprintf(buffer, 100,"%s %s\n", $1 , $2);
-                         fprintf(fd, "%s", buffer);}
+                         
+                         }
                     else
                          yyerror(); 
                }
@@ -548,11 +547,42 @@ operatii_binare
      ;
 %%
  
-void yyerror(char * s){
-printf("eroare: %s la linia: %d\n",s,yylineno);
-errors++;
+void yyerror(char * s){ 
+    printf("eroare: %s la linia: %d\n", s ,yylineno); 
+    errors++; 
 }
  
+void print_table(FILE* fd, int errs){
+    if (fd == NULL) 
+        fd = stdout;
+    if (errs == 0) {
+        fprintf(fd, "\n\nProgram corect sintactic!\n");
+    } else  fprintf(fd, "Au fost gasite erori de compilare\n"); 
+
+    fprintf(fd, "\n\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "id", "value", "type", "arr?","scope", "additional");
+    fprintf(fd, "\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "---------", "------", "----","----","-----", "----------");
+
+    for (int i = 0; i < total_vars; i++)
+        fprintf(fd, "\t%-15s %-15s %-10s %-4s %-10s %-10s \n", tabel_var[i].id, tabel_var[i].value, tabel_var[i].type, (tabel_var[i].is_arr == 1 ? "yes" : "   ") ,tabel_var[i].scope, tabel_var[i].where);
+    fprintf(fd, "\nfun decl %d:\n", total_fnc);
+        fprintf(fd, "\t%-7s %-10s\n", "retType", "fnc");
+    for (int i = 0; i < total_fnc; i++){
+        fprintf(fd, "\t%-7s %-7s ", tabel_fnc[i].ret_type, tabel_fnc[i].nume);
+        fprintf(fd, "\t(");
+        for(int ii = 0; ii < tabel_fnc[i].params_count; ++ii)
+           fprintf(fd, "%-4s", tabel_fnc[i].param_types[ii]);
+        fprintf(fd, ")\n");
+    }
+    fprintf(fd, "\narrays:\n", total_fnc);
+    fprintf(fd, "\n\t%-7s %-15s %-10s\n", "type", "id", "content");
+    for (int i = 0; i < total_vars; i++){
+        if(var_table[i].is_arr == 1){
+            
+        }
+    }
+
+}
+
 // FUNCTIA EVAL
  
 int main(int argc, char **argv) {
@@ -561,15 +591,16 @@ int main(int argc, char **argv) {
     tabel_fnc[0].is_method = 0;
     tabel_fnc[0].params_count = 1;
     
-    
-    fd = fopen("table.txt", "ab+");
-    fprintf(fd, "salutare");
+    FILE* fd;
+    fd = fopen("table.txt", "w");
     if (fd == NULL) {
         printf("eroare");
-    }
+    } 
     yyin = fopen(argv[1], "r");
     yyparse();
-    if (errors == 0) {
+
+    print_table(fd, errors);
+    /* if (errors == 0) {
         printf("\n\nProgram corect sintactic!\n");
         printf("\n\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "id", "value", "type", "arr?","scope", "additional");
         printf("\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "---------", "------", "----","----","-----", "----------");
@@ -587,25 +618,9 @@ int main(int argc, char **argv) {
         }
     } else {
         printf("Au fost gasite erori de compilare\n");
-    }
+    } */
     //SCRIE IN FISIER ACELASI TABEL
-    if (errors == 0) {
-        fprintf(fd, "\n\nProgram corect sintactic!\n");
-        } else  fprintf(fd, "Au fost gasite erori de compilare\n"); 
-        fprintf(fd, "\n\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "id", "value", "type", "arr?","scope", "additional");
-        fprintf(fd, "\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "---------", "------", "----","----","-----", "----------");
-
-        for (int i = 0; i < total_vars; i++)
-            fprintf(fd, "\t%-15s %-15s %-10s %-4s %-10s %-10s \n", tabel_var[i].id, tabel_var[i].value, tabel_var[i].type, (tabel_var[i].is_arr == 1 ? "yes" : "   ") ,tabel_var[i].scope, tabel_var[i].where);
-        fprintf(fd, "fun decl %d:\n", total_fnc);
-            fprintf(fd, "\t%-7s %-10s\n", "retType", "fnc");
-        for (int i = 0; i < total_fnc; i++){
-            fprintf(fd, "\t%-7s %-7s ", tabel_fnc[i].ret_type, tabel_fnc[i].nume);
-            fprintf(fd, "\t(");
-            for(int ii = 0; ii < tabel_fnc[i].params_count; ++ii)
-               fprintf(fd, "%-4s", tabel_fnc[i].param_types[ii]);
-            fprintf(fd, ")\n");
-        }
+    print_table(stdout, errors);
     
 }
 int exists_in_var_table(char id[100])  //cauta o variabila in tabel_vara, daca exista
@@ -887,6 +902,8 @@ int get_type(struct var * from){
     if(strcmp(from->type, "float") == 0)
         return _float;
 }
+
+
 
 /* 
  lex limbaj.l; yacc -d limbaj.y

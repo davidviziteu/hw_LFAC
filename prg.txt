@@ -7,7 +7,6 @@ int ss (int okk){
 }
 int s ( int ok )
 {
- int k;
  int m;
 }
 
