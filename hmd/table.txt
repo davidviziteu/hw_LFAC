@@ -1,0 +1,44 @@
+
+
+Program corect sintactic!
+Var table:
+
+	id              value           type       arr? scope      additional 
+	---------       ------          ----       ---- -----      ---------- 
+	c               default         int             global                
+	matricol        default         int             clasa                 
+	okk             default         int             functie    ss         
+	asdadaadsads    default         int             functie    ss         
+	ok              default         int             functie    s          
+	m               default         int             functie    s          
+	alabala         default         int             functie    Evala      
+	sal             default         int             functie    Evala      
+	ksk             4               int             functie    Evala      
+	a               2               int             main                  
+	b               3               int             main                  
+	ksk             default         int             main                  
+	kk              default         char       yes  main                  
+	b_example       default         bool            main                  
+	ccc             1.000000        float           main                  
+	str_ex1         abracadabra     string          main                  
+	str_ex2         cadabra         string          main                  
+	ms              default         float           main                  
+	test            default         bool            main                  
+	val             10              int             main                  
+	char_Example    default         char            main                  
+
+fun decl 4:
+	retType fnc       
+	        Eval    	(int )
+	int     ss      	(int )
+	int     s       	(int )
+	int     Evala   	(int int )
+
+arrays:
+	type    id              content   
+	----    --              below     
+	char    kk              
+[0]“ 
+[1]c 
+
+
