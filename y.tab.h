@@ -70,7 +70,8 @@ extern int yydebug;
     FLOAT = 276,
     NR = 277,
     ARR_ACCESS = 278,
-    CHR = 279
+    CHR = 279,
+    STR_ASSIGN = 280
   };
 #endif
 /* Tokens.  */
@@ -96,22 +97,24 @@ extern int yydebug;
 #define NR 277
 #define ARR_ACCESS 278
 #define CHR 279
+#define STR_ASSIGN 280
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 62 "limbaj.y"
+#line 69 "limbaj.y"
 
     char *strval;
     int intval;
     int blval;
     struct nmbr{
         float value;
-        int is_float;
+        int type;
+        int type_err;
     } number;
 
-#line 115 "y.tab.h"
+#line 118 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

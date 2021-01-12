@@ -12,7 +12,12 @@ extern int yylineno;
 char buffer[100];
 FILE* fd;
  
-enum data_type {__int, __char, __string, __bool}; 
+
+#define _int 1
+#define _char 2
+#define _float 3
+#define _bool 4
+#define _string 5
 
 struct var{
           char  id[100], type[100], value[100], scope[100], where[100];
@@ -56,6 +61,8 @@ int same_scope(char x[100], char y[100]) ;
 int exists_function (char x[100]);
 void stack_push(struct var new_elem);
 int stack_pop(); //ASTA DA POP LA INDEX 
+float get_float_cast(struct var *from, const int idx);
+int get_type(struct var * from);
 int val_expr;
 %}
  
@@ -65,13 +72,14 @@ int val_expr;
     int blval;
     struct nmbr{
         float value;
-        int is_float;
+        int type;
+        int type_err;
     } number;
 }
 
 %token <strval>ID <strval>TIP BGIN END CONST ASSIGN VIS CLASS IF WHILE FOR OP_BIN OP_STR BOOL <strval>STRING AND OR NOT '.'    
-%token <strval>FLOAT <number>NR <intval>ARR_ACCESS <strval>CHR
-%type <number> operatii <blval>bool <blval>operatii_binare
+%token <strval>FLOAT <number>NR <intval>ARR_ACCESS <strval>CHR STR_ASSIGN
+%type <number> operatii <blval>bool <blval>operatii_binare <number> variable
 %left '+' '-'
 %left '*' '/'
 %start progr
@@ -215,7 +223,7 @@ bloc
      
 /* lista instructiuni */
 list 
-     :  statement ';'    {}
+     : statement ';'    {}
      | list statement ';'     { }
      ;
 
@@ -226,7 +234,9 @@ statement
         dol1 = get_var_from_table($1);
         if (dol1 == NULL)
             {yyerror(); printf("undeclared var: %s\n", $1); return 0;}
-        else 
+        if($3.type_err > 0)
+                {yyerror(); printf("the right side of the assignment does not have the same type throughout the assignment\n"); return 0;}
+        else
         if(strcmp(dol1->type, "float") == 0){
             char temp[100];
             sprintf(temp, "%f", $3.value);
@@ -234,8 +244,6 @@ statement
         }
         else 
         if(strcmp(dol1->type, "int") == 0){
-            if($3.is_float > 0)
-                {printf("WARNING casting floating number to int variable: %s\n", $1);}
             char temp[100];
             sprintf(temp, "%d", (int)$3.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
             // printf("%s assign %d\n", $1, (int)$3.value); 
@@ -245,7 +253,7 @@ statement
         if(strcmp(dol1->type, "bool") == 0){
             printf("da BOOL\n");
             char temp[100];
-            sprintf(temp, "%d", (bool)$4.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
+            sprintf(temp, "%d", (bool)$3.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
             // printf("%s assign %d\n", $1, (int)$3.value); 
             strcpy(dol1->value, temp);
         }
@@ -267,8 +275,8 @@ statement
         }
         else 
         if(strcmp(dol1->type, "int") == 0){
-            if($4.is_float > 0)
-                {printf("WARNING casting floating number to int variable: %s\n", $1);}
+            if($4.type_err > 0)
+                {yyerror(); printf("the right side of the assignment does not have the same type throughout the assignment\n"); return 0;}
             char temp[100];
             sprintf(temp, "%d", (int)$4.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
             // printf("%s assign %d\n", $1, (int)$3.value); 
@@ -282,23 +290,31 @@ statement
             strcpy(dol1->value, temp);
         }
     }
-    | ID ASSIGN ID {
-        struct var * dol1; //era pera lung "dollar"
-        dol1 = get_var_from_table($1);
-        if (dol1 == NULL)
-            {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
+    | ID STR_ASSIGN ID {
+        struct var * dol1;
         struct var * dol3;
+        dol1 = get_var_from_table($1);
         dol3 = get_var_from_table($3);
         if (dol1 == NULL)
-            {yyerror(), printf("undeclared var: %s\n", $3); return 0;}
-        if (dol1 != NULL && dol3!= NULL){
-             if((same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) 
-                 update_var_s(dol1, dol3);
-             else{
-                  yyerror(); 
-                  printf("trying to do operation on variables of different scopes: %s , %s\n", dol1->id, dol3->id);
-                  break;
-             }
+            {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
+        if (dol3 == NULL)
+            {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
+        if(same_type_s(dol1, &dol3)){
+            if(strcmp(dol1->type, "string") != 0){
+                yyerror(); 
+                printf("trying to do string operation on non string variables\n");
+                break;
+            }
+            if(strcmp(dol1->scope, "main") != 0 && strcmp(dol1->scope, "global") != 0)
+                {yyerror(); printf("accessig var from outer scope: %s\n", $1); return 0;}
+            if(strcmp(dol3->scope, "main") != 0 && strcmp(dol3->scope, "global") != 0)
+                {yyerror(); printf("accessig var from outer scope: %s\n", $3); return 0;}
+            var_assign(dol1, dol3);
+        }
+        else{
+            yyerror(); 
+            printf("trying to do operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3->type);
+            break;
         }
     }
     | TIP ID ARR_ACCESS {
@@ -340,7 +356,7 @@ statement
              strcpy(tabel_var[total_vars].scope, "functie");
         }
     }
-    | ID ASSIGN STRING {
+    | ID STR_ASSIGN STRING {
         struct var * dol1;
         struct var dol3;
         dol1 = get_var_from_table($1);
@@ -410,15 +426,47 @@ statement
  
  
 operatii 
-    : operatii '+' operatii { $$.value = $1.value + $3.value; $$.is_float = $1.is_float + $3.is_float; }
-    | operatii '-' operatii { $$.value = $1.value - $3.value; $$.is_float = $1.is_float + $3.is_float; }
-    | operatii '*' operatii { $$.value = $1.value * $3.value; $$.is_float = $1.is_float + $3.is_float; }
-    | operatii '/' operatii { $$.value = $1.value / $3.value; $$.is_float = $1.is_float + $3.is_float; }
-    | NR { $$.value = $1.value; $$.is_float = $1.is_float; }
-    | ID ARR_ACCESS {
+    : operatii '+' operatii { $$.value = $1.value + $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type; if($1.type==_string || $3.type == _string) {yyerror(); printf("illegal operation on string var\n"); return 0;}}
+    | operatii '-' operatii { $$.value = $1.value - $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type; if($1.type==_string || $3.type == _string) {yyerror(); printf("illegal operation on string var\n"); return 0;}}
+    | operatii '*' operatii { $$.value = $1.value * $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type; if($1.type==_string || $3.type == _string) {yyerror(); printf("illegal operation on string var\n"); return 0;}}
+    | operatii '/' operatii { $$.value = $1.value / $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type; if($1.type==_string || $3.type == _string) {yyerror(); printf("illegal operation on string var\n"); return 0;}}
+    | variable {/*NON STRING VARIABLE*/}
+    ;
 
+variable
+    : NR { $$.value = $1.value; $$.type_err = 0; }
+    | ID {
+        struct var * dol1;
+        dol1 = get_var_from_table($1); 
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared variable: %s\n", $1); return 0;}
+        if(strcmp(dol1->scope, "main") != 0 && strcmp(dol1->scope, "global") != 0){
+            {yyerror(); printf("accessig var from outer scope: %s\n", $1); return 0;}
+        }
+        if(strcmp(dol1->value, "default") == 0){
+            {yyerror(); printf("uninitialised var on the right side: %s\n", $1); return 0;}
+        }
+        $$.value = get_float_cast(dol1, -1);
+        $$.type = get_type(dol1);
+        $$.type_err = 0;
+    }
+    | ID ARR_ACCESS {
+        struct var * dol1;
+        dol1 = get_var_from_table($1);
+        if (dol1 == NULL)
+            {yyerror(), printf("function call with undeclared variable: %s\n", $1); return 0;} 
+        if(strcmp(dol1->scope, "main") != 0 && strcmp(dol1->scope, "global") != 0){
+            {yyerror(); printf("accessig var from outer scope: %s\n", $1); return 0;}
+        }
+        if(strcmp(dol1->value, "default") == 0){
+            {yyerror(); printf("uninitialised var on the right side: %s\n", $1); return 0;}
+        }
+        $$.value = get_float_cast(dol1, $2);
+        $$.type = get_type(dol1);
+        $$.type_err = 0;
     }
     ;
+
 /* instructiune */
 decl_gl 
     : declaratie ';'   {strcpy(tabel_var[total_vars].scope, "global");}
@@ -452,7 +500,7 @@ lista_apel
 
     }
     | ID ARR_ACCESS{
-
+        
     }
     | lista_apel ',' NR {printf("small rule apel functie\n");}
     | lista_apel ',' ID {}
@@ -784,6 +832,43 @@ void var_assign(struct var *to, struct var * from){
     }
 }
 
+float get_float_cast(struct var *from, const int idx){
+    if(idx >= 0){
+        if(strcmp(from->type, "int") == 0 || strcmp(from->type, "bool") == 0){
+            int temp;
+            sscanf(from->value, "%d", &temp);
+            return (float)(temp);
+        }
+        if(strcmp(from->type, "char") == 0){
+            return (float)(from->value[0]);
+        }
+        if(strcmp(from->type, "float") == 0){
+            float temp;
+            sscanf(from->value, "%f", &temp);
+            return (float)(temp);
+        }
+        if(strcmp(from->type, "string") == 0){
+            return 1;
+        }
+    }
+    else {
+
+    }
+}
+
+int get_type(struct var * from){
+    if(strcmp(from->type, "int") == 0)
+        return _int;
+    if(strcmp(from->type, "bool") == 0)
+        return _bool;
+    if(strcmp(from->type, "char") == 0)
+        return _char;
+    if(strcmp(from->type, "string") == 0)
+        return _string;
+    if(strcmp(from->type, "float") == 0)
+        return _float;
+}
+
 /* 
  lex limbaj.l; yacc -d limbaj.y
  
@@ -795,11 +880,32 @@ todo:
 -de adaugat operatii cu stringuri (strlen, strcpy, strcat <este deja la laborator>)
 -actualizare var bool (+ operatii cu bool)
 -verificare daca parametrii pt apelul functiei sunt aceeasi cu cei ai functiei declarate(daca exista)
- 
+ -tabel arrays
  
 done:
 -tabel_vara pentru fnc (exact la fel ca la variabile)
 -trebuie verificat si pentru atribuirile de forma x= x+y daca sunt de acelasi tip sau daca au fost
 initializate sau daca au fost declarate
  
+
+
+ | ID ASSIGN ID {
+        struct var * dol1; //era pera lung "dollar"
+        dol1 = get_var_from_table($1);
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
+        struct var * dol3;
+        dol3 = get_var_from_table($3);
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared var: %s\n", $3); return 0;}
+        if (dol1 != NULL && dol3!= NULL){
+             if((same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) 
+                 update_var_s(dol1, dol3);
+             else{
+                  yyerror(); 
+                  printf("trying to do operation on variables of different scopes: %s , %s\n", dol1->id, dol3->id);
+                  break;
+             }
+        }
+    }
 */

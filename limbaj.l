@@ -4,13 +4,11 @@
 #include <string.h>
 #include "y.tab.h"
 
-struct var{
-          char  id[100], type[100], ch_value[100], scope[100], where[100];
-          int _int; 
-          int _float; 
-          char * _char;
-          };
-
+#define _int 1
+#define _char 2
+#define _float 3
+#define _bool 4
+#define _string 5
 
 /* 
 "&&" {return AND;}
@@ -31,7 +29,7 @@ struct var{
 "end_progr"                         { return END;}                                              
 "int"|"float"|"string"|"bool"|"char" { yylval.strval=strdup(yytext); return TIP;}
 \"[_a-zA-Z0-9 ]*\"                  { yylval.strval=strdup(yytext); strcpy(yylval.strval, yylval.strval + 1); yylval.strval[strlen(yylval.strval)-1] = '\0'; return STRING; }
-\'[_a-zA-Z0-9 ]\'                   { yylval.strval=strdup(yytext); yylval.strval[0]=yylval.strval[1]; yylval.strval[1] ='\0'; return CHR; }
+\'[_a-zA-Z0-9 ]\'                   {  yylval.number.type=_char; yylval.number.value=yytext[1]; return NR; }
 \[[0-9]+\]                          { 
     yylval.strval=strdup(yytext); 
     yylval.strval[0]='0'; 
@@ -44,7 +42,7 @@ struct var{
 "while"                             { return WHILE;}
 "for"                               { return FOR;}
 "true"|"false"                      { 
-    yylval.number.is_float=0;
+    yylval.number.type=_bool;
     if(strcmp(yytext,"true") == 0)
         yylval.number.value=1;
     else 
@@ -53,15 +51,16 @@ struct var{
 }
 "||"|"&&"|">"|"<"|"!"|"<="|">="|"!=" { yylval.strval = strdup(yytext); return OP_BIN;}
 "strcat"                            { yylval.strval = strdup(yytext); return OP_STR;}
+"strcpy"                            { return STR_ASSIGN;}
 [_a-zA-Z][_a-zA-Z0-9]*              { yylval.strval=strdup(yytext); return ID;}
 "="                                 { return ASSIGN;}
 
 [+-]?([0-9]*[.])?[0-9]+ { 
     yylval.number.value=atof(yytext);
     if(strchr(yytext,'.') != NULL)
-        yylval.number.is_float=1; 
+        yylval.number.type=_float; 
     else 
-        yylval.number.is_float=0;
+        yylval.number.type=_int;
     return NR;
 }
 "+" {return ('+');}
