@@ -628,9 +628,9 @@ static const yytype_int16 yyrline[] =
        0,    88,    88,    91,    92,    97,   113,   133,   152,   166,
      167,   179,   188,   200,   215,   216,   221,   226,   227,   231,
      261,   293,   320,   335,   359,   381,   405,   410,   422,   423,
-     424,   429,   430,   431,   432,   433,   437,   438,   453,   472,
-     473,   477,   489,   490,   494,   495,   502,   505,   506,   507,
-     508,   509,   510,   517,   520,   526
+     424,   429,   430,   431,   432,   433,   437,   438,   453,   473,
+     474,   478,   490,   491,   495,   496,   503,   506,   507,   508,
+     509,   510,   511,   518,   521,   527
 };
 #endif
 
@@ -1993,7 +1993,7 @@ yyreduce:
 
   case 36:
 #line 437 "limbaj.y"
-         { (yyval.number).value = (yyvsp[0].number).value; (yyval.number).type_err = 0; }
+         { (yyval.number).value = (yyvsp[0].number).value; (yyval.number).type_err = 0; (yyval.number).type = (yyvsp[0].number).type;}
 #line 1998 "y.tab.c"
     break;
 
@@ -2030,27 +2030,28 @@ yyreduce:
         if(strcmp(dol1->value, "default") == 0){
             {yyerror(); printf("uninitialised var on the right side: %s\n", (yyvsp[-1].strval)); return 0;}
         }
+        //verif pt uninitialised?
         (yyval.number).value = get_float_cast(dol1, (yyvsp[0].intval));
         (yyval.number).type = get_type(dol1);
         (yyval.number).type_err = 0;
     }
-#line 2038 "y.tab.c"
+#line 2039 "y.tab.c"
     break;
 
   case 39:
-#line 472 "limbaj.y"
+#line 473 "limbaj.y"
                        {strcpy(tabel_var[total_vars].scope, "global");}
-#line 2044 "y.tab.c"
+#line 2045 "y.tab.c"
     break;
 
   case 40:
-#line 473 "limbaj.y"
+#line 474 "limbaj.y"
                              {strcpy(tabel_var[total_vars].scope, "global");}
-#line 2050 "y.tab.c"
+#line 2051 "y.tab.c"
     break;
 
   case 41:
-#line 477 "limbaj.y"
+#line 478 "limbaj.y"
               {
         if(exists_in_var_table((yyvsp[0].strval))==0)
         {
@@ -2063,29 +2064,29 @@ yyreduce:
         else
              yyerror(); 
     }
-#line 2067 "y.tab.c"
+#line 2068 "y.tab.c"
     break;
 
   case 42:
-#line 489 "limbaj.y"
+#line 490 "limbaj.y"
                                   {printf("var: %s\n", (yyvsp[-3].strval));}
-#line 2073 "y.tab.c"
+#line 2074 "y.tab.c"
     break;
 
   case 43:
-#line 490 "limbaj.y"
+#line 491 "limbaj.y"
                      {}
-#line 2079 "y.tab.c"
+#line 2080 "y.tab.c"
     break;
 
   case 44:
-#line 494 "limbaj.y"
+#line 495 "limbaj.y"
          {printf("small rule\n");}
-#line 2085 "y.tab.c"
+#line 2086 "y.tab.c"
     break;
 
   case 45:
-#line 495 "limbaj.y"
+#line 496 "limbaj.y"
          {
         struct var * dol1;
         dol1 = get_var_from_table((yyvsp[0].strval));
@@ -2093,73 +2094,73 @@ yyreduce:
             {yyerror(), printf("function call with undeclared variable: %s\n", (yyvsp[0].strval)); return 0;} 
 
     }
-#line 2097 "y.tab.c"
+#line 2098 "y.tab.c"
     break;
 
   case 46:
-#line 502 "limbaj.y"
+#line 503 "limbaj.y"
                    {
         
     }
-#line 2105 "y.tab.c"
+#line 2106 "y.tab.c"
     break;
 
   case 47:
-#line 505 "limbaj.y"
+#line 506 "limbaj.y"
                         {printf("small rule apel functie\n");}
-#line 2111 "y.tab.c"
+#line 2112 "y.tab.c"
     break;
 
   case 48:
-#line 506 "limbaj.y"
+#line 507 "limbaj.y"
                         {}
-#line 2117 "y.tab.c"
+#line 2118 "y.tab.c"
     break;
 
   case 49:
-#line 507 "limbaj.y"
+#line 508 "limbaj.y"
                                            {/*idk man*/}
-#line 2123 "y.tab.c"
+#line 2124 "y.tab.c"
     break;
 
   case 50:
-#line 508 "limbaj.y"
+#line 509 "limbaj.y"
                                 {}
-#line 2129 "y.tab.c"
+#line 2130 "y.tab.c"
     break;
 
   case 51:
-#line 509 "limbaj.y"
+#line 510 "limbaj.y"
                             {}
-#line 2135 "y.tab.c"
+#line 2136 "y.tab.c"
     break;
 
   case 53:
-#line 517 "limbaj.y"
+#line 518 "limbaj.y"
                     {
                          ;//cod
                     }
-#line 2143 "y.tab.c"
+#line 2144 "y.tab.c"
     break;
 
   case 54:
-#line 520 "limbaj.y"
+#line 521 "limbaj.y"
                           {
                          ;//cod
                     }
-#line 2151 "y.tab.c"
+#line 2152 "y.tab.c"
     break;
 
   case 55:
-#line 526 "limbaj.y"
+#line 527 "limbaj.y"
                        {
                          ;//cod
                     }
-#line 2159 "y.tab.c"
+#line 2160 "y.tab.c"
     break;
 
 
-#line 2163 "y.tab.c"
+#line 2164 "y.tab.c"
 
       default: break;
     }
@@ -2391,7 +2392,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 530 "limbaj.y"
+#line 531 "limbaj.y"
 
  
 void yyerror(char * s){

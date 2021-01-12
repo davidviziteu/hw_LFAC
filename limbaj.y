@@ -434,7 +434,7 @@ operatii
     ;
 
 variable
-    : NR { $$.value = $1.value; $$.type_err = 0; }
+    : NR { $$.value = $1.value; $$.type_err = 0; $$.type = $1.type;}
     | ID {
         struct var * dol1;
         dol1 = get_var_from_table($1); 
@@ -461,6 +461,7 @@ variable
         if(strcmp(dol1->value, "default") == 0){
             {yyerror(); printf("uninitialised var on the right side: %s\n", $1); return 0;}
         }
+        //verif pt uninitialised?
         $$.value = get_float_cast(dol1, $2);
         $$.type = get_type(dol1);
         $$.type_err = 0;
@@ -485,6 +486,19 @@ declaratie
         }
         else
              yyerror(); 
+    }
+    | TIP ID ARR_ACCESS {
+        if(exists_in_var_table($2)==0){
+            strcpy(tabel_var[total_vars].id, $2);
+            strcpy(tabel_var[total_vars].type, $1);
+            strcpy(tabel_var[total_vars].value, "default");
+            strcpy(tabel_var[total_vars].scope, "global");
+            total_vars++;
+            tabel_var[total_vars].arr_len = $3;
+            tabel_var[total_vars].is_arr = 1;
+        }
+        else
+             yyerror();
     }
     | TIP ID '(' lista_param ')'  {printf("var: %s\n", $2);}
     | TIP ID '(' ')' {}
