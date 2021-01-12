@@ -267,7 +267,7 @@ statement
         else 
         if(dol1->is_arr == 0) {yyerror(); printf("%s is not an array\n", $1); return 0;}
         else
-        if(dol1->arr_len >= $2) {yyerror(); printf("accessing index out of bound of array %s\n", $1); return 0;}
+        if(dol1->arr_len <= $2) {yyerror(); printf("accessing index %d out of bound of array %s[%d]\n",$2,  $1, dol1->arr_len); return 0;}
         if(strcmp(dol1->type, "float") == 0){
             char temp[100];
             sprintf(temp, "%f", $4.value);
@@ -436,6 +436,7 @@ operatii
 variable
     : NR { $$.value = $1.value; $$.type_err = 0; $$.type = $1.type;}
     | ID {
+        printf("id %s\n", $1);
         struct var * dol1;
         dol1 = get_var_from_table($1); 
         if (dol1 == NULL)
@@ -528,18 +529,12 @@ lista_apel
 //////////////TREBUIE ADAUGATE OPERATII PE BOOL SI STRING 
 /////////////////////////////////////////////////////////////
  bool 
-     :      BOOL    {
-                         ;//cod
-                    }
-     | operatii_binare    {
-                         ;//cod
-                    }
+     :      BOOL    {}
+     | operatii_binare    {}
      ;
  
 operatii_binare 
-     : ID OP_BIN ID    {
-                         ;//cod
-                    }
+     : ID OP_BIN ID    {}
      ;
 %%
  
@@ -847,7 +842,7 @@ void var_assign(struct var *to, struct var * from){
 }
 
 float get_float_cast(struct var *from, const int idx){
-    if(idx >= 0){
+    if(idx < 0){
         if(strcmp(from->type, "int") == 0 || strcmp(from->type, "bool") == 0){
             int temp;
             sscanf(from->value, "%d", &temp);
@@ -866,7 +861,7 @@ float get_float_cast(struct var *from, const int idx){
         }
     }
     else {
-
+        //trateaza arrays
     }
 }
 

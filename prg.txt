@@ -30,7 +30,6 @@ begin_progr
   test2 strcpy "1haha";
   test1 strcpy "abra";
   test2 strcat test1;
-  test1 = test2;
   float ms;
   bool test;
   s();
@@ -38,8 +37,9 @@ begin_progr
   char char_Example;
   char_Example = 'a';
   a = 5;
+  kk[1] = 1 + a;
   b_example = 1;
-  b = 1 ;
+  b = 1 + a;
 end_progr
 
 
