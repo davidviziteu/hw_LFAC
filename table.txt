@@ -22,10 +22,12 @@ Var table:
 	b               3               int             main                  
 	ksk             default         int             main                  
 	kk              default         char       yes  main                  
+	int_Example_Arr default         int        yes  main                  
 	b_example       0               bool            main                  
 	ccc             1.000000        float           main                  
-	str_ex1         abracadabra     string          main                  
-	str_ex2         cadabra         string          main                  
+	str_ex1         cadabra         string          main                  
+	concat_ex       abra            string          main                  
+	str_ex2         default         string     yes  main                  
 	ms              default         float           main                  
 	test            default         bool            main                  
 	val             10              int             main                  
@@ -33,17 +35,24 @@ Var table:
 
 fun decl 5:
 	retType fnc       
-	        Eval    	(int )
-	int     ss      	(int )
-	int     s       	(int )
-	int     functie 	(int floatbool)
-	int     Evala   	(boolint )
+	        Eval    	(int  )
+	int     ss      	(int  )
+	int     s       	(int  )
+	int     functie 	(int  float bool )
+	int     Evala   	(bool int  )
 
 arrays:
-	type    id              content   
-	----    --              below     
+	type    id              content below
+	----    --------------- 
 	char    kk              
-[0]“ 
-[1]c 
+[0]c 
+[1]0 
+
+	int     int_Example_Arr 
+[2]1 
+[5]4 
+
+	string  str_ex2         
+[2]Array data inserted here at idx 2 
 
 

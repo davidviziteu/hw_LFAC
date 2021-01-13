@@ -59,7 +59,6 @@
 ">" {return '>';}
 "<" {return '<';}
 "!" {return '!';}
-"Eval"                               { return EVAL; }
 "strcat"                            { yylval.strval = strdup(yytext); return OP_STR;}
 "strcpy"                            { return STR_ASSIGN;}
 [_a-zA-Z][_a-zA-Z0-9]*              { yylval.strval=strdup(yytext); return ID;}

@@ -83,8 +83,12 @@ int val_expr;
 %token <strval>ID <strval>TIP BGIN END CONST ASSIGN EVAL VIS CLASS IF WHILE FOR OP_BIN OP_STR BOOL <strval>STRING AND OR NOT '.'    
 %token <strval>FLOAT <number>NR <intval>ARR_ACCESS <strval>CHR STR_ASSIGN
 %type <number> operatii <blval>bool <blval>operatii_binare <number> variable <strval> apel_functie
+
+%left AND OR
+%left EQ NEQ LWR GTR LWE GRE
 %left '+' '-'
 %left '*' '/'
+
 %start progr
 %%
 progr
@@ -431,8 +435,7 @@ statement
         }
     }
     | ID ARR_ACCESS STR_ASSIGN STRING {
-        if(conditie==0)
-        {
+        if(conditie!=0) return 0;
         struct var * dol1;
         struct var dol4;
         dol1 = get_var_from_table($1);
@@ -440,23 +443,12 @@ statement
             {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
         int res = check_idx(dol1, $2);
         if(res != 0) return 0;
-        strcpy(dol4.type, "string");
-        strcpy(dol4.value, $3);
+        printf("string assing in arr\n");
         
-        if(same_type_s(dol1, &dol4)){
-            if(strcmp(dol1->type, "string") != 0){
-                yyerror(); 
-                printf("trying to do string operation on non string variables\n");
-                break;
-            }
-            var_assign(dol1, &dol4);
-        }
-        else{
-            yyerror(); 
-            printf("trying to do stringa assign operation on variables of different types: %s %s\n", dol1->type, dol4.type);
-            break;
-        }
-        }
+        if(check_idx(dol1, $2) != 0) return 0;
+        if(strcmp(dol1->type, "string") != 0) {yyerror(); printf("illegal operation on string %s\n", dol1->id); return 0;}
+        dol1->arr_data[$2] = strdup($4);
+        dol1->idx_init[$2] = 1;
     }
     | ID OP_STR ID {
         if(conditie==0)
@@ -649,26 +641,7 @@ declaratie
     | TIP ID '(' ')' {}
     ;
 
-lista_apel 
-    : NR {strcpy(params[nr_param++], "int");}
-    | ID {
-        struct var * dol1;
-        dol1 = get_var_from_table($1);
-        if (dol1 == NULL)
-            {yyerror(), printf("function call with undeclared variable: %s\n", $1); return 0;} 
-        //strcpy(params[nr_param++],get_type($1));
 
-    }
-    | ID ARR_ACCESS{
-        
-    }
-    | lista_apel ',' NR {}
-    | lista_apel ',' ID {}
-    | lista_apel ',' ID '(' lista_apel ')' {/*idk man*/}
-    | lista_apel ',' ID '(' ')' { }
-    | lista_apel ',' STRING {}
-    | lista_apel ',' 
-    ;
 bool 
     : BOOL {
         // if(strcmp($1, "true") == 0) {$$ = 1; return 0;}
@@ -707,12 +680,12 @@ void print_table(FILE* fd, int errs){
         fprintf(fd, "\t%-7s %-7s ", tabel_fnc[i].ret_type, tabel_fnc[i].nume);
         fprintf(fd, "\t(");
         for(int ii = 0; ii < tabel_fnc[i].params_count; ++ii)
-           fprintf(fd, "%-4s", tabel_fnc[i].param_types[ii]);
+           fprintf(fd, "%-4s ", tabel_fnc[i].param_types[ii]);
         fprintf(fd, ")\n");
     }
     fprintf(fd, "\narrays:\n");
-    fprintf(fd, "\t%-7s %-15s %-10s\n", "type", "id", "content");
-    fprintf(fd, "\t%-7s %-15s %-10s\n", "----", "--", "below");
+    fprintf(fd, "\t%-7s %-15s %-10s\n", "type", "id", "content below");
+    fprintf(fd, "\t%-7s %-15s \n", "----", "---------------");
     for (int i = 0; i < total_vars; i++){
         if(tabel_var[i].is_arr == 1){
             fprintf(fd, "\t%-7s %-15s ", tabel_var[i].type, tabel_var[i].id);
@@ -1175,4 +1148,26 @@ initializate sau daca au fost declarate
              }
         }
     }
+
+
+    lista_apel 
+    : NR {strcpy(params[nr_param++], "int");}
+    | ID {
+        struct var * dol1;
+        dol1 = get_var_from_table($1);
+        if (dol1 == NULL)
+            {yyerror(), printf("function call with undeclared variable: %s\n", $1); return 0;} 
+        //strcpy(params[nr_param++],get_type($1));
+
+    }
+    | ID ARR_ACCESS{
+        
+    }
+    | lista_apel ',' NR {}
+    | lista_apel ',' ID {}
+    | lista_apel ',' ID '(' lista_apel ')' {}
+    | lista_apel ',' ID '(' ')' { }
+    | lista_apel ',' STRING {}
+    | lista_apel ',' 
+    ;
 */

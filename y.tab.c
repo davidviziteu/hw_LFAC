@@ -632,11 +632,11 @@ static const yytype_int16 yyrline[] =
 {
        0,    91,    91,    94,    95,   100,   116,   136,   155,   169,
      170,   182,   191,   203,   218,   219,   224,   229,   230,   234,
-     270,   319,   350,   368,   407,   433,   461,   490,   498,   499,
-     500,   501,   502,   505,   540,   541,   542,   543,   545,   556,
-     560,   561,   565,   566,   567,   568,   569,   570,   571,   572,
-     573,   577,   578,   596,   614,   615,   619,   635,   648,   649,
-     673,   677,   681
+     270,   319,   350,   368,   407,   433,   449,   478,   486,   487,
+     488,   489,   490,   493,   528,   529,   530,   531,   533,   544,
+     548,   549,   553,   554,   555,   556,   557,   558,   559,   560,
+     561,   565,   566,   584,   602,   603,   607,   623,   636,   637,
+     642,   646,   650
 };
 #endif
 
@@ -1964,8 +1964,7 @@ yyreduce:
   case 25:
 #line 433 "limbaj.y"
                                       {
-        if(conditie==0)
-        {
+        if(conditie!=0) return 0;
         struct var * dol1;
         struct var dol4;
         dol1 = get_var_from_table((yyvsp[-3].strval));
@@ -1973,29 +1972,18 @@ yyreduce:
             {yyerror(), printf("undeclared var: %s\n", (yyvsp[-3].strval)); return 0;}
         int res = check_idx(dol1, (yyvsp[-2].intval));
         if(res != 0) return 0;
-        strcpy(dol4.type, "string");
-        strcpy(dol4.value, (yyvsp[-1].strval));
+        printf("string assing in arr\n");
         
-        if(same_type_s(dol1, &dol4)){
-            if(strcmp(dol1->type, "string") != 0){
-                yyerror(); 
-                printf("trying to do string operation on non string variables\n");
-                break;
-            }
-            var_assign(dol1, &dol4);
-        }
-        else{
-            yyerror(); 
-            printf("trying to do stringa assign operation on variables of different types: %s %s\n", dol1->type, dol4.type);
-            break;
-        }
-        }
+        if(check_idx(dol1, (yyvsp[-2].intval)) != 0) return 0;
+        if(strcmp(dol1->type, "string") != 0) {yyerror(); printf("illegal operation on string %s\n", dol1->id); return 0;}
+        dol1->arr_data[(yyvsp[-2].intval)] = strdup((yyvsp[0].strval));
+        dol1->idx_init[(yyvsp[-2].intval)] = 1;
     }
-#line 1995 "y.tab.c"
+#line 1983 "y.tab.c"
     break;
 
   case 26:
-#line 461 "limbaj.y"
+#line 449 "limbaj.y"
                    {
         if(conditie==0)
         {
@@ -2025,11 +2013,11 @@ yyreduce:
         }
         }
     }
-#line 2029 "y.tab.c"
+#line 2017 "y.tab.c"
     break;
 
   case 27:
-#line 490 "limbaj.y"
+#line 478 "limbaj.y"
                  {     
         if(conditie==0)
         { 
@@ -2038,35 +2026,35 @@ yyreduce:
             {yyerror(), printf("call to undeclared function: %s\n", (yyvsp[-2].strval)); return 0;}
     }
     }
-#line 2042 "y.tab.c"
+#line 2030 "y.tab.c"
     break;
 
   case 28:
-#line 498 "limbaj.y"
+#line 486 "limbaj.y"
                    { }
-#line 2048 "y.tab.c"
+#line 2036 "y.tab.c"
     break;
 
   case 30:
-#line 500 "limbaj.y"
+#line 488 "limbaj.y"
                                        {}
-#line 2054 "y.tab.c"
+#line 2042 "y.tab.c"
     break;
 
   case 31:
-#line 501 "limbaj.y"
+#line 489 "limbaj.y"
                                                                                 {}
-#line 2060 "y.tab.c"
+#line 2048 "y.tab.c"
     break;
 
   case 32:
-#line 502 "limbaj.y"
+#line 490 "limbaj.y"
               {  if(strcmp(param_eval, "1")!=0)  yyerror();  bzero(param_eval, 100);  }
-#line 2066 "y.tab.c"
+#line 2054 "y.tab.c"
     break;
 
   case 33:
-#line 505 "limbaj.y"
+#line 493 "limbaj.y"
                                     {
                     if(conditie==0)
                     {
@@ -2101,35 +2089,35 @@ yyreduce:
                              sprintf((yyval.strval), "%d", 5); 
                          }
                 }
-#line 2105 "y.tab.c"
+#line 2093 "y.tab.c"
     break;
 
   case 34:
-#line 540 "limbaj.y"
+#line 528 "limbaj.y"
                        {    char temp[10]; sprintf(temp, "%d", (yyvsp[0].number).type); strcat(param_fun, temp); }
-#line 2111 "y.tab.c"
+#line 2099 "y.tab.c"
     break;
 
   case 35:
-#line 541 "limbaj.y"
+#line 529 "limbaj.y"
                                      {  char temp[10]; sprintf(temp, "%d", (yyvsp[-2].number).type); strcat(param_fun, temp);}
-#line 2117 "y.tab.c"
+#line 2105 "y.tab.c"
     break;
 
   case 36:
-#line 542 "limbaj.y"
+#line 530 "limbaj.y"
                             { char temp[10]; sprintf(temp, "%s", (yyvsp[0].strval)); strcat(param_fun, temp); }
-#line 2123 "y.tab.c"
+#line 2111 "y.tab.c"
     break;
 
   case 37:
-#line 543 "limbaj.y"
+#line 531 "limbaj.y"
                                           {char temp[10]; sprintf(temp, "%s", (yyvsp[-2].strval)); strcat(param_fun, temp);}
-#line 2129 "y.tab.c"
+#line 2117 "y.tab.c"
     break;
 
   case 38:
-#line 545 "limbaj.y"
+#line 533 "limbaj.y"
                                { strcat(output, " "); char temp[100]; 
                                     int val=(int)((yyvsp[-1].number).value);
                                 sprintf(temp, "%d", val); strcat(output, temp); 
@@ -2139,92 +2127,92 @@ yyreduce:
         
                                 //printf("%s", output);
                                  }
-#line 2143 "y.tab.c"
+#line 2131 "y.tab.c"
     break;
 
   case 39:
-#line 556 "limbaj.y"
+#line 544 "limbaj.y"
                             {  //in paranteze o sa fie un bool dupa ce o sa fie gata
                         if(strcmp("true", "true")==0) { conditie=1; }
                         else {goto s4; conditie=0;}
                          }
-#line 2152 "y.tab.c"
+#line 2140 "y.tab.c"
     break;
 
   case 40:
-#line 560 "limbaj.y"
+#line 548 "limbaj.y"
                             { s3:  conditie=0;}
-#line 2158 "y.tab.c"
+#line 2146 "y.tab.c"
     break;
 
   case 41:
-#line 561 "limbaj.y"
+#line 549 "limbaj.y"
                                 { s4: conditie=0;}
-#line 2164 "y.tab.c"
+#line 2152 "y.tab.c"
     break;
 
   case 42:
-#line 565 "limbaj.y"
+#line 553 "limbaj.y"
                             { (yyval.number).value = (yyvsp[-2].number).value + (yyvsp[0].number).value; (yyval.number).type_err = ((yyvsp[-2].number).type != (yyvsp[0].number).type); (yyval.number).type = (yyvsp[-2].number).type;}
-#line 2170 "y.tab.c"
+#line 2158 "y.tab.c"
     break;
 
   case 43:
-#line 566 "limbaj.y"
+#line 554 "limbaj.y"
                                     { (yyval.number).value = (yyvsp[-3].number).value + (yyvsp[-1].number).value; (yyval.number).type_err = ((yyvsp[-3].number).type != (yyvsp[-1].number).type); (yyval.number).type = (yyvsp[-3].number).type;}
-#line 2176 "y.tab.c"
+#line 2164 "y.tab.c"
     break;
 
   case 44:
-#line 567 "limbaj.y"
+#line 555 "limbaj.y"
                             { (yyval.number).value = (yyvsp[-2].number).value - (yyvsp[0].number).value; (yyval.number).type_err = ((yyvsp[-2].number).type != (yyvsp[0].number).type); (yyval.number).type = (yyvsp[-2].number).type;}
-#line 2182 "y.tab.c"
+#line 2170 "y.tab.c"
     break;
 
   case 45:
-#line 568 "limbaj.y"
+#line 556 "limbaj.y"
                                     { (yyval.number).value = (yyvsp[-3].number).value - (yyvsp[-1].number).value; (yyval.number).type_err = ((yyvsp[-3].number).type != (yyvsp[-1].number).type); (yyval.number).type = (yyvsp[-3].number).type;}
-#line 2188 "y.tab.c"
+#line 2176 "y.tab.c"
     break;
 
   case 46:
-#line 569 "limbaj.y"
+#line 557 "limbaj.y"
                             { (yyval.number).value = (yyvsp[-2].number).value * (yyvsp[0].number).value; (yyval.number).type_err = ((yyvsp[-2].number).type != (yyvsp[0].number).type); (yyval.number).type = (yyvsp[-2].number).type;}
-#line 2194 "y.tab.c"
+#line 2182 "y.tab.c"
     break;
 
   case 47:
-#line 570 "limbaj.y"
+#line 558 "limbaj.y"
                                     { (yyval.number).value = (yyvsp[-3].number).value * (yyvsp[-1].number).value; (yyval.number).type_err = ((yyvsp[-3].number).type != (yyvsp[-1].number).type); (yyval.number).type = (yyvsp[-3].number).type;}
-#line 2200 "y.tab.c"
+#line 2188 "y.tab.c"
     break;
 
   case 48:
-#line 571 "limbaj.y"
+#line 559 "limbaj.y"
                             { if((yyvsp[0].number).value == 0) printf("impartire la 0\n");(yyval.number).value = (yyvsp[-2].number).value / (yyvsp[0].number).value; (yyval.number).type_err = ((yyvsp[-2].number).type != (yyvsp[0].number).type); (yyval.number).type = (yyvsp[-2].number).type;}
-#line 2206 "y.tab.c"
+#line 2194 "y.tab.c"
     break;
 
   case 49:
-#line 572 "limbaj.y"
+#line 560 "limbaj.y"
                                     { (yyval.number).value = (yyvsp[-3].number).value / (yyvsp[-1].number).value; (yyval.number).type_err = ((yyvsp[-3].number).type != (yyvsp[-1].number).type); (yyval.number).type = (yyvsp[-3].number).type;}
-#line 2212 "y.tab.c"
+#line 2200 "y.tab.c"
     break;
 
   case 50:
-#line 573 "limbaj.y"
+#line 561 "limbaj.y"
                {/*NON STRING VARIABLE*/}
-#line 2218 "y.tab.c"
+#line 2206 "y.tab.c"
     break;
 
   case 51:
-#line 577 "limbaj.y"
+#line 565 "limbaj.y"
          { (yyval.number).value = (yyvsp[0].number).value; (yyval.number).type_err = 0; (yyval.number).type = (yyvsp[0].number).type;}
-#line 2224 "y.tab.c"
+#line 2212 "y.tab.c"
     break;
 
   case 52:
-#line 578 "limbaj.y"
+#line 566 "limbaj.y"
          {
         struct var * dol1;
         dol1 = get_var_from_table((yyvsp[0].strval)); 
@@ -2243,11 +2231,11 @@ yyreduce:
         (yyval.number).value = get_float_cast(dol1, -1);
         (yyval.number).type_err = 0;
     }
-#line 2247 "y.tab.c"
+#line 2235 "y.tab.c"
     break;
 
   case 53:
-#line 596 "limbaj.y"
+#line 584 "limbaj.y"
                     {
         struct var * dol1;
         dol1 = get_var_from_table((yyvsp[-1].strval));
@@ -2262,23 +2250,23 @@ yyreduce:
         (yyval.number).type = get_type(dol1);
         (yyval.number).type_err = 0;
     }
-#line 2266 "y.tab.c"
+#line 2254 "y.tab.c"
     break;
 
   case 54:
-#line 614 "limbaj.y"
+#line 602 "limbaj.y"
                        {strcpy(tabel_var[total_vars].scope, "global");}
-#line 2272 "y.tab.c"
+#line 2260 "y.tab.c"
     break;
 
   case 55:
-#line 615 "limbaj.y"
+#line 603 "limbaj.y"
                              {strcpy(tabel_var[total_vars].scope, "global");}
-#line 2278 "y.tab.c"
+#line 2266 "y.tab.c"
     break;
 
   case 56:
-#line 619 "limbaj.y"
+#line 607 "limbaj.y"
               {
         if(exists_in_var_table((yyvsp[0].strval))==0)
         {
@@ -2295,11 +2283,11 @@ yyreduce:
 
         }
     }
-#line 2299 "y.tab.c"
+#line 2287 "y.tab.c"
     break;
 
   case 57:
-#line 635 "limbaj.y"
+#line 623 "limbaj.y"
                         {
         if(exists_in_var_table((yyvsp[-1].strval))==0){
             strcpy(tabel_var[total_vars].id, (yyvsp[-1].strval));
@@ -2313,45 +2301,45 @@ yyreduce:
         else
              yyerror();
     }
-#line 2317 "y.tab.c"
+#line 2305 "y.tab.c"
     break;
 
   case 58:
-#line 648 "limbaj.y"
+#line 636 "limbaj.y"
                                   {printf("var: %s\n", (yyvsp[-3].strval));}
-#line 2323 "y.tab.c"
+#line 2311 "y.tab.c"
     break;
 
   case 59:
-#line 649 "limbaj.y"
+#line 637 "limbaj.y"
                      {}
-#line 2329 "y.tab.c"
+#line 2317 "y.tab.c"
     break;
 
   case 60:
-#line 673 "limbaj.y"
+#line 642 "limbaj.y"
            {
         // if(strcmp($1, "true") == 0) {$$ = 1; return 0;}
         // if(strcmp($1, "false") == 0) {$$ = 0; return 0;}
     }
-#line 2338 "y.tab.c"
+#line 2326 "y.tab.c"
     break;
 
   case 61:
-#line 677 "limbaj.y"
+#line 646 "limbaj.y"
                       { (yyval.blval) = (yyvsp[0].blval); }
-#line 2344 "y.tab.c"
+#line 2332 "y.tab.c"
     break;
 
   case 62:
-#line 681 "limbaj.y"
+#line 650 "limbaj.y"
                    {
     }
-#line 2351 "y.tab.c"
+#line 2339 "y.tab.c"
     break;
 
 
-#line 2355 "y.tab.c"
+#line 2343 "y.tab.c"
 
       default: break;
     }
@@ -2583,7 +2571,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 685 "limbaj.y"
+#line 654 "limbaj.y"
 
  
 void yyerror(char * s){ 
@@ -2609,12 +2597,12 @@ void print_table(FILE* fd, int errs){
         fprintf(fd, "\t%-7s %-7s ", tabel_fnc[i].ret_type, tabel_fnc[i].nume);
         fprintf(fd, "\t(");
         for(int ii = 0; ii < tabel_fnc[i].params_count; ++ii)
-           fprintf(fd, "%-4s", tabel_fnc[i].param_types[ii]);
+           fprintf(fd, "%-4s ", tabel_fnc[i].param_types[ii]);
         fprintf(fd, ")\n");
     }
     fprintf(fd, "\narrays:\n");
-    fprintf(fd, "\t%-7s %-15s %-10s\n", "type", "id", "content");
-    fprintf(fd, "\t%-7s %-15s %-10s\n", "----", "--", "below");
+    fprintf(fd, "\t%-7s %-15s %-10s\n", "type", "id", "content below");
+    fprintf(fd, "\t%-7s %-15s \n", "----", "---------------");
     for (int i = 0; i < total_vars; i++){
         if(tabel_var[i].is_arr == 1){
             fprintf(fd, "\t%-7s %-15s ", tabel_var[i].type, tabel_var[i].id);
@@ -3077,4 +3065,26 @@ initializate sau daca au fost declarate
              }
         }
     }
+
+
+    lista_apel 
+    : NR {strcpy(params[nr_param++], "int");}
+    | ID {
+        struct var * dol1;
+        dol1 = get_var_from_table($1);
+        if (dol1 == NULL)
+            {yyerror(), printf("function call with undeclared variable: %s\n", $1); return 0;} 
+        //strcpy(params[nr_param++],get_type($1));
+
+    }
+    | ID ARR_ACCESS{
+        
+    }
+    | lista_apel ',' NR {}
+    | lista_apel ',' ID {}
+    | lista_apel ',' ID '(' lista_apel ')' {}
+    | lista_apel ',' ID '(' ')' { }
+    | lista_apel ',' STRING {}
+    | lista_apel ',' 
+    ;
 */
