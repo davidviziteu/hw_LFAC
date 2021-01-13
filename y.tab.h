@@ -53,9 +53,9 @@ extern int yydebug;
     TIP = 259,
     BGIN = 260,
     END = 261,
-    ENDIF = 262,
-    CONST = 263,
-    ASSIGN = 264,
+    CONST = 262,
+    ASSIGN = 263,
+    EVAL = 264,
     VIS = 265,
     CLASS = 266,
     IF = 267,
@@ -64,8 +64,15 @@ extern int yydebug;
     OP_BIN = 270,
     OP_STR = 271,
     BOOL = 272,
-    FLOAT = 273,
-    NR = 274
+    STRING = 273,
+    AND = 274,
+    OR = 275,
+    NOT = 276,
+    FLOAT = 277,
+    NR = 278,
+    ARR_ACCESS = 279,
+    CHR = 280,
+    STR_ASSIGN = 281
   };
 #endif
 /* Tokens.  */
@@ -73,9 +80,9 @@ extern int yydebug;
 #define TIP 259
 #define BGIN 260
 #define END 261
-#define ENDIF 262
-#define CONST 263
-#define ASSIGN 264
+#define CONST 262
+#define ASSIGN 263
+#define EVAL 264
 #define VIS 265
 #define CLASS 266
 #define IF 267
@@ -84,23 +91,32 @@ extern int yydebug;
 #define OP_BIN 270
 #define OP_STR 271
 #define BOOL 272
-#define FLOAT 273
-#define NR 274
+#define STRING 273
+#define AND 274
+#define OR 275
+#define NOT 276
+#define FLOAT 277
+#define NR 278
+#define ARR_ACCESS 279
+#define CHR 280
+#define STR_ASSIGN 281
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 66 "limbaj.y"
+#line 72 "limbaj.y"
 
-     char *strval;
-     char _char; 
-     char  id[100], type[100], value[100], scope[100], where[100];
-     int _int, intval; 
-     int _float; 
-     char * _string;
+    char *strval;
+    int intval;
+    int blval;
+    struct nmbr{
+        float value;
+        int type;
+        int type_err;
+    } number;
 
-#line 104 "y.tab.h"
+#line 120 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -1,16 +1,20 @@
 int c;
-class student { public : int matricol; }
+class student { public : 
+int matricol; 
+int ss (int okk){
+  int asdadaadsads;
+}
+}
 int s ( int ok )
 {
- int m;
- int k;
- k = 4 + 4 ;
- m = 9 + 5 + 4 - 10;
- m = 10 - 4 + 6 ; 
- 
+ int m; 
+}
+int functie (int am, float bm, bool cm )
+{
+ int l;
 }
 
-int Eval ( int alabala, int aaa)
+int Evala ( bool alabala, int sal)
 {
  int ksk;
  ksk = 4;
@@ -19,16 +23,36 @@ int Eval ( int alabala, int aaa)
 begin_progr
   int a;
   int b; 
+  int ksk;
+  char kk [10];
+  kk[1] = 'c';
+  kk[0] = kk[1];
+  kk[0] = kk[1] + '0';
+  bool b_example;
+  float ccc;
+  ccc = 1.1 / 1.1;
+  string str_ex1;
+  string str_ex2;
+  str_ex1 strcpy "abra";
+  str_ex2 strcpy "cadabra";
+  str_ex1 strcat str_ex2;
   float ms;
-  s (12);  
-  a = 3 + 1;
-  b = 9; 
-  if ( true ); 
+  bool test;
+  int val;
+  val= 10;
+  Eval ( val / 3 );
+  char char_Example; 
+  char_Example = 'a';
+  a=2;
+  if ( ) ;
   {
-    a= 5 + 4;
+  a = 5 + 5;
+  b_example = true;
   };
-  int km; 
-  km = 9123;
+  b_example = false; 
+  Eval( 2 + 3 );
+  functie ( Evala ( true , 2 ) , 4.5 , b_example ); 
+ b = 1 + a;
+   Eval ( 5 ); 
 end_progr
-
 
