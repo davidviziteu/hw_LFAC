@@ -32,7 +32,7 @@ struct signature{
 struct var tabel_var[1000];
 struct var stack[1000];
 char *params[1000];
-char output[1000];
+char output[1000], param_fun[100];
 char nume_clasa[100], nume_functie[100];
 struct signature tabel_fnc[100];
 struct signature new_function_buff;
@@ -44,6 +44,7 @@ int exists_in_var_table(char x[100]);
 int exists_in_var_table_s(struct var *x);
 struct var * get_var_from_table(char id[100]);
 int is_default(char x[100]);
+int find_param_fun( char x[1000], char params[100]);
 void var_assign(struct var *to, struct var * from);
 void update_int(char x[100], int nr);
 void update_var(char x[100], char y[100]);
@@ -494,20 +495,26 @@ statement
             {yyerror(), printf("call to undeclared function: %s\n", $1); return 0;}
     }
     }
-    | ID '(' lista_apel ')' {
+    | ID '(' operations ')' {
         if(conditie==0)
         {
         printf("apel funectie din main + lista apel\n");
         if(exists_function($1)==0)
             yyerror();
         }
+        printf("PARAMETRII FUNCTIEI SUNT: %s\n", param_fun);
+        if(find_param_fun($1, param_fun)==0)
+            yyerror();
+         bzero(param_fun,100);
     }
     | instructiune_if
     | WHILE '(' bool ')' '{' list '}'  {}
     | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {}
     | compute {}
     ;
-
+operations  : operatii {   printf( "TIPUL ESTE:%d\n", $1.type); char temp[10]; sprintf(temp, "%d", $1.type); strcat(param_fun, temp); }
+            | operatii ',' operations{ printf("TIPUL ESTE: %d\n", $1.type); char temp[10]; sprintf(temp, "%d", $1.type); strcat(param_fun, temp);}
+            ;
 compute : EVAL'(' operatii ')' { strcat(output, " "); char temp[100]; 
                                     int val=(int)($3.value);
                                 sprintf(temp, "%d", val); strcat(output, temp); 
@@ -525,9 +532,13 @@ instructiune_if : IF '(' ')'{  //in paranteze o sa fie un bool dupa ce o sa fie 
  
 operatii 
     : operatii '+' operatii { $$.value = $1.value + $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
+    | '(' operatii '+' operatii ')' { $$.value = $2.value + $4.value; $$.type_err = ($2.type != $4.type); $$.type = $2.type;}
     | operatii '-' operatii { $$.value = $1.value - $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
+    | '(' operatii '-' operatii ')' { $$.value = $2.value - $4.value; $$.type_err = ($2.type != $4.type); $$.type = $2.type;}
     | operatii '*' operatii { $$.value = $1.value * $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
+    | '(' operatii '*' operatii ')' { $$.value = $2.value * $4.value; $$.type_err = ($2.type != $4.type); $$.type = $2.type;}
     | operatii '/' operatii { if($3.value == 0) printf("aoleu, imparti la 0\n");$$.value = $1.value / $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
+    | '(' operatii '/' operatii ')' { $$.value = $2.value / $4.value; $$.type_err = ($2.type != $4.type); $$.type = $2.type;}    
     | variable {/*NON STRING VARIABLE*/}
     ;
 
@@ -723,6 +734,67 @@ int main(int argc, char **argv) {
     print_table(stdout, errors);
     }
     
+}
+int find_param_fun( char x[1000], char params[100])
+{
+    char temp[100];
+    char final[100];
+    bzero(final, 100);
+    for(int i=0; i< total_fnc; i++)
+        if(strcmp(tabel_fnc[i].nume, x)==0)
+        {
+            ///cauta parametrii
+            ///////////////////
+            ///////////////////
+            ////////////////
+            //////////////
+            /////
+            /////////////
+            printf("In functia: %s ", tabel_fnc[i].nume);
+            printf("I-AM GASIT SI SUNT: \n");
+            for(int j=0; j< tabel_fnc[i].params_count; j++)
+                {
+                    printf("Parametrii : %s\n", tabel_fnc[i].param_types[j]);
+                    if(strcmp( tabel_fnc[i].param_types[j], "int")==0)
+                         {
+                             sprintf(temp, "%d", 1); 
+                             strcat(final, temp);
+                         }
+                          if(strcmp( tabel_fnc[i].param_types[j], "char")==0)
+                         {
+                             sprintf(temp, "%d", 2); 
+                             strcat(final, temp);
+                         }
+                     if(strcmp( tabel_fnc[i].param_types[j], "float")==0)
+                         {
+                             sprintf(temp, "%d", 3); 
+                             strcat(final, temp);
+                         }
+                     if(strcmp( tabel_fnc[i].param_types[j], "bool")==0)
+                         {
+                             sprintf(temp, "%d", 4); 
+                             strcat(final, temp);
+                         }
+                     if(strcmp( tabel_fnc[i].param_types[j], "string")==0)
+                         {
+                             sprintf(temp, "%d", 5); 
+                             strcat(final, temp);
+                         }
+
+                }
+        }
+        char temp2[100];
+        bzero(temp2, 100);
+        for(int i= strlen(params)-1; i >=0; i--)
+        {
+            temp2[strlen(params)-i-1]=params[i];
+        }
+        printf("\nTEMP 2 ESTE: %s\n", temp2);
+        if(strcmp(final, temp2)==0)
+        {
+            return 1;
+        }
+        else{ return 0; } 
 }
 int exists_in_var_table(char id[100])  //cauta o variabila in tabel_vara, daca exista
 {

@@ -9,6 +9,10 @@ int s ( int ok )
 {
  int m; 
 }
+int functie (int am, float bm, bool cm )
+{
+ int l;
+}
 
 int Evala ( int alabala, int sal)
 {
@@ -45,8 +49,10 @@ begin_progr
   a = 5 + 5;
   b_example = true;
   };
+  b_example = false; 
   Eval( 2 + 3 );
-  b = 1 + a;
+  functie ( 3 , 4.5 , true); 
+ b = 1 + a;
    Eval ( b + 4 - 14); 
 end_progr
 

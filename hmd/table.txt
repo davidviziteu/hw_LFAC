@@ -11,6 +11,10 @@ Var table:
 	asdadaadsads    default         int             functie    ss         
 	ok              default         int             functie    s          
 	m               default         int             functie    s          
+	am              default         int             functie    functie    
+	bm              default         float           functie    functie    
+	cm              default         bool            functie    functie    
+	l               default         int             functie    functie    
 	alabala         default         int             functie    Evala      
 	sal             default         int             functie    Evala      
 	ksk             4               int             functie    Evala      
@@ -18,7 +22,7 @@ Var table:
 	b               3               int             main                  
 	ksk             default         int             main                  
 	kk              default         char       yes  main                  
-	b_example       default         bool            main                  
+	b_example       0               bool            main                  
 	ccc             1.000000        float           main                  
 	str_ex1         abracadabra     string          main                  
 	str_ex2         cadabra         string          main                  
@@ -27,11 +31,12 @@ Var table:
 	val             10              int             main                  
 	char_Example    default         char            main                  
 
-fun decl 4:
+fun decl 5:
 	retType fnc       
 	        Eval    	(int )
 	int     ss      	(int )
 	int     s       	(int )
+	int     functie 	(int floatbool)
 	int     Evala   	(int int )
 
 arrays:
