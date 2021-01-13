@@ -546,7 +546,7 @@ compute : EVAL'(' operatii ')' { strcat(output, " "); char temp[100];
 
 instructiune_if 
     : IF '(' operatii_binare ')'{  //in paranteze o sa fie un bool dupa ce o sa fie gata
-        conditie = $3;
+        conditie = !$3;
     }
     | '{'' ''}' { s3:  conditie=0;}
     | '{' list '}'  { s4: conditie=0;}  
@@ -641,31 +641,32 @@ declaratie
 
 
 operatii_binare
-    : operatii AND operatii {
-        $$ = $1.value && $3.value;
+    : operatii_binare AND operatii_binare {
+        $$ = $1 && $3;
     }
-    | operatii OR operatii {
-        $$ = $1.value || $3.value;
+    | operatii_binare OR operatii_binare {
+        $$ = $1 || $3;
     }
-    | operatii EQ operatii {
-        $$ = $1.value == $3.value;
+    | operatii_binare EQ operatii_binare {
+        $$ = $1 == $3;
         // printf("BOOLEAN EVALUATION %d\n", $$);
     }
-    | operatii NEQ operatii {
-        $$ = $1.value != $3.value;
+    | operatii_binare NEQ operatii_binare {
+        $$ = $1 != $3;
     }
-    | operatii GE operatii {
-        $$ = $1.value >= $3.value;
+    | operatii_binare GE operatii_binare {
+        $$ = $1 >= $3;
     }
-    | operatii LE operatii {
-        $$ = $1.value <= $3.value;
+    | operatii_binare LE operatii_binare {
+        $$ = $1 <= $3;
     }
-    | operatii GT operatii {
-        $$ = $1.value > $3.value;
+    | operatii_binare GT operatii_binare {
+        $$ = $1 > $3;
     }
-    | operatii LT operatii {
-        $$ = $1.value < $3.value;
+    | operatii_binare LT operatii_binare {
+        $$ = $1 < $3;
     }
+    | operatii {$$ = $1.value;}
     ;
 
 %%

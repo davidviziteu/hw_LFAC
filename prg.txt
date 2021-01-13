@@ -49,15 +49,18 @@ begin_progr
   char char_Example; 
   char_Example = 'a';
   a=2;
-  if ( true == false ) ;
+  if ( true != false && a > 0 ) ;
   {
   a = 5 + 5;
   b_example = true;
   };
+  if ( true == false && a > 0 ) ;
+  {
+  a = 0;
+  };
   b_example = false; 
   Eval( 2 + 3 );
-  functie ( Evala ( true , 2 ) , 4.5 , b_example ); 
- b = 1 + a;
-   Eval ( 5 ); 
+  b = 1 + a;
+  Eval ( 5 ); 
 end_progr
 
