@@ -337,7 +337,7 @@ statement
         if (dol1 == NULL)
             {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
         if (dol3 == NULL)
-            {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
+            {yyerror(), printf("undeclared var: %s\n", $3); return 0;}
         if(same_type_s(dol1, dol3)){
             if(strcmp(dol1->type, "string") != 0){
                 yyerror(); 
@@ -456,6 +456,74 @@ statement
         if(strcmp(dol1->type, "string") != 0) {yyerror(); printf("illegal operation on string %s\n", dol1->id); return 0;}
         dol1->arr_data[$2] = strdup($4);
         dol1->idx_init[$2] = 1;
+    }
+    | ID ARR_ACCESS STR_ASSIGN ID {
+        if(conditie != 0) return 0;
+        
+        struct var * dol1;
+        struct var * dol4;
+        dol1 = get_var_from_table($1);
+        dol4 = get_var_from_table($4);
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
+        if (dol4 == NULL)
+            {yyerror(), printf("undeclared var: %s\n", $4); return 0;}
+        if(same_type_s(dol1, dol4)){
+            if(strcmp(dol1->type, "string") != 0){
+                yyerror(); 
+                printf("trying to do string operation on non string variables\n");
+                return 0;
+            }
+            if(strcmp(dol1->scope, "main") != 0 && strcmp(dol1->scope, "global") != 0)
+                {yyerror(); printf("accessig var from outer scope: %s\n", $1); return 0;}
+            if(strcmp(dol4->scope, "main") != 0 && strcmp(dol4->scope, "global") != 0)
+                {yyerror(); printf("accessig var from outer scope: %s\n", $4); return 0;}
+            if(strcmp(dol4->value, "default") == 0) 
+                {yyerror(), printf("uninitialised var on the right side of string assignation: %s\n", $4); return 0;}
+            if(check_idx(dol1, $2) != 0) return 0;
+            dol1->arr_data[$2] = strdup(dol4->value);
+            dol1->idx_init[$2] = 1;
+        }
+        else{
+            yyerror(); 
+            printf("trying to do operation on variables of different types: %s %s\n", dol1->type,  dol4->type);
+            break;
+        }
+        
+    }
+    | ID ARR_ACCESS STR_ASSIGN ID ARR_ACCESS{
+        if(conditie != 0) return 0;
+        
+        struct var * dol1;
+        struct var * dol4;
+        dol1 = get_var_from_table($1);
+        dol4 = get_var_from_table($4);
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
+        if (dol4 == NULL)
+            {yyerror(), printf("undeclared var: %s\n", $4); return 0;}
+        if(same_type_s(dol1, dol4)){
+            if(strcmp(dol1->type, "string") != 0){
+                yyerror(); 
+                printf("trying to do string operation on non string variables\n");
+                return 0;
+            }
+            if(strcmp(dol1->scope, "main") != 0 && strcmp(dol1->scope, "global") != 0)
+                {yyerror(); printf("accessig var from outer scope: %s\n", $1); return 0;}
+            if(strcmp(dol4->scope, "main") != 0 && strcmp(dol4->scope, "global") != 0)
+                {yyerror(); printf("accessig var from outer scope: %s\n", $4); return 0;}
+            if(check_idx(dol1, $2) != 0) return 0;
+            if(check_idx(dol4, $5) != 0) return 0;
+            dol1->arr_data[$2] = strdup(dol4->arr_data[$5]);
+            dol1->idx_init[$2] = 1;
+            
+        }
+        else{
+            yyerror(); 
+            printf("trying to do operation on variables of different types: %s %s\n", dol1->type,  dol4->type);
+            break;
+        }
+        
     }
     | ID OP_STR ID {
         if(conditie==0)

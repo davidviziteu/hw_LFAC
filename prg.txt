@@ -2,13 +2,10 @@ int c;
 class student { public : 
 int matricol; 
 int ss (int okk){
-  int asdadaadsads;
+  int aa;
 }
 }
-int s ( int ok )
-{
- int m; 
-}
+
 int functie (int am, float bm, bool cm )
 {
  int l;
@@ -16,8 +13,8 @@ int functie (int am, float bm, bool cm )
 
 int Evala ( bool alabala, int sal)
 {
- int ksk;
- ksk = 4;
+ int int_in_functie;
+ int_in_functie = 4;
 }
 
 begin_progr
@@ -39,6 +36,7 @@ begin_progr
   char_arr[2] = 'b';
   char_arr[3] = 'c';
   char_arr[4] = char_simple;
+  char_arr[5] = char_arr[2];
 
   bool bool_simple;
   bool_simple = true;
@@ -46,9 +44,14 @@ begin_progr
   bool_arr[2] = bool_simple;
 
   string string_simple;
-  string_simple strcpy "exemplu string";
+  string string_concat;
+  string_simple strcpy "cadabra";
+  string_concat strcpy "abra";
+  string_concat strcat string_simple;
   string string_arr[4];
   string_arr[1] strcpy "string array example la pozitia 1";
+  string_arr[0] strcpy string_simple;
+  string_arr[3] strcpy string_arr[0];
 
   if(int_simple > float_simple1 && true != false);{
     string_arr[2] strcpy "am intrat in if din cauza ca a mers if ul";
