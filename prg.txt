@@ -19,7 +19,10 @@ int Eval ( int alabala, int aaa)
 begin_progr
   int a;
   int b;
-  int kk [10];
+  char kk [10];
+  kk[1] = 'c';
+  kk[0] = kk[1];
+  kk[0] = kk[1] + '0';
   bool b_example;
   float ccc;
   ccc = 1.1 / 1.1;
@@ -30,11 +33,9 @@ begin_progr
   str_ex1 strcat str_ex2;
   float ms;
   bool test;
-  s (12);  
   char char_Example;
   char_Example = 'a';
-  a = 5;
-  kk[1] = 1 + a;
+  a = 5 + 5;
   b_example = true;
   b = 1 + a;
 end_progr

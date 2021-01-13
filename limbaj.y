@@ -62,9 +62,10 @@ void stack_push(struct var new_elem);
 int stack_pop(); //ASTA DA POP LA INDEX 
 float get_float_cast(struct var *from, const int idx);
 int get_type(struct var * from);
+int check_idx(struct var *x, const int idx);
 int val_expr;
 %}
- 
+
 %union {
     char *strval;
     int intval;
@@ -267,30 +268,45 @@ statement
         dol1 = get_var_from_table($1);
         if (dol1 == NULL)
             {yyerror(); printf("undeclared arr: %s\n", $1); return 0;}
-        else 
-        if(dol1->is_arr == 0) {yyerror(); printf("%s is not an array\n", $1); return 0;}
-        else
-        if(dol1->arr_len <= $2) {yyerror(); printf("accessing index %d out of bound of array %s[%d]\n",$2,  $1, dol1->arr_len); return 0;}
+        if(check_idx(dol1, $2) != 0) return 0;
+        if(strcmp(dol1->type, "string") == 0) {yyerror(); printf("illegal operation on string %s\n", dol1->id); return 0;}
+        if(get_type(dol1) != $4.type) {yyerror(); printf("the right side of the assignment does not have the same type as left side\n"); return 0;}
+        if($4.type_err > 0) {yyerror(); printf("the right side of the assignment does not have the same type throughout the assignment\n"); return 0;}
+        
         if(strcmp(dol1->type, "float") == 0){
+            if($4.type != _float) {yyerror(); printf("the right side of the assignment does not have the same type as left side\n"); return 0;}
             char temp[100];
             sprintf(temp, "%f", $4.value);
-            strcpy(dol1->value, temp);
+            dol1->arr_data[$2] = strdup(temp);
+            dol1->idx_init[$2] = 1;
         }
         else 
         if(strcmp(dol1->type, "int") == 0){
-            if($4.type_err > 0)
-                {yyerror(); printf("the right side of the assignment does not have the same type throughout the assignment\n"); return 0;}
+            if($4.type != _int) {yyerror(); printf("the right side of the assignment does not have the same type as left side\n"); return 0;}
             char temp[100];
-            sprintf(temp, "%d", (int)$4.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
-            // printf("%s assign %d\n", $1, (int)$3.value); 
-            strcpy(dol1->value, temp);
+            sprintf(temp, "%d", (int)($4.value));
+            dol1->arr_data[$2] = strdup(temp);
+            dol1->idx_init[$2] = 1;
         }
         else 
         if(strcmp(dol1->type, "bool") == 0){
+            if($4.type != _bool) {yyerror(); printf("the right side of the assignment does not have the same type as left side\n"); return 0;}
             char temp[100];
-            sprintf(temp, "%d", (bool)$4.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
-            // printf("%s assign %d\n", $1, (int)$3.value); 
-            strcpy(dol1->value, temp);
+            sprintf(temp, "%d", (int)($4.value));
+            dol1->arr_data[$2] = strdup(temp);
+            dol1->idx_init[$2] = 1;
+        }
+        else
+        if(strcmp(dol1->type, "char") == 0){
+            if($4.type != _char) {yyerror(); printf("the right side of the assignment does not have the same type as left side\n"); return 0;}
+            char temp[100];
+            if($4.value > 255) {printf("char overflow\n"); $4.value = (int)($4.value) % 255;}
+            // sprintf(temp, "%c", (char)($4.value));
+            temp[0] = (char)($4.value);
+            temp[1] = '\0';
+            printf("%s\n", temp);
+            dol1->arr_data[$2] = strdup(temp);
+            dol1->idx_init[$2] = 1;
         }
     }
     | ID STR_ASSIGN ID {
@@ -338,8 +354,7 @@ statement
     }
     | TIP ID  { 
         // printf("declarare tip id\n");
-        if(ok_fun==0)
-        {
+        if(ok_fun==0){
              var_in_fun=total_vars;
              ok_fun=1;
         }
@@ -368,6 +383,7 @@ statement
         strcpy(dol3.value, $3);
         if (dol1 == NULL)
             {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
+        
         if(same_type_s(dol1, &dol3)){
             if(strcmp(dol1->type, "string") != 0){
                 yyerror(); 
@@ -378,7 +394,32 @@ statement
         }
         else{
             yyerror(); 
-            printf("trying to do operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3.type);
+            printf("trying to do stringa assign operation on variables of different types: %s %s\n", dol1->type, dol3.type);
+            break;
+        }
+    }
+    | ID ARR_ACCESS STR_ASSIGN STRING {
+        struct var * dol1;
+        struct var dol4;
+        dol1 = get_var_from_table($1);
+        if (dol1 == NULL)
+            {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
+        int res = check_idx(dol1, $2);
+        if(res != 0) return 0;
+        strcpy(dol4.type, "string");
+        strcpy(dol4.value, $3);
+        
+        if(same_type_s(dol1, &dol4)){
+            if(strcmp(dol1->type, "string") != 0){
+                yyerror(); 
+                printf("trying to do string operation on non string variables\n");
+                break;
+            }
+            var_assign(dol1, &dol4);
+        }
+        else{
+            yyerror(); 
+            printf("trying to do stringa assign operation on variables of different types: %s %s\n", dol1->type, dol4.type);
             break;
         }
     }
@@ -430,7 +471,6 @@ statement
     | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {}
     ;
  
- 
 operatii 
     : operatii '+' operatii { $$.value = $1.value + $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
     | operatii '-' operatii { $$.value = $1.value - $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
@@ -464,14 +504,12 @@ variable
         struct var * dol1;
         dol1 = get_var_from_table($1);
         if (dol1 == NULL)
-            {yyerror(), printf("function call with undeclared variable: %s\n", $1); return 0;} 
+            {yyerror(), printf("undeclared variable: %s\n", $1); return 0;} 
         if(strcmp(dol1->scope, "main") != 0 && strcmp(dol1->scope, "global") != 0){
             {yyerror(); printf("accessig var from outer scope: %s\n", $1); return 0;}
         }
-        if(strcmp(dol1->value, "default") == 0){
-            {yyerror(); printf("uninitialised var on the right side: %s\n", $1); return 0;}
-        }
         //verif pt uninitialised?
+        if(dol1->idx_init[$2] == 0) {yyerror(); printf("access of uninitialised idx of array %s\n", $1); return 0;}
         $$.value = get_float_cast(dol1, $2);
         $$.type = get_type(dol1);
         $$.type_err = 0;
@@ -539,55 +577,55 @@ lista_apel
 /////////////////////////////////////////////////////////////
 bool 
     : BOOL {
-        if(strcmp($1, "true") == 0) {$$ = 1; return 0;}
-        if(strcmp($1, "false") == 0) {$$ = 0; return 0;}
+        // if(strcmp($1, "true") == 0) {$$ = 1; return 0;}
+        // if(strcmp($1, "false") == 0) {$$ = 0; return 0;}
     }
     | operatii_binare { $$ = $1; }
     ;
  
 operatii_binare
     : ID OP_BIN ID {
-        printf("op binare\n");
-        struct var * dol1;
-        struct var * dol3;
-        dol1 = get_var_from_table($1);
-        dol3 = get_var_from_table($3);
-        if (dol1 == NULL)
-            {yyerror(), printf("undeclared var: %s", $1); return 0;}
-        if (dol1 == NULL)
-            {yyerror(), printf("undeclared var: %s", $3); return 0;}
-        if(same_type_s(dol1, dol3) && (same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) {
-            if(strcmp($2, "||")==0) {
-                if(strcmp(dol1->type, "string")==0)
-                return 0;
-            }
-            if(strcmp($2, "&&")==0){
-                return 0;
-            }
-            if(strcmp($2, ">")==0){
-                return 0;
-            }
-            if(strcmp($2, "<")==0){
-                return 0;
-            }
-            if(strcmp($2, "!")==0){
-                return 0;
-            }
-            if(strcmp($2, "<=")==0){
-                return 0;
-            }
-            if(strcmp($2, ">=")==0){
-                return 0;
-            }
-            if(strcmp($2, "!=")==0){
-                return 0;
-            }
-        }
-        else{
-            yyerror(); 
-            printf("trying to do binary operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3->type);
-            return 0;
-        }
+        // printf("op binare\n");
+        // struct var * dol1;
+        // struct var * dol3;
+        // dol1 = get_var_from_table($1);
+        // dol3 = get_var_from_table($3);
+        // if (dol1 == NULL)
+        //     {yyerror(), printf("undeclared var: %s", $1); return 0;}
+        // if (dol1 == NULL)
+        //     {yyerror(), printf("undeclared var: %s", $3); return 0;}
+        // if(same_type_s(dol1, dol3) && (same_scope($1, $3) || (strcmp(get_var_scope($3),"globala")==0))) {
+        //     if(strcmp($2, "||")==0) {
+        //         if(strcmp(dol1->type, "string")==0)
+        //         return 0;
+        //     }
+        //     if(strcmp($2, "&&")==0){
+        //         return 0;
+        //     }
+        //     if(strcmp($2, ">")==0){
+        //         return 0;
+        //     }
+        //     if(strcmp($2, "<")==0){
+        //         return 0;
+        //     }
+        //     if(strcmp($2, "!")==0){
+        //         return 0;
+        //     }
+        //     if(strcmp($2, "<=")==0){
+        //         return 0;
+        //     }
+        //     if(strcmp($2, ">=")==0){
+        //         return 0;
+        //     }
+        //     if(strcmp($2, "!=")==0){
+        //         return 0;
+        //     }
+        // }
+        // else{
+        //     yyerror(); 
+        //     printf("trying to do binary operation on variables of different types: %s %s %s\n", dol1->type, $2, dol3->type);
+        //     return 0;
+        // }
     }
     ;
 
@@ -599,13 +637,12 @@ void yyerror(char * s){
 }
  
 void print_table(FILE* fd, int errs){
+    if (errs == 0) {
+        fprintf(fd, "\n\nProgram corect sintactic!\n");
+    } else  {fprintf(fd, "Au fost gasite erori de compilare\n"); return;} 
     if (fd == NULL) 
         fd = stdout;
     fprintf(fd, "Var table:\n");
-    if (errs == 0) {
-        fprintf(fd, "\n\nProgram corect sintactic!\n");
-    } else  fprintf(fd, "Au fost gasite erori de compilare\n"); 
-
     fprintf(fd, "\n\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "id", "value", "type", "arr?","scope", "additional");
     fprintf(fd, "\t%-15s %-15s %-10s %-4s %-10s %-10s \n", "---------", "------", "----","----","-----", "----------");
 
@@ -622,29 +659,29 @@ void print_table(FILE* fd, int errs){
     }
     fprintf(fd, "\narrays:\n");
     fprintf(fd, "\t%-7s %-15s %-10s\n", "type", "id", "content");
+    fprintf(fd, "\t%-7s %-15s %-10s\n", "----", "--", "below");
     for (int i = 0; i < total_vars; i++){
         if(tabel_var[i].is_arr == 1){
             fprintf(fd, "\t%-7s %-15s ", tabel_var[i].type, tabel_var[i].id);
+            fprintf(fd, "\n");
             for(int ii = 0; ii < tabel_var[i].arr_len; ++ii){
                 if(tabel_var[i].idx_init[ii] == 0)
                     continue;
                 if(strcmp(tabel_var[i].type, "int") == 0 || strcmp(tabel_var[i].type, "bool") == 0){
                     int temp = 0;
                     sscanf(tabel_var[i].arr_data[ii], "%d", &temp);
-                    fprintf(fd, "%d ", temp);
+                    fprintf(fd, "[%d]%d \n",ii , temp);
                 } 
                 if(strcmp(tabel_var[i].type, "char") == 0){
-                    int temp;
-                    sscanf(tabel_var[i].arr_data[ii], "%d", &temp);
-                    fprintf(fd, "%c ", (char)(temp));
+                    fprintf(fd, "[%d]%s \n",ii , tabel_var[i].arr_data[ii]);
                 }
                 if(strcmp(tabel_var[i].type, "float") == 0){
                     float temp;
                     sscanf(tabel_var[i].arr_data[ii], "%f", &temp);
-                    fprintf(fd, "%f ", temp);
+                    fprintf(fd, "[%d]%f \n",ii , temp);
                 }
                 if(strcmp(tabel_var[i].type, "string") == 0){
-                    fprintf(fd, "%s ", tabel_var[i].arr_data[ii]);
+                    fprintf(fd, "[%d]%s \n",ii , tabel_var[i].arr_data[ii]);
                 }
             }
             fprintf(fd, "\n");
@@ -967,6 +1004,19 @@ int get_type(struct var * from){
         return _float;
 }
 
+int check_idx(struct var *x, const int idx){
+    if(x->is_arr == 0){
+        yyerror("");
+        printf("%s is not an array\n", x->id);
+        return -1;
+    }
+    if(x->arr_len < idx){
+        yyerror("");
+        printf("accesing out of bound elem of array %s\n", x->id);
+        return -1;
+    }
+    return 0;
+}
 
 
 /* 

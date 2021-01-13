@@ -1,7 +1,7 @@
-Var table:
 
 
 Program corect sintactic!
+Var table:
 
 	id              value           type       arr? scope      additional 
 	---------       ------          ----       ---- -----      ---------- 
@@ -14,9 +14,9 @@ Program corect sintactic!
 	alabala         default         int             functie    Eval       
 	aaa             default         int             functie    Eval       
 	ksk             4               int             functie    Eval       
-	a               5               int             main                  
-	b               6               int             main                  
-	kk              6               int        yes  main                  
+	a               10              int             main                  
+	b               11              int             main                  
+	kk              default         char       yes  main                  
 	b_example       1               bool            main                  
 	ccc             1.000000        float           main                  
 	str_ex1         abracadabra     string          main                  
@@ -34,5 +34,9 @@ fun decl 4:
 
 arrays:
 	type    id              content   
-	int     kk              
+	----    --              below     
+	char    kk              
+[0]“ 
+[1]c 
+
 
