@@ -38,7 +38,7 @@ struct signature tabel_fnc[100];
 struct signature new_function_buff;
 int total_vars=0, errors=0, total_fnc=1,nr_param=0, param=0, var_in_class, conditie=0, ok=0, var_in_fun, ok_fun;
 int err_count = 0;
-char scope[100], scope2[100];
+char scope[100], scope2[100], param_eval[100];
 int stack_idx = 0;
 int exists_in_var_table(char x[100]);
 int exists_in_var_table_s(struct var *x);
@@ -510,14 +510,18 @@ statement
     | instructiune_if
     | WHILE '(' bool ')' '{' list '}'  {}
     | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {}
-    | compute {}
+    | compute {  if(strcmp(param_eval, "1")!=0)  yyerror();  bzero(param_eval, 100);  }
     ;
-operations  : operatii {   printf( "TIPUL ESTE:%d\n", $1.type); char temp[10]; sprintf(temp, "%d", $1.type); strcat(param_fun, temp); }
-            | operatii ',' operations{ printf("TIPUL ESTE: %d\n", $1.type); char temp[10]; sprintf(temp, "%d", $1.type); strcat(param_fun, temp);}
+operations  : operatii {    char temp[10]; sprintf(temp, "%d", $1.type); strcat(param_fun, temp); }
+            | operatii ',' operations{  char temp[10]; sprintf(temp, "%d", $1.type); strcat(param_fun, temp);}
             ;
 compute : EVAL'(' operatii ')' { strcat(output, " "); char temp[100]; 
                                     int val=(int)($3.value);
                                 sprintf(temp, "%d", val); strcat(output, temp); 
+                                bzero(temp,100); 
+                                 sprintf(temp, "%d", $3.type); strcat(param_eval, temp); 
+                                 bzero(temp, 100); 
+        
                                 //printf("%s", output);
                                  }
         ; 

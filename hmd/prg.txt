@@ -51,8 +51,8 @@ begin_progr
   };
   b_example = false; 
   Eval( 2 + 3 );
-  functie ( 3 , 4.5 , true); 
+  functie ( 3 , 4.5 , b_example); 
  b = 1 + a;
-   Eval ( b + 4 - 14); 
+   Eval ( 5 ); 
 end_progr
 
