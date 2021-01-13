@@ -14,7 +14,7 @@ int functie (int am, float bm, bool cm )
  int l;
 }
 
-int Evala ( int alabala, int sal)
+int Evala ( bool alabala, int sal)
 {
  int ksk;
  ksk = 4;
@@ -51,7 +51,7 @@ begin_progr
   };
   b_example = false; 
   Eval( 2 + 3 );
-  functie ( 3 , 4.5 , b_example); 
+  functie ( Evala ( true , 2 ) , 4.5 , b_example ); 
  b = 1 + a;
    Eval ( 5 ); 
 end_progr

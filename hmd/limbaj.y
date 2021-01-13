@@ -58,6 +58,7 @@ void update_var_int(char x[100], int valoare);
 char * get_var_table(char id[100]) ;
 char* get_var_scope(char id[100]) ;
 int get_var_value(char id[100]);
+char * get_var_return(char id[100]);
 int same_scope(char x[100], char y[100]) ;
 int exists_function (char x[100]);
 void stack_push(struct var new_elem);
@@ -81,7 +82,7 @@ int val_expr;
 
 %token <strval>ID <strval>TIP BGIN END CONST ASSIGN EVAL VIS CLASS IF WHILE FOR OP_BIN OP_STR BOOL <strval>STRING AND OR NOT '.'    
 %token <strval>FLOAT <number>NR <intval>ARR_ACCESS <strval>CHR STR_ASSIGN
-%type <number> operatii <blval>bool <blval>operatii_binare <number> variable
+%type <number> operatii <blval>bool <blval>operatii_binare <number> variable <strval> apel_functie
 %left '+' '-'
 %left '*' '/'
 %start progr
@@ -259,7 +260,6 @@ statement
         }
         else 
         if(strcmp(dol1->type, "bool") == 0){
-            printf("da BOOL\n");
             char temp[100];
             sprintf(temp, "%d", (bool)$3.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
             // printf("%s assign %d\n", $1, (int)$3.value); 
@@ -495,25 +495,52 @@ statement
             {yyerror(), printf("call to undeclared function: %s\n", $1); return 0;}
     }
     }
-    | ID '(' operations ')' {
-        if(conditie==0)
-        {
-        printf("apel funectie din main + lista apel\n");
-        if(exists_function($1)==0)
-            yyerror();
-        }
-        printf("PARAMETRII FUNCTIEI SUNT: %s\n", param_fun);
-        if(find_param_fun($1, param_fun)==0)
-            yyerror();
-         bzero(param_fun,100);
-    }
+    | apel_functie { }
     | instructiune_if
     | WHILE '(' bool ')' '{' list '}'  {}
     | FOR '(' ID ASSIGN ID ';' operatii_binare ';' operatii ')' '{' list '}'    {}
     | compute {  if(strcmp(param_eval, "1")!=0)  yyerror();  bzero(param_eval, 100);  }
     ;
+
+apel_functie :ID '(' operations ')' {
+                    if(conditie==0)
+                    {
+                    if(exists_function($1)==0)
+                        yyerror();
+                    }
+                    if(find_param_fun($1, param_fun)==0)
+                        yyerror();
+                        bzero(param_fun,100);
+                    //strcpy($$, get_var_return($1));
+                    char tempo[100];
+                    bzero(tempo,100);
+                    strcpy(tempo, get_var_return($1));
+                    if(strcmp( tempo, "int")==0)
+                         {
+                             sprintf($$, "%d", 1); 
+                         }
+                          if(strcmp( tempo, "char")==0)
+                         {
+                             sprintf($$, "%d", 2); 
+                         }
+                     if(strcmp( tempo, "float")==0)
+                         {
+                             sprintf($$, "%d", 3); 
+                         }
+                     if(strcmp( tempo, "bool")==0)
+                         {
+                             sprintf($$, "%d", 4); 
+                         }
+                     if(strcmp( tempo, "string")==0)
+                         {
+                             sprintf($$, "%d", 5); 
+                         }
+                }
+    ;
 operations  : operatii {    char temp[10]; sprintf(temp, "%d", $1.type); strcat(param_fun, temp); }
             | operatii ',' operations{  char temp[10]; sprintf(temp, "%d", $1.type); strcat(param_fun, temp);}
+            | apel_functie  { char temp[10]; sprintf(temp, "%s", $1); strcat(param_fun, temp); }
+            | apel_functie ',' operations {char temp[10]; sprintf(temp, "%s", $1); strcat(param_fun, temp);}
             ;
 compute : EVAL'(' operatii ')' { strcat(output, " "); char temp[100]; 
                                     int val=(int)($3.value);
@@ -541,7 +568,7 @@ operatii
     | '(' operatii '-' operatii ')' { $$.value = $2.value - $4.value; $$.type_err = ($2.type != $4.type); $$.type = $2.type;}
     | operatii '*' operatii { $$.value = $1.value * $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
     | '(' operatii '*' operatii ')' { $$.value = $2.value * $4.value; $$.type_err = ($2.type != $4.type); $$.type = $2.type;}
-    | operatii '/' operatii { if($3.value == 0) printf("aoleu, imparti la 0\n");$$.value = $1.value / $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
+    | operatii '/' operatii { if($3.value == 0) printf("impartire la 0\n");$$.value = $1.value / $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
     | '(' operatii '/' operatii ')' { $$.value = $2.value / $4.value; $$.type_err = ($2.type != $4.type); $$.type = $2.type;}    
     | variable {/*NON STRING VARIABLE*/}
     ;
@@ -739,6 +766,14 @@ int main(int argc, char **argv) {
     }
     
 }
+char * get_var_return(char id[100])
+{
+    for(int i=0; i< total_fnc; i++)
+        if(strcmp(tabel_fnc[i].nume, id)==0)
+        {
+         return tabel_fnc[i].ret_type;}
+    return "error";
+}
 int find_param_fun( char x[1000], char params[100])
 {
     char temp[100];
@@ -747,18 +782,9 @@ int find_param_fun( char x[1000], char params[100])
     for(int i=0; i< total_fnc; i++)
         if(strcmp(tabel_fnc[i].nume, x)==0)
         {
-            ///cauta parametrii
-            ///////////////////
-            ///////////////////
-            ////////////////
-            //////////////
-            /////
-            /////////////
-            printf("In functia: %s ", tabel_fnc[i].nume);
-            printf("I-AM GASIT SI SUNT: \n");
+
             for(int j=0; j< tabel_fnc[i].params_count; j++)
                 {
-                    printf("Parametrii : %s\n", tabel_fnc[i].param_types[j]);
                     if(strcmp( tabel_fnc[i].param_types[j], "int")==0)
                          {
                              sprintf(temp, "%d", 1); 
@@ -793,7 +819,6 @@ int find_param_fun( char x[1000], char params[100])
         {
             temp2[strlen(params)-i-1]=params[i];
         }
-        printf("\nTEMP 2 ESTE: %s\n", temp2);
         if(strcmp(final, temp2)==0)
         {
             return 1;
@@ -816,6 +841,7 @@ char* get_var_table(char id[100])  //cauta o variabila in tabel_vara, daca exist
     }
     return "eroare";
 }
+
 int get_var_value(char id[100])  //cauta o variabila in tabel_vara, daca exista
 {
     for (int i = 0; i < total_vars; i++) {

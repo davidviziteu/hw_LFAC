@@ -15,7 +15,7 @@ Var table:
 	bm              default         float           functie    functie    
 	cm              default         bool            functie    functie    
 	l               default         int             functie    functie    
-	alabala         default         int             functie    Evala      
+	alabala         default         bool            functie    Evala      
 	sal             default         int             functie    Evala      
 	ksk             4               int             functie    Evala      
 	a               2               int             main                  
@@ -37,7 +37,7 @@ fun decl 5:
 	int     ss      	(int )
 	int     s       	(int )
 	int     functie 	(int floatbool)
-	int     Evala   	(int int )
+	int     Evala   	(boolint )
 
 arrays:
 	type    id              content   
