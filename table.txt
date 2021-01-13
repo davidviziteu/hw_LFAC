@@ -18,8 +18,8 @@ Var table:
 	alabala         default         bool            functie    Evala      
 	sal             default         int             functie    Evala      
 	ksk             4               int             functie    Evala      
-	a               2               int             main                  
-	b               3               int             main                  
+	a               10              int             main                  
+	b               11              int             main                  
 	ksk             default         int             main                  
 	kk              default         char       yes  main                  
 	int_Example_Arr default         int        yes  main                  

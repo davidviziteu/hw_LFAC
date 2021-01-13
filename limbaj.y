@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 extern FILE* yyin;
 extern char* yytext;
 extern int yylineno;
@@ -80,12 +79,14 @@ int val_expr;
     } number;
 }
 
-%token <strval>ID <strval>TIP BGIN END CONST ASSIGN EVAL VIS CLASS IF WHILE FOR OP_BIN OP_STR BOOL <strval>STRING AND OR NOT '.'    
-%token <strval>FLOAT <number>NR <intval>ARR_ACCESS <strval>CHR STR_ASSIGN
-%type <number> operatii <blval>bool <blval>operatii_binare <number> variable <strval> apel_functie
+%token <strval>ID <strval>TIP BGIN END CONST ASSIGN EVAL VIS CLASS IF WHILE FOR OP_BIN OP_STR  <strval>STRING '.'    
+%token <strval>FLOAT <number>NR <intval>ARR_ACCESS <strval>CHR STR_ASSIGN bool
+%token AND OR
+%token EQ NEQ GT LT GE LE
+%type <number> operatii <blval>operatii_binare <number> variable <strval> apel_functie
 
 %left AND OR
-%left EQ NEQ LWR GTR LWE GRE
+%left EQ NEQ GT LT GE LE
 %left '+' '-'
 %left '*' '/'
 
@@ -142,8 +143,7 @@ functie
         strcpy(new_function_buff.ret_type, $1);
         strcpy(new_function_buff.nume, $2);
         if(exists_signature(&new_function_buff) == 1)
-             yyerror(),  printf("function %s redefined", 
-                                                new_function_buff.nume);
+             yyerror(), printf("function %s redefined", new_function_buff.nume);
         else
              add_signature(&new_function_buff), total_fnc++;
 
@@ -265,7 +265,7 @@ statement
         else 
         if(strcmp(dol1->type, "bool") == 0){
             char temp[100];
-            sprintf(temp, "%d", (bool)$3.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
+            sprintf(temp, "%d", (int)$3.value); //TREBUIE NEAPARAT CAST CA ALTFEL DA 0
             // printf("%s assign %d\n", $1, (int)$3.value); 
             strcpy(dol1->value, temp);
         }
@@ -314,7 +314,6 @@ statement
             // sprintf(temp, "%c", (char)($4.value));
             temp[0] = (char)($4.value);
             temp[1] = '\0';
-            printf("%s\n", temp);
             dol1->arr_data[$2] = strdup(temp);
             dol1->idx_init[$2] = 1;
         }
@@ -443,7 +442,7 @@ statement
             {yyerror(), printf("undeclared var: %s\n", $1); return 0;}
         int res = check_idx(dol1, $2);
         if(res != 0) return 0;
-        printf("string assing in arr\n");
+        // printf("string assing in arr\n");
         
         if(check_idx(dol1, $2) != 0) return 0;
         if(strcmp(dol1->type, "string") != 0) {yyerror(); printf("illegal operation on string %s\n", dol1->id); return 0;}
@@ -545,13 +544,13 @@ compute : EVAL'(' operatii ')' { strcat(output, " "); char temp[100];
                                  }
         ; 
 
-instructiune_if : IF '(' ')'{  //in paranteze o sa fie un bool dupa ce o sa fie gata
-                        if(strcmp("true", "true")==0) { conditie=1; }
-                        else {goto s4; conditie=0;}
-                         } 
-                | '{'' ''}' { s3:  conditie=0;}
-                | '{' list '}'  { s4: conditie=0;}  
-                ;
+instructiune_if 
+    : IF '(' operatii_binare ')'{  //in paranteze o sa fie un bool dupa ce o sa fie gata
+        conditie = $3;
+    }
+    | '{'' ''}' { s3:  conditie=0;}
+    | '{' list '}'  { s4: conditie=0;}  
+    ;
  
 operatii 
     : operatii '+' operatii { $$.value = $1.value + $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
@@ -560,8 +559,8 @@ operatii
     | '(' operatii '-' operatii ')' { $$.value = $2.value - $4.value; $$.type_err = ($2.type != $4.type); $$.type = $2.type;}
     | operatii '*' operatii { $$.value = $1.value * $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
     | '(' operatii '*' operatii ')' { $$.value = $2.value * $4.value; $$.type_err = ($2.type != $4.type); $$.type = $2.type;}
-    | operatii '/' operatii { if($3.value == 0) printf("impartire la 0\n");$$.value = $1.value / $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
-    | '(' operatii '/' operatii ')' { $$.value = $2.value / $4.value; $$.type_err = ($2.type != $4.type); $$.type = $2.type;}    
+    | operatii '/' operatii { if($3.value == 0) {yyerror();printf("DIVISION BY 0 DETECTED\n"); return 0;} $$.value = $1.value / $3.value; $$.type_err = ($1.type != $3.type); $$.type = $1.type;}
+    | '(' operatii '/' operatii ')' { if($4.value == 0) {yyerror();printf("DIVISION BY 0 DETECTED\n"); return 0;} $$.value = $2.value / $4.value; $$.type_err = ($2.type != $4.type); $$.type = $2.type;}    
     | variable {/*NON STRING VARIABLE*/}
     ;
 
@@ -620,8 +619,6 @@ declaratie
         else
         {
                 yyerror(); 
-
-
         }
     }
     | TIP ID ARR_ACCESS {
@@ -642,16 +639,32 @@ declaratie
     ;
 
 
-bool 
-    : BOOL {
-        // if(strcmp($1, "true") == 0) {$$ = 1; return 0;}
-        // if(strcmp($1, "false") == 0) {$$ = 0; return 0;}
-    }
-    | operatii_binare { $$ = $1; }
-    ;
- 
+
 operatii_binare
-    : ID OP_BIN ID {
+    : operatii AND operatii {
+        $$ = $1.value && $3.value;
+    }
+    | operatii OR operatii {
+        $$ = $1.value || $3.value;
+    }
+    | operatii EQ operatii {
+        $$ = $1.value == $3.value;
+        // printf("BOOLEAN EVALUATION %d\n", $$);
+    }
+    | operatii NEQ operatii {
+        $$ = $1.value != $3.value;
+    }
+    | operatii GE operatii {
+        $$ = $1.value >= $3.value;
+    }
+    | operatii LE operatii {
+        $$ = $1.value <= $3.value;
+    }
+    | operatii GT operatii {
+        $$ = $1.value > $3.value;
+    }
+    | operatii LT operatii {
+        $$ = $1.value < $3.value;
     }
     ;
 
@@ -739,6 +752,8 @@ int main(int argc, char **argv) {
     }
     
 }
+
+
 char * get_var_return(char id[100])
 {
     for(int i=0; i< total_fnc; i++)

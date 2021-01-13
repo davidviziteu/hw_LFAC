@@ -44,11 +44,12 @@ begin_progr
   bool test;
   int val;
   val= 10;
+  
   Eval ( val / 3 );
   char char_Example; 
   char_Example = 'a';
   a=2;
-  if ( ) ;
+  if ( true == false ) ;
   {
   a = 5 + 5;
   b_example = true;

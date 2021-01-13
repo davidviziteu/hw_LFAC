@@ -63,16 +63,21 @@ extern int yydebug;
     FOR = 269,
     OP_BIN = 270,
     OP_STR = 271,
-    BOOL = 272,
-    STRING = 273,
-    AND = 274,
-    OR = 275,
-    NOT = 276,
-    FLOAT = 277,
-    NR = 278,
-    ARR_ACCESS = 279,
-    CHR = 280,
-    STR_ASSIGN = 281
+    STRING = 272,
+    FLOAT = 273,
+    NR = 274,
+    ARR_ACCESS = 275,
+    CHR = 276,
+    STR_ASSIGN = 277,
+    bool = 278,
+    AND = 279,
+    OR = 280,
+    EQ = 281,
+    NEQ = 282,
+    GT = 283,
+    LT = 284,
+    GE = 285,
+    LE = 286
   };
 #endif
 /* Tokens.  */
@@ -90,22 +95,27 @@ extern int yydebug;
 #define FOR 269
 #define OP_BIN 270
 #define OP_STR 271
-#define BOOL 272
-#define STRING 273
-#define AND 274
-#define OR 275
-#define NOT 276
-#define FLOAT 277
-#define NR 278
-#define ARR_ACCESS 279
-#define CHR 280
-#define STR_ASSIGN 281
+#define STRING 272
+#define FLOAT 273
+#define NR 274
+#define ARR_ACCESS 275
+#define CHR 276
+#define STR_ASSIGN 277
+#define bool 278
+#define AND 279
+#define OR 280
+#define EQ 281
+#define NEQ 282
+#define GT 283
+#define LT 284
+#define GE 285
+#define LE 286
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 72 "limbaj.y"
+#line 71 "limbaj.y"
 
     char *strval;
     int intval;
@@ -116,7 +126,7 @@ union YYSTYPE
         int type_err;
     } number;
 
-#line 120 "y.tab.h"
+#line 130 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
