@@ -18,23 +18,20 @@ Var table:
 	alabala         default         bool            functie    Evala      
 	sal             default         int             functie    Evala      
 	ksk             4               int             functie    Evala      
-	a               10              int             main                  
-	b               11              int             main                  
-	ksk             default         int             main                  
-	kk              default         char       yes  main                  
-	int_Example_Arr default         int        yes  main                  
-	b_example       0               bool            main                  
-	ccc             1.000000        float           main                  
-	str_ex1         cadabra         string          main                  
-	concat_ex       abra            string          main                  
-	str_ex2         default         string     yes  main                  
-	ms              default         float           main                  
-	test            default         bool            main                  
-	val             10              int             main                  
-	char_Example    default         char            main                  
+	int_simple      47              int             main                  
+	int_arr         default         int        yes  main                  
+	float_simple1   2.300000        float           main                  
+	float_simple2   2.300000        float           main                  
+	float_arr       default         float      yes  main                  
+	char_simple     a               char            main                  
+	char_arr        default         char       yes  main                  
+	bool_simple     1               bool            main                  
+	bool_arr        default         bool       yes  main                  
+	string_simple   exemplu string  string          main                  
+	string_arr      default         string     yes  main                  
 
 fun decl 5:
-	retType fnc       
+	 retType fnc       
 	        Eval    	(int  )
 	int     ss      	(int  )
 	int     s       	(int  )
@@ -44,15 +41,43 @@ fun decl 5:
 arrays:
 	type    id              content below
 	----    --------------- 
-	char    kk              
-[0]c 
-[1]0 
+	int     int_arr         
+[0](null) 
+[1](null) 
+[2]47 
+[3](null) 
+[4](null) 
+[5](null) 
+[6](null) 
+[7](null) 
+[8](null) 
+[9](null) 
 
-	int     int_Example_Arr 
+	float   float_arr       
+[0](null) 
+[1](null) 
+
+	char    char_arr        
+[0](null) 
+[1](null) 
+[2]b 
+[3]c 
+[4]a 
+[5](null) 
+[6](null) 
+[7](null) 
+[8](null) 
+[9](null) 
+
+	bool    bool_arr        
+[0](null) 
+[1](null) 
 [2]1 
-[5]4 
 
-	string  str_ex2         
-[2]Array data inserted here at idx 2 
+	string  string_arr      
+[0](null) 
+[1]string array example la pozitia 1 
+[2]am intrat in if din cauza ca a mers if ul 
+[3](null) 
 
 

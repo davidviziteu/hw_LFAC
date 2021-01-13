@@ -142,6 +142,7 @@ functie
         //decl globala functie
         strcpy(new_function_buff.ret_type, $1);
         strcpy(new_function_buff.nume, $2);
+        strcpy(new_function_buff.parent_class, "global");
         if(exists_signature(&new_function_buff) == 1)
              yyerror(), printf("function %s redefined", new_function_buff.nume);
         else
@@ -160,6 +161,7 @@ functie
         strcpy(new_function_buff.ret_type, $1);
         new_function_buff.params_count = 0;
         strcpy(new_function_buff.nume, $2);
+        strcpy(new_function_buff.parent_class, "global");
         if(exists_signature(&new_function_buff) == 1)
              yyerror(), printf("function %s redefined", new_function_buff.nume);
         else
@@ -269,6 +271,11 @@ statement
             // printf("%s assign %d\n", $1, (int)$3.value); 
             strcpy(dol1->value, temp);
         }
+        else 
+        if(strcmp(dol1->type, "char") == 0){
+            dol1->value[0] = (char)($3.value);
+            dol1->value[1] = '\0';
+        }
     }
     }
     | ID ARR_ACCESS ASSIGN operatii {
@@ -287,6 +294,7 @@ statement
             if($4.type != _float) {yyerror(); printf("the right side of the assignment does not have the same type as left side\n"); return 0;}
             char temp[100];
             sprintf(temp, "%f", $4.value);
+            printf("FLOAT SSIGNED %s\n", temp);
             dol1->arr_data[$2] = strdup(temp);
             dol1->idx_init[$2] = 1;
         }
@@ -689,7 +697,7 @@ void print_table(FILE* fd, int errs){
     for (int i = 0; i < total_vars; i++)
         fprintf(fd, "\t%-15s %-15s %-10s %-4s %-10s %-10s \n", tabel_var[i].id, tabel_var[i].value, tabel_var[i].type, (tabel_var[i].is_arr == 1 ? "yes" : "   ") ,tabel_var[i].scope, tabel_var[i].where);
     fprintf(fd, "\nfun decl %d:\n", total_fnc);
-        fprintf(fd, "\t%-7s %-10s\n", "retType", "fnc");
+        fprintf(fd, "\t %-7s %-10s\n", "retType", "fnc");
     for (int i = 0; i < total_fnc; i++){
         fprintf(fd, "\t%-7s %-7s ", tabel_fnc[i].ret_type, tabel_fnc[i].nume);
         fprintf(fd, "\t(");
@@ -705,9 +713,10 @@ void print_table(FILE* fd, int errs){
             fprintf(fd, "\t%-7s %-15s ", tabel_var[i].type, tabel_var[i].id);
             fprintf(fd, "\n");
             for(int ii = 0; ii < tabel_var[i].arr_len; ++ii){
+                fprintf(fd, "[%d]%s \n",ii , tabel_var[i].arr_data[ii]);
                 if(tabel_var[i].idx_init[ii] == 0)
-                    continue;
-                if(strcmp(tabel_var[i].type, "int") == 0 || strcmp(tabel_var[i].type, "bool") == 0){
+                    continue; 
+                /* if(strcmp(tabel_var[i].type, "int") == 0 || strcmp(tabel_var[i].type, "bool") == 0){
                     int temp = 0;
                     sscanf(tabel_var[i].arr_data[ii], "%d", &temp);
                     fprintf(fd, "[%d]%d \n",ii , temp);
@@ -718,11 +727,11 @@ void print_table(FILE* fd, int errs){
                 if(strcmp(tabel_var[i].type, "float") == 0){
                     float temp;
                     sscanf(tabel_var[i].arr_data[ii], "%f", &temp);
-                    fprintf(fd, "[%d]%f \n",ii , temp);
+                    fprintf(fd, "[%d]%f \n", temp);
                 }
                 if(strcmp(tabel_var[i].type, "string") == 0){
                     fprintf(fd, "[%d]%s \n",ii , tabel_var[i].arr_data[ii]);
-                }
+                } */
             }
             fprintf(fd, "\n");
         }
@@ -982,7 +991,7 @@ int exists_signature(struct signature *new_f) {
 int add_signature(struct signature *new_f) {
      strcpy(tabel_fnc[total_fnc].nume, new_f->nume);
      strcpy(tabel_fnc[total_fnc].ret_type, new_f->ret_type);
-     strcpy(tabel_fnc[total_fnc].parent_class, new_f->nume);
+     strcpy(tabel_fnc[total_fnc].parent_class, new_f->parent_class);
      tabel_fnc[total_fnc].is_method = new_f->is_method;
      tabel_fnc[total_fnc].params_count = new_f->params_count;
      for (int i = 0; i < tabel_fnc[total_fnc].params_count; ++i) {

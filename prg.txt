@@ -21,46 +21,41 @@ int Evala ( bool alabala, int sal)
 }
 
 begin_progr
-  int a;
-  int b; 
-  int ksk;
-  char kk [10];
-  int int_Example_Arr[10];
-  int_Example_Arr[5] = 1 + 3;
-  int_Example_Arr[2] = 1;
-  kk[1] = 'c';
-  kk[0] = kk[1];
-  kk[1] = '0';
-  bool b_example;
-  float ccc;
-  ccc = 1.1 / 1.1;
-  string str_ex1;
-  string concat_ex;
-  string str_ex2[10];
-  str_ex1 strcpy "cadabra";
-  concat_ex strcpy "abra";
-  str_ex2[2] strcpy "Array data inserted here at idx 2";
-  float ms;
-  bool test;
-  int val;
-  val= 10;
+  int int_simple;
+  int int_arr[10];
+  int_simple = 19 + 10 - 2 + 40 / 2;
+  int_arr[2] = int_simple;
   
-  Eval ( val / 3 );
-  char char_Example; 
-  char_Example = 'a';
-  a=2;
-  if ( true != false && a > 0 ) ;
-  {
-  a = 5 + 5;
-  b_example = true;
+  float float_simple1;
+  float float_simple2;
+  float float_arr[2];
+  float_simple1 = 1.2 + 1.1;
+  float_simple2 = float_simple1;
+  float_arr[2] = float_simple1;
+
+  char char_simple;
+  char_simple = 'a';
+  char char_arr[10];
+  char_arr[2] = 'b';
+  char_arr[3] = 'c';
+  char_arr[4] = char_simple;
+
+  bool bool_simple;
+  bool_simple = true;
+  bool bool_arr[3];
+  bool_arr[2] = bool_simple;
+
+  string string_simple;
+  string_simple strcpy "exemplu string";
+  string string_arr[4];
+  string_arr[1] strcpy "string array example la pozitia 1";
+
+  if(int_simple > float_simple1 && true != false);{
+    string_arr[2] strcpy "am intrat in if din cauza ca a mers if ul";
   };
-  if ( true == false && a > 0 ) ;
-  {
-  a = 0;
+
+  if(int_simple > float_simple1 && true == false);{
+    string_arr[0] strcpy "EU NU TREBUIE SA APAR IN TABEL";
   };
-  b_example = false; 
-  Eval( 2 + 3 );
-  b = 1 + a;
-  Eval ( 5 ); 
 end_progr
 
