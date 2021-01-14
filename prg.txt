@@ -25,10 +25,10 @@ begin_progr
   
   float float_simple1;
   float float_simple2;
-  float float_arr[2];
+  float float_arr[3];
   float_simple1 = 1.2 + 1.1;
-  float_simple2 = float_simple1;
-  float_arr[2] = float_simple1;
+  float_simple2 = float_simple1 + 10.0;
+  float_arr[2] = float_simple1 + float_simple2;
 
   char char_simple;
   char_simple = 'a';

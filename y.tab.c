@@ -1816,8 +1816,8 @@ yyreduce:
         if(strcmp(dol1->type, "float") == 0){
             if((yyvsp[0].number).type != _float) {yyerror(); printf("the right side of the assignment does not have the same type as left side\n"); return 0;}
             char temp[100];
-            sprintf(temp, "%f", (yyvsp[0].number).value);
-            printf("FLOAT SSIGNED %s\n", temp);
+            sprintf(temp, "%f", (float)(yyvsp[0].number).value);
+            printf("FLOAT SSIGNED %s %f\n", temp, (yyvsp[0].number).value);
             dol1->arr_data[(yyvsp[-2].intval)] = strdup(temp);
             dol1->idx_init[(yyvsp[-2].intval)] = 1;
         }
@@ -2758,9 +2758,9 @@ void print_table(FILE* fd, int errs){
             fprintf(fd, "\t%-7s %-15s ", tabel_var[i].type, tabel_var[i].id);
             fprintf(fd, "\n");
             for(int ii = 0; ii < tabel_var[i].arr_len; ++ii){
-                fprintf(fd, "[%d]%s \n",ii , tabel_var[i].arr_data[ii]);
                 if(tabel_var[i].idx_init[ii] == 0)
                     continue; 
+                fprintf(fd, "[%d]%s \n",ii , tabel_var[i].arr_data[ii]);
                 /* if(strcmp(tabel_var[i].type, "int") == 0 || strcmp(tabel_var[i].type, "bool") == 0){
                     int temp = 0;
                     sscanf(tabel_var[i].arr_data[ii], "%d", &temp);
@@ -3170,7 +3170,7 @@ int check_idx(struct var *x, const int idx){
         printf("%s is not an array\n", x->id);
         return -1;
     }
-    if(x->arr_len < idx){
+    if(x->arr_len <= idx){
         yyerror("");
         printf("accesing out of bound elem of array %s\n", x->id);
         return -1;
